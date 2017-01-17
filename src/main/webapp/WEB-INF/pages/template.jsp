@@ -1,4 +1,4 @@
-<%@ page import="by.bsuir.bugTrackingSystem.model.Employee" %>
+<%@ page import="by.a1qa.model.Employee" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%Employee employeeSession =(Employee) session.getAttribute("employeeSession");%>

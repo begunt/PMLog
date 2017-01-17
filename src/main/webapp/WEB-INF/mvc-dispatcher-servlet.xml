@@ -6,7 +6,7 @@
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
-    <context:component-scan base-package="by.bsuir.bugTrackingSystem"/>
+    <context:component-scan base-package="by.a1qa"/>
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/pages/"/>
@@ -27,7 +27,7 @@
     <bean id="hibernate4AnnotatedSessionFactory"
           class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
-        <property name="packagesToScan" value="by.bsuir.bugTrackingSystem.model"/>
+        <property name="packagesToScan" value="by.a1qa.model"/>
 
         <property name="hibernateProperties">
             <props>
@@ -38,17 +38,17 @@
     </bean>
 
         <!--EmployeeDao and EmployeeService beans-->
-    <bean id="employeeDao" class="by.bsuir.bugTrackingSystem.dao.EmployeeDaoImpl">
+    <bean id="employeeDao" class="by.a1qa.dao.EmployeeDaoImpl">
         <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory"/>
     </bean>
-    <bean id="employeeService" class="by.bsuir.bugTrackingSystem.service.EmployeeServiceImpl">
+    <bean id="employeeService" class="by.a1qa.service.EmployeeServiceImpl">
         <property name="employeeDao" ref="employeeDao"/>
     </bean>
-    <bean id="employeeServiceMain" class="by.bsuir.bugTrackingSystem.service.EmployeeServiceImpl">
+    <bean id="employeeServiceMain" class="by.a1qa.service.EmployeeServiceImpl">
         <property name="employeeDao" ref="employeeDao"/>
     </bean>
 
-    <context:component-scan base-package="by.bsuir.bugTrackingSystem"/>
+    <context:component-scan base-package="by.a1qa"/>
 
     <tx:annotation-driven transaction-manager="transactionManager"/>
 

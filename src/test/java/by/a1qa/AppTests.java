@@ -1,4 +1,4 @@
-package by.bsuir.bugTrackingSystem;
+package by.a1qa;
 
 import org.junit.Before;
 import org.junit.Test;
