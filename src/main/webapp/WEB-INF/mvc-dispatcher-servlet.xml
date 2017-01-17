@@ -37,32 +37,7 @@
         </property>
     </bean>
 
-    <!--IssueDao and IssueService beans-->
-    <bean id="issueDao" class="by.bsuir.bugTrackingSystem.dao.IssueDaoImpl">
-        <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory"/>
-    </bean>
-    <bean id="issueService" class="by.bsuir.bugTrackingSystem.service.IssueServiceImpl">
-        <property name="issueDao" ref="issueDao"/>
-    </bean>
-
-
-    <!--ProjectDao and ProjectService beans-->
-    <bean id="projectDao" class="by.bsuir.bugTrackingSystem.dao.ProjectDaoImpl">
-        <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory"/>
-    </bean>
-    <bean id="projectService" class="by.bsuir.bugTrackingSystem.service.ProjectServiceImpl">
-        <property name="projectDao" ref="projectDao"/>
-    </bean>
-
-    <!--TaskDao and TaskService beans-->
-    <bean id="taskDao" class="by.bsuir.bugTrackingSystem.dao.TaskDaoImpl">
-        <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory"/>
-    </bean>
-    <bean id="taskService" class="by.bsuir.bugTrackingSystem.service.TaskServiceImpl">
-        <property name="taskDao" ref="taskDao"/>
-    </bean>
-
-    <!--EmployeeDao and EmployeeService beans-->
+        <!--EmployeeDao and EmployeeService beans-->
     <bean id="employeeDao" class="by.bsuir.bugTrackingSystem.dao.EmployeeDaoImpl">
         <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory"/>
     </bean>

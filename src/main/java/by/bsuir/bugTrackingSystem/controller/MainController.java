@@ -21,46 +21,26 @@ import java.util.List;
 @Controller
 @SessionAttributes("employeeSession")
 public class MainController {
-    private EmployeeService employeeServiceMain;
-
-    @Autowired(required = true)
-    @Qualifier(value = "employeeServiceMain")
-    public void setEmployeeService(EmployeeService employeeService) {
-        this.employeeServiceMain = employeeService;
-    }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView main() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("success", new Boolean(true));
-        modelAndView.addObject("employee", new Employee());
         modelAndView.setViewName("index");
         return modelAndView;
     }
 
     @RequestMapping(value = "/login",method = RequestMethod.POST)
-    public ModelAndView loginBTS (@ModelAttribute("employee") Employee employee){
-            List<Employee> employeeList = this.employeeServiceMain.listEmployees();
+    public ModelAndView loginPMLog (@ModelAttribute("employee") Employee employee){
             ModelAndView modelAndView = new ModelAndView();
-
-            for (Employee employee1 : employeeList) {
-                if (employee1.getLogin().equals(employee.getLogin()) && employee1.getPassword().equals(employee.getPassword())) {
-                    modelAndView.setViewName("mainMenu");
-                    modelAndView.addObject("employeeSession", this.employeeServiceMain.getEmployeeById(employee1.getIdEmployee()));
-                    return modelAndView;
-                }
-            }
-            modelAndView.setViewName("index");
-            modelAndView.addObject("success", new Boolean(false));
+            modelAndView.setViewName("tasks");
             return modelAndView;
+
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public ModelAndView logoutBTS(HttpSession request) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("success", new Boolean(true));
-        modelAndView.addObject("employee", new Employee());
-        modelAndView.addObject("employeeSession", new Employee());
         modelAndView.setViewName("index");
         request.removeAttribute("employeeSession");
 

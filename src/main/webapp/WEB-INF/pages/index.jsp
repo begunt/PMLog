@@ -18,36 +18,34 @@
 <div>
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="navbar-header">
-            <a class="navbar-brand" href="/" target="_blank">BUGSall</a>
+            <a class="navbar-brand" href="/" target="_blank">Product Madness - A1QA</a>
         </div>
     </nav>
 
     <div class="loginBlock">
         <div class="container-fluid">
-            <h1>Вход в баг-трекинговую систему</h1>
+            <h1>Введите личную информацию</h1>
             <c:url var="addAction" value="/login"/>
             <form:form action="${addAction}" commandName="employee">
-
-                <c:if test="${success}">
-                    <div class="form-group">
-                        <label>Логин</label>
-                        <form:input path="login" class="form-control" placeholder="Введите логин"/>
-                        <label>Пароль</label>
-                        <form:input type="password" path="password" class="form-control" placeholder="Введите пароль"/>
+                <div class="form-group">
+                    <label for="login">Логин jira.a1qa</label>
+                    <input class="form-control" placeholder="e.example" id="login"/>
+                    <label for="password">Пароль jira.a1qa</label>
+                    <input type="password" class="form-control" id="password"/>
+                    <label for="address">Электронный адрес</label>
+                    <input class="form-control" placeholder="address.example@productmadness.com" id="address"/>
+                    <label for="project">Проект</label>
+                    <div>
+                        <select class="form-control" id="project">
+                            <option value ="Mobile">Mobile</option>
+                            <option value ="Social">Social</option>
+                            <option value ="Server">Server</option>
+                            <option value ="Other">Other project(-s)</option>
+                        </select>
                     </div>
-                </c:if>
-
-                <c:if test="${!success}">
-                    <div class="form-group has-error">
-                        <label class="control-label" for="inputError">Логин</label>
-                        <form:input path="login" class="form-control" id="inputError" placeholder="Введите логин"/>
-                        <label class="control-label" for="inputError">Пароль</label>
-                        <form:input type="password" path="password" class="form-control" id="inputError" placeholder="Введите пароль"/>
-
-                    </div>
-                </c:if>
+                </div>
                 <div>
-                    <button type="submit" class="btn btn-default">Вход</button>
+                    <button type="submit" class="btn btn-default">Сохранить</button>
                 </div>
 
             </form:form>

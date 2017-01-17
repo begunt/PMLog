@@ -9,7 +9,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Задачи</title>
+    <title>Активности</title>
 
     <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/css/sb-admin.css" rel="stylesheet">
@@ -30,91 +30,53 @@
 
     <div id="page-wrapper">
         <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h1 class="page-header">
-                        Задачи
-                        <c:if test="${employeeSession.idRole == 1}">
-                            <button id="create" type="button" class="btn btn-primary" data-toggle="modal"
-                                    data-target="#myModal">Создать
-                            </button>
-                        </c:if>
-                        <button type="button" class="btn btn-primary"
-                                onClick='location.href="<c:url value="/taskController/search"/>"'>
-                            Поиск
-                        </button>
-                    </h1>
-                    <ol class="breadcrumb">
-                        <li>
-                            <i class="glyphicon glyphicon-home"></i><a href="/mainmenu" target="_blank"> Главное
-                            меню</a>
-                        </li>
-                        <li class="active">
-                            <i class="fa fa-fw fa-edit"></i> Задачи
-                        </li>
-                    </ol>
-                </div>
-            </div>
+            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Добавить</button>
 
-            <c:if test="${empty task.name}">
-                <input id="mainObject" value=null style="display:none"/>
-            </c:if>
-            <c:if test="${!empty task.name}">
-                <input id="mainObject" value=${task.name} style="display:none"/>
-            </c:if>
+            <div id="listTasks"><h1>Список активностей</h1></div>
 
-            <div id="listTasks"><h1>Список задач</h1></div>
-
-            <c:if test="${!empty listTasks}">
+            <%--<c:if test="${!empty listTasks}">--%>
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover table-striped">
                         <thead>
                         <tr>
-                            <th width="80">ID</th>
-                            <th width="60">Проект</th>
-                            <th width="60">Название</th>
-                            <th width="60">Описание</th>
-                            <c:if test="${employeeSession.idRole == 1}">
-                                <th width="60" colspan="2">Активности</th>
-                            </c:if>
+                            <th width="80">Активность</th>
+                            <th width="160">Описание</th>
+                            <th width="60">Время</th>
+                            <th width="60" colspan="2"> </th>
                         </tr>
                         </thead>
                         <tbody>
-                        <c:forEach items="${listTasks}" var="task">
+                        <%--<c:forEach items="${listTasks}" var="task">--%>
                             <tr>
-                                <td>${task.idTask}</td>
+                                <td>Issue investigation</td>
+                                <td>Исследование</td>
+                                <td>30</td>
                                 <td>
-                                    <c:forEach items="${listProjects}" var="project">
-                                        <c:if test="${project.idProject == task.idProject}">
-                                            ${project.name}
-                                        </c:if>
-                                    </c:forEach>
-                                </td>
-                                <td><a href="/taskController/taskdata/${task.idTask}" target="_blank">${task.name}</a>
-                                </td>
-                                <td>${task.description}</td>
-                                <c:if test="${employeeSession.idRole == 1}">
-                                    <td>
+                                    <%--<button type="button" class="btn btn-primary" id="edit"
+                                            style="margin-left: 0px;" onClick='location.href="<c:url
+                                            value="/taskController/edit/${task.idTask}"/>"'>
+                                        Редактировать
+                                    </button>--%>
                                         <button type="button" class="btn btn-primary" id="edit"
-                                                style="margin-left: 0px;" onClick='location.href="<c:url
-                                                value="/taskController/edit/${task.idTask}"/>"'>
+                                                style="margin-left: 0px;">
                                             Редактировать
                                         </button>
-                                    </td>
-                                    <td>
-                                        <button type="button" id="delete" class="btn btn-primary"
-                                                onClick='location.href="<c:url
-                                                        value="/taskController/remove/${task.idTask}"/>"'>
+                                </td>
+                                <td>
+                                    <%--<button type="button" id="delete" class="btn btn-primary"
+                                            onClick='location.href="<c:url
+                                                    value="/taskController/remove/${task.idTask}"/>"'>
+                                        Удалить
+                                    </button>--%>
+                                        <button type="button" id="delete" class="btn btn-primary">
                                             Удалить
                                         </button>
-                                    </td>
-                                </c:if>
-                            </tr>
-                        </c:forEach>
+                                </td>
+                        </tr>
+                       <%-- </c:forEach>--%>
                         </tbody>
                     </table>
                 </div>
-            </c:if>
 
             <!-- Попап создания -->
             <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -123,60 +85,93 @@
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                     aria-hidden="true">&times;</span></button>
-                            <c:if test="${empty task.name}">
-                                <h4 class="modal-title" id="myModalLabel">Создание задачи</h4>
-                            </c:if>
-                            <c:if test="${!empty task.name}">
-                                <h4 class="modal-title" id="myModalLabel">Редактирование задачи</h4>
-                            </c:if>
+                            <%--<c:if test="${empty task.name}">--%>
+                                <h4 class="modal-title" id="myModalLabel">Создание активнсоти</h4>
+                            <%--</c:if>--%>
+                            <%--<c:if test="${!empty task.name}">
+                                <h4 class="modal-title" id="myModalLabel">Редактирование активнсоти</h4>
+                            </c:if>--%>
                         </div>
                         <div class="modal-body">
-                            <c:url var="addAction" value="/taskController/tasks/add"/>
-                            <form:form action="${addAction}" commandName="task" class="form-horizontal">
+                            <%--<c:url var="addAction" value="/taskController/tasks/add"/>
+                            <form:form action="${addAction}" commandName="task" class="form-horizontal">--%>
+                            <form commandName="task" class="form-horizontal">
                                 <div class="modal-body">
-                                    <c:if test="${!empty task.name}">
-                                        <form:input path="idTask" style="display:none"/>
-                                    </c:if>
                                     <div class="form-group">
-                                        <form:label path="idProject" for="selectIdProject"
-                                                    class="col-sm-2 control-label">Проект</form:label>
+                                        <label for="selectSubProject" class="col-sm-2 control-label">Проект</label>
                                         <div class="col-sm-10">
-                                            <form:select style="margin-left: 30px;" path="idProject" class="form-control" id="selectIdRole">
-                                                <c:forEach items="${listProjects}" var="project">
-                                                    <form:option
-                                                            value="${project.idProject}">${project.name}</form:option>
-                                                </c:forEach>
-                                            </form:select>
+                                            <select style="margin-left: 60px;" class="form-control" id="selectSubProject">
+                                                <option value="Cashman">Cashman</option>
+                                                <option value="Cashman">HoV</option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <form:label path="name" for="inputName"
-                                                    class="col-sm-2 control-label">Название</form:label>
+                                        <label for="selectActivity" class="col-sm-2 control-label">Активность</label>
                                         <div class="col-sm-10">
-                                            <form:input style="margin-left: 30px;" path="name" class="form-control" id="inputName"
-                                                        placeholder="Название" required="1"/>
+                                            <select style="margin-left: 60px;" class="form-control" id="selectActivity">
+                                                <option value="Communication">Communication</option>
+                                                <option value="Regression">Regression</option>
+                                                <option value="Testing activity">Testing activity</option>
+                                                <option value="Issue investigation">Issue investigation</option>
+                                                <option value="Test documentation creation">Test documentation creation</option>
+                                                <option value="Review">Review</option>
+                                                <option value="Project Management">Project Management</option>
+                                                <option value="Other">Другое (доделать инпут)</option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <form:label path="description" for="areaDescription"
-                                                    class="col-sm-2 control-label">Описание</form:label>
+                                        <label  for="inputBuild" class="col-sm-2 control-label">Билд</label>
                                         <div class="col-sm-10">
-                                            <form:textarea style="margin-left: 30px;" path="description" required="1" class="form-control" rows="6"
-                                                           id="areaDescription"/>
+                                            <input style="margin-left: 60px;" class="form-control" id="inputBuild"
+                                                        placeholder="1.1.111" required="1"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label  for="inputDevices" class="col-sm-2 control-label">Девайсы</label>
+                                        <div class="col-sm-10">
+                                            <input style="margin-left: 60px;" class="form-control" id="inputDevices"
+                                                   placeholder="Samsung Galaxy S7 Android 6.0.1" required="1"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="selectEnvironment" class="col-sm-2 control-label">Окружение</label>
+                                        <div class="col-sm-10">
+                                            <select style="margin-left: 60px;" class="form-control" id="selectEnvironment">
+                                                <option value="Prod">Prod</option>
+                                                <option value="UAT">UAT</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label  for="inputTime" class="col-sm-2 control-label">Время</label>
+                                        <div class="col-sm-10">
+                                            <input style="margin-left: 60px;" class="form-control" id="inputTime" type="number"
+                                                   placeholder="60" required="1"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label  for="textareaСomment" class="col-sm-2 control-label">Комментарии</label>
+                                        <div class="col-sm-10">
+                                            <textarea style="margin-left: 60px;" class="form-control" id="textareaСomment"
+                                                   placeholder="Подробное описание активности" required="1"></textarea>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть
                                         </button>
-                                        <c:if test="${empty task.name}">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Создать
+                                        </button>
+                                        <%--<c:if test="${empty task.name}">
                                             <input type="submit" class="btn btn-primary" value="Создать"/>
                                         </c:if>
                                         <c:if test="${!empty task.name}">
                                             <input type="submit" class="btn btn-primary" value="Редактировать"/>
-                                        </c:if>
+                                        </c:if>--%>
                                     </div>
                                 </div>
-                            </form:form>
+                            </form>
                         </div>
                     </div>
                 </div>
