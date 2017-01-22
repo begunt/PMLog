@@ -12,16 +12,16 @@ import javax.persistence.Table;
 @Table(name = "field")
 public class Field {
     @Id
-    @Column
+    @Column(name = "idField")
     private int idField;
 
-    @Column
+    @Column(name = "idType")
     private int idType;
 
-    @Column
+    @Column(name = "name")
     private String name;
 
-    @Column
+    @Column(name = "idProject")
     private int idProject;
 
 

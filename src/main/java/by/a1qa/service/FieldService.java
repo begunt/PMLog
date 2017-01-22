@@ -2,12 +2,16 @@ package by.a1qa.service;
 
 import by.a1qa.dao.FieldDao;
 import by.a1qa.model.Field;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 /**
  * Created by tbegu_000 on 22.01.2017.
  */
+@Service
+@Transactional
 public class FieldService {
     private FieldDao fieldDao;
 
@@ -33,5 +37,9 @@ public class FieldService {
 
     public List<Field> listFields() {
         return this.fieldDao.listFields();
+    }
+
+    public List<Field> listFieldsByIdProject(int idProject) {
+        return this.fieldDao.listFieldsByIdProject(idProject);
     }
 }

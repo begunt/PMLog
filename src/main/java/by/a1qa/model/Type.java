@@ -13,10 +13,10 @@ import javax.persistence.Table;
 @Table(name = "type")
 public class Type {
     @Id
-    @Column
+    @Column(name = "idType")
     private int idType;
 
-    @Column
+    @Column(name = "name")
     private String name;
 
     public int getIdType() {

@@ -4,12 +4,14 @@ import by.a1qa.model.Dropdown;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 /**
  * Created by tbegu_000 on 22.01.2017.
  */
+@Repository
 public class DropdownDao {
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(DropdownDao.class);
 

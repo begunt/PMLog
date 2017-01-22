@@ -1,9 +1,7 @@
 package by.a1qa.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by alexei.khilchuk on 22/01/2017.
@@ -15,14 +13,17 @@ public class Project {
     @Column(name = "idProject")
     private int idProject;
 
-    @Column
+    @Column(name = "name")
     private String name;
 
-    @Column
+    @Column(name = "jiraProjectKeyA1QA")
     private String jiraProjectKeyA1QA;
 
-    @Column
-    private String getJiraProjectKeyPM;
+    @Column(name = "jiraProjectKeyPM")
+    private String jiraProjectKeyPM;
+
+    @Transient
+    private List<Field> customFields;
 
     public int getIdProject() {
         return idProject;
@@ -49,10 +50,18 @@ public class Project {
     }
 
     public String getGetJiraProjectKeyPM() {
-        return getJiraProjectKeyPM;
+        return jiraProjectKeyPM;
     }
 
     public void setGetJiraProjectKeyPM(String getJiraProjectKeyPM) {
-        this.getJiraProjectKeyPM = getJiraProjectKeyPM;
+        this.jiraProjectKeyPM = getJiraProjectKeyPM;
+    }
+
+    public List<Field> getCustomFields() {
+        return customFields;
+    }
+
+    public void setCustomFields(List<Field> customFields) {
+        this.customFields = customFields;
     }
 }

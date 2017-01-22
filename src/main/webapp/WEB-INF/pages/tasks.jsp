@@ -1,10 +1,10 @@
-<%@ page import="by.a1qa.model.Employee" %>
+<%@ page import="by.a1qa.model.Project" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib prefix="from" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%Employee employeeSession = (Employee) session.getAttribute("employeeSession");%>
+<%--<!--<%Employee employeeSession = (Employee) session.getAttribute("employeeSession");%>-->--%>
 
 <html>
 <head>
@@ -22,7 +22,15 @@
 
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-
+    <script>
+        var idProject = 1;
+        function selectProject() {
+            var e = document.getElementById("selectIdProject");
+            document.getElementById("fields_of_project_id_" + idProject).style.cssText = "display: none;";
+            idProject = e.options[e.selectedIndex].value;
+            document.getElementById("fields_of_project_id_" + idProject).style.cssText = "display: block;";
+        }
+    </script>
 <head>
 <body>
 <div id="wrapper">
@@ -93,20 +101,49 @@
                             </c:if>--%>
                         </div>
                         <div class="modal-body">
-                            <%--<c:url var="addAction" value="/taskController/tasks/add"/>
-                            <form:form action="${addAction}" commandName="task" class="form-horizontal">--%>
-                            <form commandName="task" class="form-horizontal">
+                            <c:url var="addAction" value="/projectController/projects/add"/>
+                            <form:form action="${addAction}" commandName="project" class="form-horizontal">
                                 <div class="modal-body">
                                     <div class="form-group">
-                                        <label for="selectSubProject" class="col-sm-2 control-label">Проект</label>
+                                        <label for="selectIdProject"
+                                               class="col-sm-2 control-label">Проект</label>
                                         <div class="col-sm-10">
-                                            <select style="margin-left: 60px;" class="form-control" id="selectSubProject">
-                                                <option value="Cashman">Cashman</option>
-                                                <option value="Cashman">HoV</option>
-                                            </select>
+                                            <form:select style="margin-left: 30px;" path="idProject" class="form-control" id="selectIdProject" onchange="selectProject()">
+                                                <c:forEach items="${listProjects}" var="project">
+                                                    <form:option
+                                                            value="${project.idProject}">${project.name}</form:option>
+                                                </c:forEach>
+                                            </form:select>
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    <c:forEach items="${listProjects}" var="selectedProject">
+                                        <div id="fields_of_project_id_${selectedProject.idProject}" style="display: none;">
+                                            <c:forEach items="${selectedProject.customFields}" var="field">
+                                                <div class="form-group">
+                                                    <c:if test="${field.idType == 1}">
+                                                        <label  for="input_${field.name}" class="col-sm-2 control-label">${field.name}</label>
+                                                        <div class="col-sm-10">
+                                                            <input style="margin-left: 60px;" class="form-control" id="input_${field.name}"
+                                                                    required="1"/>
+                                                        </div>
+                                                    </c:if>
+                                                    <c:if test="${field.idType == 2}">
+                                                        <label for="select_${field.name}" class="col-sm-2 control-label">${field.name}</label>
+                                                        <div class="col-sm-10">
+                                                            <select style="margin-left: 60px;" class="form-control" id="select_${field.name}">
+                                                                <c:forEach items="${listDropdown}" var="dropdownItem">
+                                                                    <c:if test="${dropdownItem.idField == field.idField}">
+                                                                        <option value="${dropdownItem.itemName}">${dropdownItem.itemName}</option>
+                                                                    </c:if>
+                                                                </c:forEach>
+                                                            </select>
+                                                        </div>
+                                                    </c:if>
+                                                </div>
+                                            </c:forEach>
+                                        </div>
+                                    </c:forEach>
+                                    <%--<div class="form-group">
                                         <label for="selectActivity" class="col-sm-2 control-label">Активность</label>
                                         <div class="col-sm-10">
                                             <select style="margin-left: 60px;" class="form-control" id="selectActivity">
@@ -125,7 +162,7 @@
                                         <label  for="inputBuild" class="col-sm-2 control-label">Билд</label>
                                         <div class="col-sm-10">
                                             <input style="margin-left: 60px;" class="form-control" id="inputBuild"
-                                                        placeholder="1.1.111" required="1"/>
+                                                   placeholder="1.1.111" required="1"/>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -155,23 +192,23 @@
                                         <label  for="textareaСomment" class="col-sm-2 control-label">Комментарии</label>
                                         <div class="col-sm-10">
                                             <textarea style="margin-left: 60px;" class="form-control" id="textareaСomment"
-                                                   placeholder="Подробное описание активности" required="1"></textarea>
+                                                      placeholder="Подробное описание активности" required="1"></textarea>
                                         </div>
-                                    </div>
+                                    </div>--%>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть
                                         </button>
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Создать
+                                        <button type="submit" class="btn btn-default" >Создать
                                         </button>
-                                        <%--<c:if test="${empty task.name}">
-                                            <input type="submit" class="btn btn-primary" value="Создать"/>
-                                        </c:if>
-                                        <c:if test="${!empty task.name}">
-                                            <input type="submit" class="btn btn-primary" value="Редактировать"/>
-                                        </c:if>--%>
+                                            <%--<c:if test="${empty task.name}">
+                                                <input type="submit" class="btn btn-primary" value="Создать"/>
+                                            </c:if>
+                                            <c:if test="${!empty task.name}">
+                                                <input type="submit" class="btn btn-primary" value="Редактировать"/>
+                                            </c:if>--%>
                                     </div>
                                 </div>
-                            </form>
+                            </form:form>
                         </div>
                     </div>
                 </div>

@@ -28,7 +28,7 @@ public class ProjectController {
     }
 
     @RequestMapping(value = "projects", method = RequestMethod.GET)
-    public String listProjects(Model model, HttpServletRequest request) {
+    public String listProjects(@ModelAttribute("project") Model model, HttpServletRequest request) {
         String page = accessCheck(request, "projects");
         if (page != "accessdenied") {
             model.addAttribute("project", new Project());
@@ -39,6 +39,7 @@ public class ProjectController {
 
     @RequestMapping(value = "/projects/add", method = RequestMethod.POST)
     public String addProject(@ModelAttribute("project") Project project, HttpServletRequest request) {
+
         String page = accessCheck(request, "redirect:/projectController/projects");
         if (project.getIdProject() == 0)
             this.projectService.addProject(project);

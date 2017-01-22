@@ -52,7 +52,7 @@ public class ProjectDao {
 
     public List<Project> listProjects() {
         Session session = this.sessionFactory.getCurrentSession();
-        List<Project> projectList = session.createQuery("from project").list();
+        List<Project> projectList = session.createQuery("from Project").list();
 
         for(Project project: projectList){
             logger.info("project list: " + project);

@@ -2,12 +2,16 @@ package by.a1qa.service;
 
 import by.a1qa.dao.DropdownDao;
 import by.a1qa.model.Dropdown;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 /**
  * Created by tbegu_000 on 22.01.2017.
  */
+@Service
+@Transactional
 public class DropdownService {
     private DropdownDao dropdownDao;
 

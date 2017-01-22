@@ -14,10 +14,10 @@ import javax.persistence.Table;
 public class Dropdown {
 
     @Id
-    @Column
+    @Column(name = "idDropdown")
     private int idDropdown;
 
-    @Column
+    @Column(name = "idField")
     private int idField;
 
     @Column
