@@ -10,8 +10,8 @@ USE `pmlog` ;
 CREATE TABLE IF NOT EXISTS `pmlog`.`project` (
   `idProject` INT(11) NOT NULL,
   `name` VARCHAR(45) NOT NULL,
-  `jiraProjectKeyA1QA` INT(11) NOT NULL,
-  `jiraProjectKeyPM` INT(11) NOT NULL,
+  `jiraProjectKeyA1QA` VARCHAR(45) NOT NULL,
+  `jiraProjectKeyPM` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`idProject`),
   UNIQUE INDEX `idProject_UNIQUE` (`idProject` ASC))
 ENGINE = InnoDB
