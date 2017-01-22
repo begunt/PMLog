@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -43,12 +42,12 @@ public class MainController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/mainmenu",method = RequestMethod.GET)
+    /*@RequestMapping(value = "/mainmenu",method = RequestMethod.GET)
     public ModelAndView mainMenu(HttpServletRequest request) {
         return accessCheck(request, "mainMenu");
     }
-
-    public ModelAndView accessCheck(HttpServletRequest request, String page){
+*/
+    /*public ModelAndView accessCheck(HttpServletRequest request, String page){
         ModelAndView modelAndView = new ModelAndView();
         HttpSession session = request.getSession();
         Employee employee = (Employee)session.getAttribute("employeeSession");
@@ -61,5 +60,5 @@ public class MainController {
             modelAndView.setViewName(page);
             return modelAndView;
         }
-    }
+    }*/
 }

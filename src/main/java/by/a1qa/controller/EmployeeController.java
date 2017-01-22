@@ -1,22 +1,8 @@
 package by.a1qa.controller;
 
-import by.a1qa.model.Employee;
 import by.a1qa.service.EmployeeService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMethod;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by tbegu_000 on 06.11.2016.
@@ -26,7 +12,7 @@ import java.util.Map;
 public class EmployeeController {
     private EmployeeService employeeService;
 
-    @Autowired(required = true)
+    /*@Autowired(required = true)
     @Qualifier(value = "employeeService")
     public void setEmployeeService(EmployeeService employeeService) {
         this.employeeService = employeeService;
@@ -46,7 +32,7 @@ public class EmployeeController {
         String page = accessCheck(request, "employees");
         if (page != "accessdenied") {
             model.addAttribute("employee", new Employee());
-            model.addAttribute("listEmployees", this.employeeService.listManagers());
+          //  model.addAttribute("listEmployees", this.employeeService.listManagers());
         }
         return page;
     }
@@ -56,7 +42,7 @@ public class EmployeeController {
         String page = accessCheck(request, "employees");
         if (page != "accessdenied") {
             model.addAttribute("employee", new Employee());
-            model.addAttribute("listEmployees", this.employeeService.listEnginers());
+          //  model.addAttribute("listEmployees", this.employeeService.listEnginers());
         }
         return page;
     }
@@ -65,7 +51,8 @@ public class EmployeeController {
     public String addEmployee(@ModelAttribute("employee") Employee employee, HttpServletRequest request) {
         String pageManagers = accessCheck(request, "redirect:/employeeController/managers");
         String pageEnginers = accessCheck(request, "redirect:/employeeController/enginers");
-        if (pageManagers != "accessdenied" || pageEnginers != "accessdenied") {
+        *//*if (pageManagers != "accessdenied" || pageEnginers != "accessdenied") {
+
             if (employee.getIdEmployee() == 0)
                 this.employeeService.addEmployee(employee);
             else this.employeeService.updateEmployee(employee);
@@ -73,7 +60,7 @@ public class EmployeeController {
             if (employee.getIdRole() == 1)
                 return pageManagers;
             else return pageEnginers;
-        } else return pageEnginers;
+        } else *//*return pageEnginers;
     }
 
     @RequestMapping("/remove/{id}")
@@ -193,14 +180,14 @@ public class EmployeeController {
         model.addAttribute("listEmployees", searchListEmployees);
 
         return accessCheck(request, "employeesearch");
-    }
-
+    }*/
+/*
     public String accessCheck(HttpServletRequest request, String page) {
         HttpSession session = request.getSession();
         Employee employee = (Employee) session.getAttribute("employeeSession");
         if (employee.getFirstName() == null)
             return "accessdenied";
         else return page;
-    }
+    }*/
 }
 
