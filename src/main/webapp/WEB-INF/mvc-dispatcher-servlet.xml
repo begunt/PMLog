@@ -37,7 +37,7 @@
         </property>
     </bean>
 
-        <!--EmployeeDao and EmployeeService beans-->
+    <!--EmployeeDao and EmployeeService beans-->
     <bean id="employeeDao" class="by.a1qa.dao.EmployeeDao">
         <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory"/>
     </bean>
@@ -46,6 +46,28 @@
     </bean>
     <bean id="employeeServiceMain" class="by.a1qa.service.EmployeeService">
         <property name="employeeDao" ref="employeeDao"/>
+    </bean>
+
+    <!--DropdownDao and DropdownService beans-->
+    <bean id="dropdownDao" class="by.a1qa.dao.DropdownDao">
+        <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory"/>
+    </bean>
+    <bean id="dropdownService" class="by.a1qa.service.DropdownService">
+        <property name="dropdownDao" ref="dropdownDao"/>
+    </bean>
+    <bean id="dropdownServiceMain" class="by.a1qa.service.DropdownService">
+        <property name="dropdownDao" ref="dropdownDao"/>
+    </bean>
+
+    <!--FieldDao and FieldService beans-->
+    <bean id="fieldDao" class="by.a1qa.dao.FieldDao">
+        <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory"/>
+    </bean>
+    <bean id="fieldService" class="by.a1qa.service.FieldService">
+        <property name="fieldDao" ref="fieldDao"/>
+    </bean>
+    <bean id="fieldServiceMain" class="by.a1qa.service.FieldService">
+        <property name="fieldDao" ref="fieldDao"/>
     </bean>
 
     <context:component-scan base-package="by.a1qa"/>

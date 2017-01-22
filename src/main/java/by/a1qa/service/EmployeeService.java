@@ -20,26 +20,21 @@ public class EmployeeService {
         this.employeeDao = employeeDao;
     }
 
-
     public void addEmployee(Employee employee) {
         this.employeeDao.addEmployee(employee);
     }
-
 
     public void updateEmployee(Employee employee) {
         this.employeeDao.updateEmployee(employee);
     }
 
-
     public void removeEmployee(int id) {
         this.employeeDao.removeEmployee(id);
     }
 
-
     public Employee getEmployeeById(int id) {
         return this.employeeDao.getEmployeeById(id);
     }
-
 
     public List<Employee> listEmployees() {
         return this.employeeDao.listEmployees();

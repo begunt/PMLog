@@ -56,4 +56,14 @@ public class Field {
     public void setIdProject(int idProject) {
         this.idProject = idProject;
     }
+
+    @Override
+    public String toString() {
+        return "Field{" +
+                "idField=" + idField +
+                ", idType=" + idType +
+                ", name='" + name + '\'' +
+                ", idProject=" + idProject +
+                '}';
+    }
 }

@@ -46,4 +46,13 @@ public class Dropdown {
     public void setItemName(String itemName) {
         this.itemName = itemName;
     }
+
+    @Override
+    public String toString() {
+        return "Dropdown{" +
+                "idDropdown=" + idDropdown +
+                ", idField=" + idField +
+                ", itemName='" + itemName + '\'' +
+                '}';
+    }
 }
