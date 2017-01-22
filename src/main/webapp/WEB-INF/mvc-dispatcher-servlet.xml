@@ -70,6 +70,28 @@
         <property name="fieldDao" ref="fieldDao"/>
     </bean>
 
+    <!--ProjectDao and ProjectService beans-->
+    <bean id="projectDao" class="by.a1qa.dao.ProjectDao">
+        <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory"/>
+    </bean>
+    <bean id="projectService" class="by.a1qa.service.ProjectService">
+        <property name="projectDao" ref="projectDao"/>
+    </bean>
+    <bean id="projectServiceMain" class="by.a1qa.service.ProjectService">
+        <property name="projectDao" ref="projectDao"/>
+    </bean>
+
+    <!--TypeDao and TypeService beans-->
+    <bean id="typeDao" class="by.a1qa.dao.TypeDao">
+        <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory"/>
+    </bean>
+    <bean id="typeService" class="by.a1qa.service.TypeService">
+        <property name="typeDao" ref="typeDao"/>
+    </bean>
+    <bean id="typeServiceMain" class="by.a1qa.service.TypeService">
+        <property name="typeDao" ref="typeDao"/>
+    </bean>
+
     <context:component-scan base-package="by.a1qa"/>
 
     <tx:annotation-driven transaction-manager="transactionManager"/>
