@@ -21,17 +21,54 @@ public class MainController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView main() {
         ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("employee", new Employee());
         modelAndView.setViewName("index");
         return modelAndView;
     }
 
-    @RequestMapping(value = "/login",method = RequestMethod.POST)
+    @RequestMapping(value = "sign_in", method = RequestMethod.POST)
+    public ModelAndView signIn(@ModelAttribute("employee") Employee employee){
+        ModelAndView modelAndView = new ModelAndView();
+        EmployeeController employeeController = new EmployeeController();
+        if (!employeeController.isAqaCredentialValid(employee)) {
+            modelAndView.addObject("message", "A1QA Credentials are invalid");
+            modelAndView.setViewName("accessdenied");
+        }
+        else if (!employeeController.isPmCredentialValid(employee)) { //TODO: handle persons without PM creds
+            modelAndView.addObject("message", "Product Madness Credentials are invalid");
+            modelAndView.setViewName("accessdenied");
+        }
+        else {
+            modelAndView.addObject("employee", new Employee());
+           // modelAndView.setViewName("tasks");
+            modelAndView.setViewName("accessdenied");
+        }
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/tasks",method = RequestMethod.POST)
     public ModelAndView loginPMLog (@ModelAttribute("employee") Employee employee){
             ModelAndView modelAndView = new ModelAndView();
             modelAndView.setViewName("tasks");
+            modelAndView.addObject(employee);
             return modelAndView;
 
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public ModelAndView logoutBTS(HttpSession request) {
@@ -53,6 +90,7 @@ public class MainController {
         HttpSession session = request.getSession();
         Employee employee = (Employee)session.getAttribute("employeeSession");
 
+        /*
         if(employee.getFirstName()==null){
             modelAndView.setViewName("accessdenied");
             return modelAndView;
@@ -61,5 +99,6 @@ public class MainController {
             modelAndView.setViewName(page);
             return modelAndView;
         }
+        */return modelAndView;
     }
 }

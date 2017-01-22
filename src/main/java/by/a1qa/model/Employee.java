@@ -1,104 +1,69 @@
 package by.a1qa.model;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 /**
  * Created by tbegu_000 on 06.11.2016.
  */
 @Entity
-@Table(name = "EMPLOYEE")
 public class Employee {
+    private String aqaLogin;
+    private String aqaPassword;
+    private String pmLogin;
+    private String pmPassword;
+   // private JiraClient aqaJiraClient;
+   // private JiraClient pmJiraClient;
     @Id
-    @Column(name = "idEmployee")
     private int idEmployee;
 
-    @Column(name = "idRole")
-    private int idRole;
-
-    @Column(name = "firstName")
-    private String firstName;
-
-    @Column(name = "lastName")
-    private String lastName;
-
-    @Column(name = "login")
-    private String login;
-
-    @Column(name = "password")
-    private String password;
-
-    @Column(name = "salary")
-    private int salary;
-
-    public int getIdEmployee() {
-        return idEmployee;
+    public String getAqaLogin() {
+        return aqaLogin;
     }
 
-    public void setIdEmployee(int idEmployee) {
-        this.idEmployee = idEmployee;
+    public void setAqaLogin(String aqaLogin) {
+        this.aqaLogin = aqaLogin;
     }
 
-    public int getIdRole() {
-        return idRole;
+    public String getAqaPassword() {
+        return aqaPassword;
     }
 
-    public void setIdRole(int idRole) {
-        this.idRole = idRole;
+    public void setAqaPassword(String aqaPassword) {
+        this.aqaPassword = aqaPassword;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getPmLogin() {
+        return pmLogin;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setPmLogin(String pmLogin) {
+        this.pmLogin = pmLogin;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getPmPassword() {
+        return pmPassword;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setPmPassword(String pmPassword) {
+        this.pmPassword = pmPassword;
     }
 
-    public String getLogin() {
-        return login;
+/*
+    public JiraClient getAqaJiraClient() {
+        return aqaJiraClient;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setAqaJiraClient(JiraClient aqaJiraClient) {
+        this.aqaJiraClient = aqaJiraClient;
     }
 
-    public String getPassword() {
-        return password;
+    public JiraClient getPmJiraClient() {
+        return pmJiraClient;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPmJiraClient(JiraClient pmJiraClient) {
+        this.pmJiraClient = pmJiraClient;
     }
-
-    public int getSalary() {
-        return salary;
-    }
-
-    public void setSalary(int salary) {
-        this.salary = salary;
-    }
-
-    @Override
-    public String toString() {
-        return "Employee{" +
-                "idEmployee=" + idEmployee +
-                ", idRole=" + idRole +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", login='" + login + '\'' +
-                ", password='" + password + '\'' +
-                ", salary=" + salary +
-                '}';
-    }
+    */
 }

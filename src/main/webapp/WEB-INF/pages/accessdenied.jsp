@@ -7,7 +7,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Доступ запрещен</title>
+  <title>Access Denied</title>
   <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
   <link href="${pageContext.request.contextPath}/css/sb-admin.css" rel="stylesheet">
   <link href="${pageContext.request.contextPath}/css/plugins/morris.css" rel="stylesheet">
@@ -18,13 +18,26 @@
 <div>
   <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="navbar-header">
-      <a class="navbar-brand" href="/" target="_blank">BUGSall</a>
+      <a class="navbar-brand" href="/">PM - A1QA WorkLog</a>
     </div>
   </nav>
 
   <div class="loginBlock">
     <div class="container-fluid">
-      <h1>Доступ запрещен</h1>
+
+      <c:choose>
+        <c:when test="${empty message}">
+          <h3>Login successful! </h3>
+          <c:url var="addAction" value="/tasks"/>
+          <button type="submit" class="btn btn-default">Log in</button>
+        </c:when>
+        <c:otherwise>
+          <h3>Access denied :(</h3>
+          <h4>${message}</h4>
+          <a class="btn btn-link" href="/">Return back</a>
+        </c:otherwise>
+      </c:choose>
+
     </div>
   </div>
 </div>

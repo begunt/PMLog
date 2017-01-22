@@ -13,20 +13,9 @@
         <property name="suffix" value=".jsp"/>
     </bean>
 
-    <!-- Database Information -->
-    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
-          destroy-method="close">
-        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-        <property name="url"
-                  value="jdbc:mysql://localhost:3306/bts"/>
-        <property name="username" value="root"/>
-        <property name="password" value="root"/>
-    </bean>
-
     <!-- Hibernate 4 SessionFactory Bean definition -->
     <bean id="hibernate4AnnotatedSessionFactory"
           class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
-        <property name="dataSource" ref="dataSource"/>
         <property name="packagesToScan" value="by.a1qa.model"/>
 
         <property name="hibernateProperties">
@@ -38,23 +27,7 @@
     </bean>
 
         <!--EmployeeDao and EmployeeService beans-->
-    <bean id="employeeDao" class="by.a1qa.dao.EmployeeDaoImpl">
-        <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory"/>
-    </bean>
-    <bean id="employeeService" class="by.a1qa.service.EmployeeServiceImpl">
-        <property name="employeeDao" ref="employeeDao"/>
-    </bean>
-    <bean id="employeeServiceMain" class="by.a1qa.service.EmployeeServiceImpl">
-        <property name="employeeDao" ref="employeeDao"/>
-    </bean>
-
     <context:component-scan base-package="by.a1qa"/>
-
-    <tx:annotation-driven transaction-manager="transactionManager"/>
-
-    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
-        <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory"/>
-    </bean>
 
     <mvc:default-servlet-handler/>
     <mvc:annotation-driven/>

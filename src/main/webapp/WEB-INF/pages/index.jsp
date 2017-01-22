@@ -7,7 +7,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Вход</title>
+    <title>Log in</title>
     <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/css/sb-admin.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/css/plugins/morris.css" rel="stylesheet">
@@ -18,37 +18,45 @@
 <div>
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="navbar-header">
-            <a class="navbar-brand" href="/" target="_blank">Product Madness - A1QA</a>
+            <a class="navbar-brand" target="_blank">PM - A1QA WorkLog</a>
         </div>
     </nav>
+    <div class="container-fluid root">
+        <div class="panel panel-default device-form">
+            <div class="panel-heading">
+                <div class="panel-title">Log in</div>
+            </div>
+            <div class="panel-body">
+                <c:url var="addAction" value="/sign_in"/>
+                <form:form action="${addAction}" commandName="employee">
+                    <div class="form-group">
 
-    <div class="loginBlock">
-        <div class="container-fluid">
-            <h1>Введите личную информацию</h1>
-            <c:url var="addAction" value="/login"/>
-            <form:form action="${addAction}" commandName="employee">
-                <div class="form-group">
-                    <label for="login">Логин jira.a1qa</label>
-                    <input class="form-control" placeholder="e.example" id="login"/>
-                    <label for="password">Пароль jira.a1qa</label>
-                    <input type="password" class="form-control" id="password"/>
-                    <label for="address">Электронный адрес</label>
-                    <input class="form-control" placeholder="address.example@productmadness.com" id="address"/>
-                    <label for="project">Проект</label>
-                    <div>
-                        <select class="form-control" id="project">
-                            <option value ="Mobile">Mobile</option>
-                            <option value ="Social">Social</option>
-                            <option value ="Server">Server</option>
-                            <option value ="Other">Other project(-s)</option>
-                        </select>
+                        <label for="aqa-login">A1QA Login</label>
+                        <form:input path="aqaLogin" class="string text-left optional form-control" placeholder="i.ivanov" id="aqa-login"/>
+                        <label for="aqa-password">A1QA Password</label>
+                        <form:input path="aqaPassword" type="password" class="form-group password optional form-control" id="aqa-password"/>
+
+                        <label for="pm-login">PM Login</label>
+                        <form:input path="pmLogin" class="string text-left optional form-control" placeholder="ivan.ivanov" id="pm-login"/>
+                        <label for="pm-password">PM Password</label>
+                        <form:input path="pmPassword" type="password" class="form-group password optional form-control" id="pm-password"/>
+
+                        <!--<label for="address">Электронный адрес</label>-->
+                        <!--<input class="form-control" placeholder="address.example@productmadness.com" id="address"/>-->
                     </div>
-                </div>
-                <div>
-                    <button type="submit" class="btn btn-default">Сохранить</button>
-                </div>
+                    <!--<div class="checkbox">
+                        <input name="remember_me" type="hidden" value="0">
+                        <label class="boolean optional" for="remember_me">
+                            <input class="boolean optional" id="remember_me" type="checkbox" value="1">
+                            Remember me
+                        </label>
+                    </div>-->
+                    <div>
+                        <button type="submit" class="btn btn-default">Log in</button>
+                    </div>
+                </form:form>
+            </div>
 
-            </form:form>
         </div>
     </div>
 </div>
