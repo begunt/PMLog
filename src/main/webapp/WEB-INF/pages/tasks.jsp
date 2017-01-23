@@ -38,7 +38,7 @@
 
     <div id="page-wrapper">
         <div class="container-fluid">
-            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Добавить</button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Добавить</button>
 
             <div id="listTasks"><h1>Список активностей</h1></div>
 
@@ -94,7 +94,7 @@
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                     aria-hidden="true">&times;</span></button>
                             <%--<c:if test="${empty task.name}">--%>
-                                <h4 class="modal-title" id="myModalLabel">Создание активнсоти</h4>
+                                <h4 class="modal-title" id="myModalLabel">Создание активноcти</h4>
                             <%--</c:if>--%>
                             <%--<c:if test="${!empty task.name}">
                                 <h4 class="modal-title" id="myModalLabel">Редактирование активнсоти</h4>
@@ -105,10 +105,10 @@
                             <form:form action="${addAction}" commandName="project" class="form-horizontal">
                                 <div class="modal-body">
                                     <div class="form-group">
-                                        <label for="selectIdProject"
-                                               class="col-sm-2 control-label">Проект</label>
+                                        <label for="selectIdProject" class="col-sm-2 control-label" style="width: 187px; text-align: left; ">Проект</label>
                                         <div class="col-sm-10">
-                                            <form:select style="margin-left: 30px;" path="idProject" class="form-control" id="selectIdProject" onchange="selectProject()">
+                                            <form:select style="width: 270px" path="idProject" class="form-control" id="selectIdProject" onchange="selectProject()">
+                                                <form:option value="0">Выберите проект</form:option>
                                                 <c:forEach items="${listProjects}" var="project">
                                                     <form:option
                                                             value="${project.idProject}">${project.name}</form:option>
@@ -121,91 +121,44 @@
                                             <c:forEach items="${selectedProject.customFields}" var="field">
                                                 <div class="form-group">
                                                     <c:if test="${field.idType == 1}">
-                                                        <label  for="input_${field.name}" class="col-sm-2 control-label">${field.name}</label>
+                                                        <label  for="input_${field.name}" class="col-sm-2 control-label" style="width: 300px; text-align: left; ">${field.name}</label>
                                                         <div class="col-sm-10">
-                                                            <input style="margin-left: 60px;" class="form-control" id="input_${field.name}"
+                                                            <input style="width: 270px" class="form-control" id="input_${field.name}"
                                                                     required="1"/>
                                                         </div>
                                                     </c:if>
                                                     <c:if test="${field.idType == 2}">
-                                                        <label for="select_${field.name}" class="col-sm-2 control-label">${field.name}</label>
-                                                        <div class="col-sm-10">
-                                                            <select style="margin-left: 60px;" class="form-control" id="select_${field.name}">
+                                                        <label for="select_${field.name}" class="col-sm-2 control-label" style="width: 300px; text-align: left; ">${field.name}</label>
+                                                        <div class="col-md-10" >
+                                                            <select style="width: 270px" class="form-control" id="select_${field.name}">
                                                                 <c:forEach items="${listDropdown}" var="dropdownItem">
                                                                     <c:if test="${dropdownItem.idField == field.idField}">
                                                                         <option value="${dropdownItem.itemName}">${dropdownItem.itemName}</option>
                                                                     </c:if>
                                                                 </c:forEach>
                                                             </select>
+
                                                         </div>
+                                                        <c:if test="${field.name == 'Devices'}">
+                                                            <div class="col-md-1">
+                                                                <input class="btn btn-primary" type = "button" id="addButton" value="Добавить" style="border-left-width: 0px;margin-left: 70px;"/>
+                                                            </div>
+                                                            <div class="col-md-10">
+                                                                </br>
+                                                                <input type = "text" id="usersDevices" value="" style="width: 470px" class="form-control"/>
+                                                            </div>
+                                                        </c:if>
+
                                                     </c:if>
                                                 </div>
                                             </c:forEach>
                                         </div>
                                     </c:forEach>
-                                    <%--<div class="form-group">
-                                        <label for="selectActivity" class="col-sm-2 control-label">Активность</label>
-                                        <div class="col-sm-10">
-                                            <select style="margin-left: 60px;" class="form-control" id="selectActivity">
-                                                <option value="Communication">Communication</option>
-                                                <option value="Regression">Regression</option>
-                                                <option value="Testing activity">Testing activity</option>
-                                                <option value="Issue investigation">Issue investigation</option>
-                                                <option value="Test documentation creation">Test documentation creation</option>
-                                                <option value="Review">Review</option>
-                                                <option value="Project Management">Project Management</option>
-                                                <option value="Other">Другое (доделать инпут)</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label  for="inputBuild" class="col-sm-2 control-label">Билд</label>
-                                        <div class="col-sm-10">
-                                            <input style="margin-left: 60px;" class="form-control" id="inputBuild"
-                                                   placeholder="1.1.111" required="1"/>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label  for="inputDevices" class="col-sm-2 control-label">Девайсы</label>
-                                        <div class="col-sm-10">
-                                            <input style="margin-left: 60px;" class="form-control" id="inputDevices"
-                                                   placeholder="Samsung Galaxy S7 Android 6.0.1" required="1"/>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="selectEnvironment" class="col-sm-2 control-label">Окружение</label>
-                                        <div class="col-sm-10">
-                                            <select style="margin-left: 60px;" class="form-control" id="selectEnvironment">
-                                                <option value="Prod">Prod</option>
-                                                <option value="UAT">UAT</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label  for="inputTime" class="col-sm-2 control-label">Время</label>
-                                        <div class="col-sm-10">
-                                            <input style="margin-left: 60px;" class="form-control" id="inputTime" type="number"
-                                                   placeholder="60" required="1"/>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label  for="textareaСomment" class="col-sm-2 control-label">Комментарии</label>
-                                        <div class="col-sm-10">
-                                            <textarea style="margin-left: 60px;" class="form-control" id="textareaСomment"
-                                                      placeholder="Подробное описание активности" required="1"></textarea>
-                                        </div>
-                                    </div>--%>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть
                                         </button>
                                         <button type="submit" class="btn btn-default" >Создать
                                         </button>
-                                            <%--<c:if test="${empty task.name}">
-                                                <input type="submit" class="btn btn-primary" value="Создать"/>
-                                            </c:if>
-                                            <c:if test="${!empty task.name}">
-                                                <input type="submit" class="btn btn-primary" value="Редактировать"/>
-                                            </c:if>--%>
                                     </div>
                                 </div>
                             </form:form>
@@ -226,7 +179,7 @@
 <script src="${pageContext.request.contextPath}/js/plugins/morris/raphael.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/plugins/morris/morris.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/plugins/morris/morris-data.js"></script>
-<script src="${pageContext.request.contextPath}/js/indexPage.js"></script>
+<script src="${pageContext.request.contextPath}/js/popupForCreatingActivities.js"></script>
 
 
 </body>

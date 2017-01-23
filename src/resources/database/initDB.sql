@@ -37,6 +37,7 @@ CREATE TABLE IF NOT EXISTS `pmlog`.`field` (
   `idType` INT(11) NOT NULL,
   `name` VARCHAR(45) NOT NULL,
   `idProject` INT(11) NOT NULL,
+  `modelFieldName` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`idField`),
   UNIQUE INDEX `idProject_UNIQUE` (`idField` ASC),
   INDEX `FKProjectField_idx` (`idProject` ASC),

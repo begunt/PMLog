@@ -24,6 +24,16 @@ public class Field {
     @Column(name = "idProject")
     private int idProject;
 
+    @Column(name = "modelFieldName")
+    private String modelFieldName;
+
+    public String getModelFieldName() {
+        return modelFieldName;
+    }
+
+    public void setModelFieldName(String modelFieldName) {
+        this.modelFieldName = modelFieldName;
+    }
 
     public int getIdField() {
         return idField;
@@ -64,6 +74,7 @@ public class Field {
                 ", idType=" + idType +
                 ", name='" + name + '\'' +
                 ", idProject=" + idProject +
+                ", modelFieldName='" + modelFieldName + '\'' +
                 '}';
     }
 }
