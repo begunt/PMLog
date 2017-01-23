@@ -105,10 +105,10 @@
                             <form:form action="${addAction}" commandName="project" class="form-horizontal">
                                 <div class="modal-body">
                                     <div class="form-group">
-                                        <label for="selectIdProject" class="col-sm-2 control-label" style="width: 187px; text-align: left; ">Проект</label>
+                                        <label for="selectIdProject" class="col-sm-2 control-label" style="width: 187px; text-align: left; ">Project</label>
                                         <div class="col-sm-10">
                                             <form:select style="width: 270px" path="idProject" class="form-control" id="selectIdProject" onchange="selectProject()">
-                                                <form:option value="0">Выберите проект</form:option>
+                                                <form:option value="0">Select project</form:option>
                                                 <c:forEach items="${listProjects}" var="project">
                                                     <form:option
                                                             value="${project.idProject}">${project.name}</form:option>
@@ -121,16 +121,44 @@
                                             <c:forEach items="${selectedProject.customFields}" var="field">
                                                 <div class="form-group">
                                                     <c:if test="${field.idType == 1}">
-                                                        <label  for="input_${field.name}" class="col-sm-2 control-label" style="width: 300px; text-align: left; ">${field.name}</label>
-                                                        <div class="col-sm-10">
-                                                            <input style="width: 270px" class="form-control" id="input_${field.name}"
-                                                                    required="1"/>
-                                                        </div>
+                                                        <c:if test="${field.name == 'The number of checked defects' || field.name == 'The number of reopened defects' || field.name == 'Link to the filter with reopened defects'}">
+                                                            <label  for="input_${field.name}" class="col-sm-2 control-label bugVerification" style="width: 300px; text-align: left; display:none;">${field.name}</label>
+                                                            <div class="col-sm-10 bugVerification" style="display:none">
+                                                                <input style="width: 270px" class="form-control" id="input_${field.name}"
+                                                                       required="1"/>
+                                                            </div>
+                                                        </c:if>
+                                                        <c:if test="${field.name == 'The number of checked stories' || field.name == 'The number of reopened stories' || field.name == 'Link to the filter with reopened stories'}">
+                                                            <label  for="input_${field.name}" class="col-sm-2 control-label storyRegression" style="display:none; width: 300px; text-align: left; ">${field.name}</label>
+                                                            <div class="col-sm-10">
+                                                                <input style="width: 270px; display:none" class="form-control storyRegression" id="input_${field.name}"
+                                                                       required="1"/>
+                                                            </div>
+                                                        </c:if>
+                                                        <c:if test="${field.name == 'The number of checked cases' || field.name == 'Milestone' || field.name == 'Test runs'}">
+                                                            <label  for="input_${field.name}" class="col-sm-2 control-label fullPass" style="display:none; width: 300px; text-align: left; ">${field.name}</label>
+                                                            <div class="col-sm-10">
+                                                                <input style="width: 270px; display:none" class="form-control fullPass" id="input_${field.name}"
+                                                                       required="1"/>
+                                                            </div>
+                                                        </c:if>
+                                                        <c:if test="${field.name != 'The number of checked defects' && field.name != 'The number of reopened defects' && field.name != 'Link to the filter with reopened defects'
+                                                        && field.name != 'The number of checked stories' && field.name != 'The number of reopened stories' && field.name != 'Link to the filter with reopened stories'
+                                                        && field.name != 'The number of checked cases' && field.name != 'Milestone' && field.name != 'Test runs'}">
+                                                            <label  for="input_${field.name}" class="col-sm-2 control-label" style="width: 300px; text-align: left; ">${field.name}</label>
+                                                            <div class="col-sm-10">
+                                                                <input style="width: 270px" class="form-control" id="input_${field.name}"
+                                                                        required="1"/>
+                                                            </div>
+                                                        </c:if>
                                                     </c:if>
                                                     <c:if test="${field.idType == 2}">
                                                         <label for="select_${field.name}" class="col-sm-2 control-label" style="width: 300px; text-align: left; ">${field.name}</label>
                                                         <div class="col-md-10" >
                                                             <select style="width: 270px" class="form-control" id="select_${field.name}">
+                                                                <c:if test="${field.name == 'Activity'}">
+                                                                    <option value="none">Select activity</option>
+                                                                </c:if>
                                                                 <c:forEach items="${listDropdown}" var="dropdownItem">
                                                                     <c:if test="${dropdownItem.idField == field.idField}">
                                                                         <option value="${dropdownItem.itemName}">${dropdownItem.itemName}</option>
@@ -139,15 +167,15 @@
                                                             </select>
 
                                                         </div>
-                                                        <c:if test="${field.name == 'Devices'}">
-                                                            <div class="col-md-1">
-                                                                <input class="btn btn-primary" type = "button" id="addButton" value="Добавить" style="border-left-width: 0px;margin-left: 70px;"/>
-                                                            </div>
-                                                            <div class="col-md-10">
-                                                                </br>
-                                                                <input type = "text" id="usersDevices" value="" style="width: 470px" class="form-control"/>
-                                                            </div>
-                                                        </c:if>
+                                                    <c:if test="${field.name == 'Devices'}">
+                                                        <div class="col-md-1">
+                                                            <input class="btn btn-primary" type = "button" id="addButton" value="Добавить" style="border-left-width: 0px;margin-left: 70px;"/>
+                                                        </div>
+                                                        <div class="col-md-10">
+                                                            </br>
+                                                            <input type = "text" id="usersDevices" value="" style="width: 470px" class="form-control"/>
+                                                        </div>
+                                                    </c:if>
 
                                                     </c:if>
                                                 </div>

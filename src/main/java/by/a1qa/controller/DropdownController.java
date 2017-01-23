@@ -4,6 +4,7 @@ import by.a1qa.model.Dropdown;
 import by.a1qa.service.DropdownService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +17,8 @@ import javax.servlet.http.HttpSession;
 /**
  * Created by tbegu_000 on 22.01.2017.
  */
+@Controller
+@RequestMapping("/DropdownController")
 public class DropdownController {
     private DropdownService dropdownService;
     

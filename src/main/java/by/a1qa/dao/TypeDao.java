@@ -56,7 +56,7 @@ public class TypeDao {
 
     public List<Type> listTypes() {
         Session session = this.sessionFactory.getCurrentSession();
-        List<Type> typeList = session.createQuery("from type").list();
+        List<Type> typeList = session.createQuery("from Type").list();
 
         for(Type type: typeList){
             logger.info("type list: " + type);

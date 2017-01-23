@@ -14,6 +14,29 @@ $(window).load(function () {
             $( "#usersDevices" ).val(selectedDevice+"");
             $( "#usersDevices" ).removeAttr('disabled');
         }
+    });
 
+    $("#select_Activity").change(function() {
+        var activity = $( "#select_Activity option:selected" ).text();
+        if(activity == "Full test pass"){
+            $(".fullPass").css("display","block");
+            $(".bugVerification").css("display","none");
+            $(".storyRegression").css("display","none");
+        }
+        if(activity == "Bug verification"){
+            $(".fullPass").css("display","none");
+            $(".bugVerification").css("display","block");
+            $(".storyRegression").css("display","none");
+        }
+        if(activity == "Regression"){
+            $(".fullPass").css("display","none");
+            $(".bugVerification").css("display","none");
+            $(".storyRegression").css("display","block");
+        }
+        if(activity != "Full test pass" && activity != "Bug verification" && activity != "Regression"){
+            $(".fullPass").css("display","none");
+            $(".bugVerification").css("display","none");
+            $(".storyRegression").css("display","none");
+        }
     });
 });

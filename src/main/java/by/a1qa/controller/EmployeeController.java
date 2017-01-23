@@ -1,6 +1,8 @@
 package by.a1qa.controller;
 
 import by.a1qa.service.EmployeeService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -12,11 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class EmployeeController {
     private EmployeeService employeeService;
 
-    /*@Autowired(required = true)
+    @Autowired(required = true)
     @Qualifier(value = "employeeService")
     public void setEmployeeService(EmployeeService employeeService) {
         this.employeeService = employeeService;
-    }
+    } /*
     @RequestMapping(value = "employees", method = RequestMethod.GET)
     public String listEmployees(Model model, HttpServletRequest request) {
         String page = accessCheck(request, "employees");

@@ -35,7 +35,7 @@ INSERT INTO `pmlog`.`field` (`idField`, `idType`, `name`, `idProject`, `modelFie
 INSERT INTO `pmlog`.`field` (`idField`, `idType`, `name`, `idProject`, `modelFieldName`) VALUES ('26', '1', 'Test runs', '1', 'testruns');
 INSERT INTO `pmlog`.`field` (`idField`, `idType`, `name`, `idProject`, `modelFieldName`) VALUES ('27', '1', 'The number of checked cases', '1', 'numberOfCheckedCases');
 INSERT INTO `pmlog`.`field` (`idField`, `idType`, `name`, `idProject`, `modelFieldName`) VALUES ('28', '1', 'The number of checked defects', '1', 'numberOfCheckedDefects');
-INSERT INTO `pmlog`.`field` (`idField`, `idType`, `name`, `idProject`, `modelFieldName`) VALUES ('29', '1', 'The number of reopened defects', '1', 'numberOfReopenedCases');
+INSERT INTO `pmlog`.`field` (`idField`, `idType`, `name`, `idProject`, `modelFieldName`) VALUES ('29', '1', 'The number of reopened defects', '1', 'numberOfReopenedDefects');
 INSERT INTO `pmlog`.`field` (`idField`, `idType`, `name`, `idProject`, `modelFieldName`) VALUES ('30', '1', 'Link to the filter with reopened defects', '1', 'linkToReopenedDefects');
 INSERT INTO `pmlog`.`field` (`idField`, `idType`, `name`, `idProject`, `modelFieldName`) VALUES ('31', '1', 'The number of checked stories', '1', 'numberOfCheckedStories');
 INSERT INTO `pmlog`.`field` (`idField`, `idType`, `name`, `idProject`, `modelFieldName`) VALUES ('32', '1', 'The number of reopened stories', '1', 'numberOfReopenedStories');
