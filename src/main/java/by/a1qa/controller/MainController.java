@@ -2,6 +2,7 @@ package by.a1qa.controller;
 
 import by.a1qa.model.Employee;
 import by.a1qa.model.Project;
+import by.a1qa.model.Report;
 import by.a1qa.service.DropdownService;
 import by.a1qa.service.FieldService;
 import by.a1qa.service.ProjectService;
@@ -49,12 +50,13 @@ public class MainController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView main() {
         ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("report", new Report());
         modelAndView.setViewName("index");
         return modelAndView;
     }
 
     @RequestMapping(value = "/login",method = RequestMethod.POST)
-    public ModelAndView loginPMLog (@ModelAttribute("employee") Employee employee){
+    public ModelAndView loginPMLog (@ModelAttribute("report") Report report){
             ModelAndView modelAndView = new ModelAndView();
             modelAndView.addObject("project", new Project());
             List<Project> listOfProjects = this.projectService.listProjects();
@@ -64,7 +66,7 @@ public class MainController {
             }
 
             modelAndView.addObject("listProjects", listOfProjects);
-
+            modelAndView.addObject("report", report);
             modelAndView.addObject("listDropdown", this.dropdownService.listDropdowns());
 
             //modelAndView.addObject("listFields", this.fieldService.listFields());

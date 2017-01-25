@@ -4,6 +4,7 @@ package by.a1qa.model;
  * Created by alexei.khilchuk on 23/01/2017.
  */
 public class Report {
+    private int idReport;
     private String timestamp;
     private String person;
     private String product;
@@ -22,9 +23,17 @@ public class Report {
     private int numberOfCheckedDefects;
     private int numberOfReopenedDefects;
     private String linkToReopenedDefects;
-    private String Milestone;
-    private String Testruns;
+    private String milestone;
+    private String testruns;
     private String numberOfCheckedCases;
+
+    public int getIdReport() {
+        return idReport;
+    }
+
+    public void setIdReport(int idReport) {
+        this.idReport = idReport;
+    }
 
     public String getTimestamp() {
         return timestamp;
@@ -171,19 +180,19 @@ public class Report {
     }
 
     public String getMilestone() {
-        return Milestone;
+        return milestone;
     }
 
     public void setMilestone(String milestone) {
-        Milestone = milestone;
+        this.milestone = milestone;
     }
 
     public String getTestruns() {
-        return Testruns;
+        return testruns;
     }
 
     public void setTestruns(String testruns) {
-        Testruns = testruns;
+        this.testruns = testruns;
     }
 
     public String getNumberOfCheckedCases() {
@@ -197,7 +206,8 @@ public class Report {
     @Override
     public String toString() {
         return "Report{" +
-                "timestamp='" + timestamp + '\'' +
+                "idReport=" + idReport +
+                ", timestamp='" + timestamp + '\'' +
                 ", person='" + person + '\'' +
                 ", product='" + product + '\'' +
                 ", project='" + project + '\'' +
@@ -215,8 +225,8 @@ public class Report {
                 ", numberOfCheckedDefects=" + numberOfCheckedDefects +
                 ", numberOfReopenedDefects=" + numberOfReopenedDefects +
                 ", linkToReopenedDefects='" + linkToReopenedDefects + '\'' +
-                ", Milestone='" + Milestone + '\'' +
-                ", Testruns='" + Testruns + '\'' +
+                ", Milestone='" + milestone + '\'' +
+                ", Testruns='" + testruns + '\'' +
                 ", numberOfCheckedCases='" + numberOfCheckedCases + '\'' +
                 '}';
     }

@@ -7,7 +7,7 @@ INSERT INTO `pmlog`.`type` (`idType`, `name`) VALUES ('1', 'input');
 INSERT INTO `pmlog`.`type` (`idType`, `name`) VALUES ('2', 'dropdown');
 INSERT INTO `pmlog`.`type` (`idType`, `name`) VALUES ('3', 'checkbox');
 
-INSERT INTO `pmlog`.`field` (`idField`, `idType`, `name`, `idProject`, `modelFieldName`) VALUES ('1', '2', 'Project', '1', 'project');
+INSERT INTO `pmlog`.`field` (`idField`, `idType`, `name`, `idProject`, `modelFieldName`) VALUES ('1', '2', 'Product', '1', 'product');
 INSERT INTO `pmlog`.`field` (`idField`, `idType`, `name`, `idProject`, `modelFieldName`) VALUES ('2', '2', 'Activity', '1', 'activity');
 INSERT INTO `pmlog`.`field` (`idField`, `idType`, `name`, `idProject`, `modelFieldName`) VALUES ('3', '1', 'Build', '1', 'build');
 INSERT INTO `pmlog`.`field` (`idField`, `idType`, `name`, `idProject`, `modelFieldName`) VALUES ('4', '2', 'Devices', '1', 'devices');

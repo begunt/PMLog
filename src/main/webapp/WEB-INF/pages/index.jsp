@@ -26,14 +26,14 @@
         <div class="container-fluid">
             <h1>Введите личную информацию</h1>
             <c:url var="addAction" value="/login"/>
-            <form:form action="${addAction}" commandName="employee" data-toggle="validator" role="form">
+            <form:form action="${addAction}" commandName="report" data-toggle="validator" role="form">
                 <div class="form-group">
                     <%--<label for="login">Логин jira.a1qa</label>
                     <input class="form-control" placeholder="e.example" id="login" required="1"/>
                     <label for="password">Пароль jira.a1qa</label>
                     <input type="password" class="form-control" id="password" required="1"/>--%>
                     <label for="inputEmail">Электронный адрес</label>
-                    <input type="email" class="form-control" name="email" placeholder="address.example@productmadness.com" id="inputEmail" data-error ="Введите допустимый адрес электронной почты" required/>
+                    <form:input path="person" type="email" class="form-control" placeholder="address.example@productmadness.com" id="inputEmail" required="true"/>
 
                 </div>
                 <div>
