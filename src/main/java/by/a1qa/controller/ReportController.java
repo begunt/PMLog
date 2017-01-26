@@ -1,6 +1,7 @@
 package by.a1qa.controller;
 
 import by.a1qa.dao.ReportDao;
+import by.a1qa.dao.ReportDao1;
 import by.a1qa.model.Project;
 import by.a1qa.model.Report;
 import by.a1qa.service.DropdownService;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ import java.util.List;
 public class ReportController {
 
     private List<Report> listOfReports = new ArrayList<>();
-    private ReportDao reportDao = new ReportDao();
+    private ReportDao1 reportDao = new ReportDao1();
     private ProjectService projectService;
     private FieldService fieldService;
     private DropdownService dropdownService;
