@@ -23,10 +23,10 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <script>
-        var projectName = 'Mobile';
+        /*var projectName = 'Mobile';
         function selectProject() {
             var e = document.getElementById("selectIdProject");
-            console.log("not selected project = " + projectName);
+            console.log("selected project = " + projectName);
             document.getElementById("fields_of_project_id_" + projectName).style.cssText = "display: none;";
             var inputsForDisable = document.getElementsByClassName("fields_of_project_id_" + projectName);
             for(var j = 0; j < inputsForDisable.length; j++) {
@@ -36,9 +36,10 @@
             document.getElementById("fields_of_project_id_" + projectName).style.cssText = "display: block;";
             var inputs = document.getElementsByClassName("fields_of_project_id_" + projectName);
             for(var i = 0; i < inputs.length; i++) {
-                inputs[i].setAttribute("required", "");
+                if(inputs[i].style.cssText != "display: none;")
+                    inputs[i].setAttribute("required", "");
             }
-        }
+        }*/
     </script>
 <head>
 <body>
@@ -49,9 +50,17 @@
         <div class="container-fluid">
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Добавить</button>
 
-            <div id="listTasks"><h1>Список активностей</h1></div>
+            <div style="display:none">
+                <c:if test="${empty report.activity}">
+                    <input id="mainObject" value=null />
+                </c:if>
+                <c:if test="${!empty report.activity}">
+                    <input id="mainObject" value='${report.activity}'/>
+                </c:if>
+            </div>
 
-            <%--<c:if test="${!empty listTasks}">--%>
+            <%--<c:if test="${!empty listOfReports}">--%>
+                <div id="listTasks"><h1>Список активностей</h1></div>
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover table-striped">
                         <thead>
@@ -66,34 +75,49 @@
                         <c:forEach items="${listReports}" var="report">
                             <tr>
                                 <td>${report.activity}</td>
-                                <td>Person: ${report.person} Comment: ${report.comment}</td>
+                                <td>idReport: ${report.idReport}
+                                    </br>timestamp: ${report.timestamp}
+                                    </br>Person: ${report.person}
+                                    </br> product: ${report.product}
+                                    </br>project : ${report.project}
+                                    </br>sprint : ${report.sprint}
+                                    </br>build : ${report.build}
+                                    </br>devices : ${report.devices}
+                                    </br>environment : ${report.environment}
+                                    </br>time : ${report.time}
+                                    </br>comment : ${report.comment}
+                                    </br>link : ${report.link}
+                                    </br>numberOfCheckedStories : ${report.numberOfCheckedStories}
+                                    </br>numberOfReopenedStories : ${report.numberOfReopenedStories}
+                                    </br>linkToReopenedStories : ${report.linkToReopenedStories}
+                                    </br>numberOfCheckedDefects: ${report.numberOfCheckedDefects}
+                                    </br>numberOfReopenedDefects : ${report.numberOfReopenedDefects}
+                                    </br>linkToReopenedDefects : ${report.linkToReopenedDefects}
+                                    </br> Milestone: ${report.milestone}
+                                    </br>Testruns: ${report.testruns}
+                                    </br>numberOfCheckedCases : ${report.numberOfCheckedCases}
+                                    </br>Comment: ${report.comment}
+                                </td>
                                 <td>${report.time}</td>
                                 <td>
-                                    <%--<button type="button" class="btn btn-primary" id="edit"
-                                            style="margin-left: 0px;" onClick='location.href="<c:url
-                                            value="/taskController/edit/${task.idTask}"/>"'>
-                                        Редактировать
-                                    </button>--%>
-                                        <button type="button" class="btn btn-primary" id="edit"
-                                                style="margin-left: 0px;">
-                                            Редактировать
-                                        </button>
+                                    <button type="button" class="btn btn-primary" id="edit" style="margin-left: 0px;" onClick='location.href="<c:url
+                                            value="/reportController/edit/${report.idReport}"/>"'>Edit
+                                    </button>
                                 </td>
                                 <td>
-                                    <%--<button type="button" id="delete" class="btn btn-primary"
-                                            onClick='location.href="<c:url
-                                                    value="/taskController/remove/${task.idTask}"/>"'>
-                                        Удалить
-                                    </button>--%>
-                                        <button type="button" id="delete" class="btn btn-primary">
-                                            Удалить
-                                        </button>
+                                    <button type="button" id="delete" class="btn btn-primary"
+                                            onClick='location.href="<c:url value="/reportController/remove/${report.idReport}"/>"'>Delete
+                                    </button>
                                 </td>
                         </tr>
                        </c:forEach>
                         </tbody>
                     </table>
                 </div>
+            <%--</c:if>
+            <c:if test="${empty listOfReports}">
+                <div id="listTasks"><h1>Список активностей пуст</h1></div>
+            </c:if>--%>
 
             <!-- Попап создания -->
             <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -102,22 +126,22 @@
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                     aria-hidden="true">&times;</span></button>
-                            <%--<c:if test="${empty task.name}">--%>
+                            <c:if test="${empty report.activity}">
                                 <h4 class="modal-title" id="myModalLabel">Создание активноcти</h4>
-                            <%--</c:if>--%>
-                            <%--<c:if test="${!empty task.name}">
+                            </c:if>
+                            <c:if test="${!empty report.activity}">
                                 <h4 class="modal-title" id="myModalLabel">Редактирование активнсоти</h4>
-                            </c:if>--%>
+                            </c:if>
                         </div>
                         <div class="modal-body">
-                            <%--<c:url var="addAction" value="/reportController/reports/add"/>--%>
                             <form:form action="/reportController/reports/add" commandName="report" class="form-horizontal">
                                 <div class="modal-body">
                                     <div class="form-group">
                                         <form:input path="person" style="display: none;" value="${report.person}"/>
+                                        <form:input path="idReport" style="display: none;" value="${report.idReport}"/>
                                         <label for="selectIdProject" class="col-sm-2 control-label" style="width: 187px; text-align: left; ">Product</label>
                                         <div class="col-sm-10">
-                                            <form:select style="width: 270px" path="project" class="form-control" id="selectIdProject" onchange="selectProject()">
+                                            <form:select style="width: 270px" path="product" class="form-control" id="selectIdProject" > <%--onchange="selectProject()"--%>
                                                 <form:option value="0">Select product</form:option>
                                                 <c:forEach items="${listProjects}" var="project">
                                                     <form:option
@@ -133,8 +157,8 @@
                                                     <c:if test="${field.idType == 1}">
                                                         <c:if test="${field.name == 'The number of checked defects' || field.name == 'The number of reopened defects' || field.name == 'Link to the filter with reopened defects'}">
                                                             <label  for="input_${field.name}" class="col-sm-2 control-label bugVerification" style="width: 300px; text-align: left; display:none;">${field.name}</label>
-                                                            <div class="col-sm-10 bugVerification" style="display:none">
-                                                                <form:input style="width: 270px" class="form-control fields_of_project_id_${selectedProject.name}" id="input_${field.name}"
+                                                            <div class="col-sm-10">
+                                                                <form:input style="width: 270px; display:none" class="form-control fields_of_project_id_${selectedProject.name} bugVerification" id="input_${field.name}"
                                                                         path="${field.modelFieldName}"/> <%--required="true"--%>
                                                             </div>
                                                         </c:if>
@@ -162,32 +186,43 @@
                                                             </div>
                                                         </c:if>
                                                     </c:if>
-                                                    <c:if test="${field.idType == 2 && field.name!='Devices'}">
+                                                    <c:if test="${field.idType == 2}">
                                                         <label for="select_${field.name}" class="col-sm-2 control-label" style="width: 300px; text-align: left; ">${field.name}</label>
-                                                        <c:if test="${field.name != 'Devices'}">
-                                                            <div class="col-md-10" >
-                                                                <form:select path="${field.modelFieldName}" style="width: 270px" class="form-control fields_of_project_id_${selectedProject.name}" id="select_${field.name}">
-                                                                    <form:option value="">Select value</form:option>
-                                                                    <c:forEach items="${listDropdown}" var="dropdownItem">
-                                                                        <c:if test="${dropdownItem.idField == field.idField}">
-                                                                            <form:option value="${dropdownItem.itemName}">${dropdownItem.itemName}</form:option>
-                                                                        </c:if>
-                                                                    </c:forEach>
-                                                                </form:select>
-                                                            </div>
-                                                        </c:if>
-                                                        <c:if test="${field.name == 'Devices'}">
-                                                            <div class="col-md-1">
-                                                                <input class="btn btn-primary" type = "button" id="addButton" value="Добавить" style="border-left-width: 0px;margin-left: 70px;"/>
-                                                            </div>
-                                                            <div class="col-md-10">
-                                                                </br>
-                                                                <form:input path="${field.modelFieldName}" type = "text" id="usersDevices" value="" style="width: 470px"  class="form-control fields_of_project_id_${selectedProject.name}"/>
-                                                                <%--required="true"--%>
-                                                            </div>
-                                                        </c:if>
-
+                                                        <div class="col-md-10" >
+                                                            <form:select path="${field.modelFieldName}" style="width: 270px" class="form-control fields_of_project_id_${selectedProject.name}" id="select_${field.name}">
+                                                                <form:option value="">Select value</form:option>
+                                                                <c:forEach items="${listDropdown}" var="dropdownItem">
+                                                                    <c:if test="${dropdownItem.idField == field.idField}">
+                                                                        <form:option value="${dropdownItem.itemName}">${dropdownItem.itemName}</form:option>
+                                                                    </c:if>
+                                                                </c:forEach>
+                                                            </form:select>
+                                                        </div>
                                                     </c:if>
+                                                    <c:if test="${field.idType == 3}">
+                                                        <input style="display: none" id="typeCheckbox" value="${field.name}"/>
+                                                        <label for="select_${field.name}" class="col-sm-2 control-label" style="width: 300px; text-align: left; ">${field.name}</label>
+                                                        <div class="col-md-10" >
+                                                            <select style="width: 270px" class="form-control fields_of_project_id_${selectedProject.name}" id="select_${field.name}">
+                                                                <option value="">Select value</option>
+                                                                <c:forEach items="${listDropdown}" var="dropdownItem">
+                                                                    <c:if test="${dropdownItem.idField == field.idField}">
+                                                                        <option value="${dropdownItem.itemName}">${dropdownItem.itemName}</option>
+                                                                    </c:if>
+                                                                </c:forEach>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <input class="btn btn-primary" type = "button" id="addButton_${field.name}" value="Add" style="border-left-width: 0px;margin-left: 70px;"/>
+                                                        </div>
+                                                        <div class="col-md-10">
+                                                            </br>
+                                                            <form:input path="${field.modelFieldName}" type = "text" id="users_${field.name}" value="" style="width: 470px"  class="form-control fields_of_project_id_${selectedProject.name}"/>
+                                                            <%--required="true"--%>
+                                                        </div>
+                                                    </c:if>
+
+
                                                 </div>
                                             </c:forEach>
                                         </div>
@@ -195,8 +230,12 @@
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть
                                         </button>
-                                        <button type="submit" class="btn btn-default" >Создать
-                                        </button>
+                                        <c:if test="${empty report.activity}">
+                                            <input type="submit" class="btn btn-primary" value="Создать"/>
+                                        </c:if>
+                                        <c:if test="${!empty report.activity}">
+                                            <input type="submit" class="btn btn-primary" value="Редактировать"/>
+                                        </c:if>
                                     </div>
                                 </div>
                             </form:form>

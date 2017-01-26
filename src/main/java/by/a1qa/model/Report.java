@@ -225,8 +225,8 @@ public class Report {
                 ", numberOfCheckedDefects=" + numberOfCheckedDefects +
                 ", numberOfReopenedDefects=" + numberOfReopenedDefects +
                 ", linkToReopenedDefects='" + linkToReopenedDefects + '\'' +
-                ", Milestone='" + milestone + '\'' +
-                ", Testruns='" + testruns + '\'' +
+                ", milestone='" + milestone + '\'' +
+                ", testruns='" + testruns + '\'' +
                 ", numberOfCheckedCases='" + numberOfCheckedCases + '\'' +
                 '}';
     }

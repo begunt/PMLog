@@ -7,10 +7,10 @@ INSERT INTO `pmlog`.`type` (`idType`, `name`) VALUES ('1', 'input');
 INSERT INTO `pmlog`.`type` (`idType`, `name`) VALUES ('2', 'dropdown');
 INSERT INTO `pmlog`.`type` (`idType`, `name`) VALUES ('3', 'checkbox');
 
-INSERT INTO `pmlog`.`field` (`idField`, `idType`, `name`, `idProject`, `modelFieldName`) VALUES ('1', '2', 'Product', '1', 'product');
+INSERT INTO `pmlog`.`field` (`idField`, `idType`, `name`, `idProject`, `modelFieldName`) VALUES ('1', '2', 'Project', '1', 'project');
 INSERT INTO `pmlog`.`field` (`idField`, `idType`, `name`, `idProject`, `modelFieldName`) VALUES ('2', '2', 'Activity', '1', 'activity');
 INSERT INTO `pmlog`.`field` (`idField`, `idType`, `name`, `idProject`, `modelFieldName`) VALUES ('3', '1', 'Build', '1', 'build');
-INSERT INTO `pmlog`.`field` (`idField`, `idType`, `name`, `idProject`, `modelFieldName`) VALUES ('4', '2', 'Devices', '1', 'devices');
+INSERT INTO `pmlog`.`field` (`idField`, `idType`, `name`, `idProject`, `modelFieldName`) VALUES ('4', '3', 'Devices', '1', 'devices');
 INSERT INTO `pmlog`.`field` (`idField`, `idType`, `name`, `idProject`, `modelFieldName`) VALUES ('5', '3', 'Environment', '1', 'environment');
 INSERT INTO `pmlog`.`field` (`idField`, `idType`, `name`, `idProject`, `modelFieldName`) VALUES ('6', '1', 'Time spent', '1', 'time');
 INSERT INTO `pmlog`.`field` (`idField`, `idType`, `name`, `idProject`, `modelFieldName`) VALUES ('7', '1', 'Comment', '1', 'comment');

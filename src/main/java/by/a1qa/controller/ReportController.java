@@ -31,6 +31,7 @@ public class ReportController {
     private ProjectService projectService;
     private FieldService fieldService;
     private DropdownService dropdownService;
+    private String personEmail;
 
     @Autowired(required = true)
     @Qualifier(value = "projectService")
@@ -64,13 +65,16 @@ public class ReportController {
         model.addAttribute("listDropdown", this.dropdownService.listDropdowns());
 
         //modelAndView.addObject("listFields", this.fieldService.listFields());
-        model.addAttribute("report", new Report());
+        Report reportWithPerson = new Report();
+        reportWithPerson.setPerson(personEmail);
+        model.addAttribute("report", reportWithPerson);
         model.addAttribute("listReports",listOfReports);
         return "tasks";
     }
 
     @RequestMapping(value = "/reports/add", method = RequestMethod.POST)
     public String addReport(@ModelAttribute("report") Report report, HttpServletRequest request) {
+        personEmail = report.getPerson();
         if (report.getIdReport() == 0)
             listOfReports = this.reportDao.addReport(report, listOfReports);
         else listOfReports = this.reportDao.updateReport(report, listOfReports);
@@ -86,7 +90,16 @@ public class ReportController {
     }
 
     @RequestMapping("edit/{id}")
-    public String editReport(@PathVariable("id") int id, Model model, HttpServletRequest request) {        
+    public String editReport(@PathVariable("id") int id, Model model, HttpServletRequest request) {
+        model.addAttribute("project", new Project());
+        List<Project> listOfProjects = this.projectService.listProjects();
+
+        for (Project project: listOfProjects){
+            project.setCustomFields(this.fieldService.listFieldsByIdProject(project.getIdProject()));
+        }
+        model.addAttribute("listProjects", listOfProjects);
+        model.addAttribute("listDropdown", this.dropdownService.listDropdowns());
+
         model.addAttribute("report", this.reportDao.getReportById(listOfReports, id));
         model.addAttribute("listReports", listOfReports);
 
