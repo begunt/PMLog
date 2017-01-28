@@ -66,7 +66,7 @@
                         <thead>
                         <tr>
                             <th width="80">Активность</th>
-                            <th width="160">Описание</th>
+                            <th width="1000">Описание</th>
                             <th width="60">Время</th>
                             <th width="60" colspan="2"> </th>
                         </tr>
@@ -75,7 +75,13 @@
                         <c:forEach items="${listReports}" var="report">
                             <tr>
                                 <td>${report.activity}</td>
-                                <td>idReport: ${report.idReport}
+                                <td>
+                                    <%--<c:forEach items="${selectedProject.customFields}" var="field">
+                                        <c:if test ="${report.${field.modelFieldName}} != ''">
+                                            </br>${field.name}: ${report.${field.modelFieldName}}
+                                        </c:if>
+                                    </c:forEach>--%>
+                                    idReport: ${report.idReport}
                                     </br>timestamp: ${report.timestamp}
                                     </br>Person: ${report.person}
                                     </br> product: ${report.product}
@@ -200,7 +206,6 @@
                                                         </div>
                                                     </c:if>
                                                     <c:if test="${field.idType == 3}">
-                                                        <input style="display: none" id="typeCheckbox" value="${field.name}"/>
                                                         <label for="select_${field.name}" class="col-sm-2 control-label" style="width: 300px; text-align: left; ">${field.name}</label>
                                                         <div class="col-md-10" >
                                                             <select style="width: 270px" class="form-control fields_of_project_id_${selectedProject.name}" id="select_${field.name}">
@@ -213,7 +218,7 @@
                                                             </select>
                                                         </div>
                                                         <div class="col-md-1">
-                                                            <input class="btn btn-primary" type = "button" id="addButton_${field.name}" value="Add" style="border-left-width: 0px;margin-left: 70px;"/>
+                                                            <input class="btn btn-primary" type = "button" value="Add" onclick="getUserChoice('${field.name}')" style="border-left-width: 0px;margin-left: 70px;"/>
                                                         </div>
                                                         <div class="col-md-10">
                                                             </br>
@@ -228,13 +233,13 @@
                                         </div>
                                     </c:forEach>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close
                                         </button>
                                         <c:if test="${empty report.activity}">
-                                            <input type="submit" class="btn btn-primary" value="Создать"/>
+                                            <input type="submit" class="btn btn-primary" value="Add"/>
                                         </c:if>
                                         <c:if test="${!empty report.activity}">
-                                            <input type="submit" class="btn btn-primary" value="Редактировать"/>
+                                            <input type="submit" class="btn btn-primary" value="Edit"/>
                                         </c:if>
                                     </div>
                                 </div>
