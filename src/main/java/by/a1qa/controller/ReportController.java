@@ -8,12 +8,10 @@ import by.a1qa.service.FieldService;
 import by.a1qa.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -58,7 +56,7 @@ public class ReportController {
         model.addAttribute("project", new Project());
         List<Project> listOfProjects = this.projectService.listProjects();
 
-        for (Project project: listOfProjects){
+        for (Project project : listOfProjects) {
             project.setCustomFields(this.fieldService.listFieldsByIdProject(project.getIdProject()));
         }
         model.addAttribute("listProjects", listOfProjects);
@@ -68,18 +66,26 @@ public class ReportController {
         Report reportWithPerson = new Report();
         reportWithPerson.setPerson(personEmail);
         model.addAttribute("report", reportWithPerson);
-        model.addAttribute("listReports",listOfReports);
+        model.addAttribute("listFields", this.fieldService.listFields());
+        model.addAttribute("listReports", listOfReports);
         return "tasks";
     }
 
-    @RequestMapping(value = "/reports/add", method = RequestMethod.POST)
-    public String addReport(@ModelAttribute("report") Report report, HttpServletRequest request) {
+    @RequestMapping(value = "/reports/add",
+            method = RequestMethod.POST,
+            produces="text/plain",
+            headers="Content-Type=application/json")
+    @ResponseBody
+    public String addReport(@RequestBody Report report, HttpServletRequest request) {
+        report.setSelectedProject(projectService.getProjectByName(report.getProduct()));
+        report.getSelectedProject().setCustomFields(this.fieldService.listFieldsByIdProject(report.getSelectedProject
+                ().getIdProject()));
         personEmail = report.getPerson();
         if (report.getIdReport() == 0)
             listOfReports = this.reportDao.addReport(report, listOfReports);
         else listOfReports = this.reportDao.updateReport(report, listOfReports);
 
-        return "redirect:/reportController/reports";
+        return "/reportController/reports";
     }
 
     @RequestMapping("/remove/{id}")
@@ -94,7 +100,7 @@ public class ReportController {
         model.addAttribute("project", new Project());
         List<Project> listOfProjects = this.projectService.listProjects();
 
-        for (Project project: listOfProjects){
+        for (Project project : listOfProjects) {
             project.setCustomFields(this.fieldService.listFieldsByIdProject(project.getIdProject()));
         }
         model.addAttribute("listProjects", listOfProjects);

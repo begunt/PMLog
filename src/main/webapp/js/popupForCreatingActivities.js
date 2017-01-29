@@ -1,15 +1,13 @@
 /**
  * Created by Asus on 23/01/2017.
  */
-
+var projectName = 'Mobile';
 $(window).load(function () {
 
     if (document.getElementById("mainObject").value != "null")
         $('#myModal').modal('show');
 
     $( "#usersDevices" ).attr('disabled','disabled');
-
-
 
     $("#select_Activity").change(function() {
         var activity = $( "#select_Activity option:selected" ).text();
@@ -47,7 +45,6 @@ $(window).load(function () {
         }
     });
 
-    var projectName = 'Mobile';
     $("#selectIdProject").change(function () {
         //var e = document.getElementById("selectIdProject");
         console.log("selected project = " + projectName);
@@ -59,7 +56,7 @@ $(window).load(function () {
         projectName = $("#selectIdProject").val();
         $("#fields_of_project_id_" + projectName).css("display","block");
         $(".fields_of_project_id_" + projectName).each(function(){
-            if( $(this).css("display") != "none")
+            if( $(this).css("display") != "none" || $("#mainObject").value == "Regression" || $("#mainObject").value == "Full test pass" || $("#mainObject").value == "Bug verification")
                 $(this).attr("required", "");
         })
     });
@@ -75,7 +72,7 @@ $(window).load(function () {
         $("#fields_of_project_id_" + projectName).css("display", "none");
         $(".fields_of_project_id_" + projectName).each(function(){
             $(this).removeAttr("required");
-            //inputsForDisable[j].val("");
+            $(this).val("");
         })
         projectName = e.options[e.selectedIndex].value;
         $("#fields_of_project_id_" + projectName).css("display","block");
@@ -84,6 +81,8 @@ $(window).load(function () {
                 $(this).attr("required", "");
         })
     }
+
+
 });
 
 function getUserChoice(tempName) {
@@ -99,3 +98,74 @@ function getUserChoice(tempName) {
     }
 
 };
+
+$.fn.serializeObject = function()
+{
+    var o = {};
+    var a = this.serializeArray();
+    $.each(a, function() {
+        if (o[this.name] !== undefined) {
+            if (!o[this.name].push) {
+                o[this.name] = [o[this.name]];
+            }
+            o[this.name].push(this.value || '');
+        } else {
+            o[this.name] = this.value || '';
+        }
+    });
+    return o;
+};
+
+function submitForm() {
+    //var $myForm = $('#reportForm');
+    jQuery.validator.setDefaults({
+        debug: true,
+        ignore: '*:not([name])',
+        success: "valid"
+    });
+    var form = $( "#reportForm" );
+    form.validate();
+    if(form.valid())
+        sentToController();
+
+    /*var i = 0 ;
+    $(".fields_of_project_id_" + projectName).each(function(){
+        if (!$(this).checkValidity())
+            i++;
+    })
+    if(i == 0)
+        sentToController();*/
+}
+
+function sentToController(){
+    var divArray = $(".fields_of_project");
+    for(var index = 0; index < divArray.length; index++) {
+        if (divArray[index].id != ("fields_of_project_id_" + projectName))
+            divArray[index].remove();
+    }
+    var data = JSON.stringify($('#reportForm').serializeObject());
+    $.ajax({
+        type: 'POST',
+        url: '/reportController/reports/add',
+        data: data,
+        contentType: "application/json"
+    }).done(function(data, status) {
+        console.log(status);
+        window.location.href = data;
+    }).fail(function(data, status) {
+        console.log(status);
+        console.log(JSON.stringify(data));
+    });
+}
+
+function openPopup(){
+    var e = document.getElementById("selectIdProject");
+    var projects = [];
+    for(var i=0; i< e.options.length; i++) {
+        projects[i] = e.options[i].value;
+        $(".fields_of_project_id_" + projects[i]).each(function(){
+            $(this).val("");
+        })
+    }
+    $('#myModal').modal('show');
+}

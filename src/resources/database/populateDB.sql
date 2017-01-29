@@ -1,7 +1,7 @@
-INSERT INTO `pmlog`.`project` (`idProject`, `modelFieldName`, `name`, `jiraProjectKeyA1QA`, `jiraProjectKeyPM`) VALUES ('1', 'Mobile', 'Mobile', 'Mobile');
-INSERT INTO `pmlog`.`project` (`idProject`, `modelFieldName`, `name`, `jiraProjectKeyA1QA`, `jiraProjectKeyPM`) VALUES ('2', 'Social', 'Social', 'Social');
-INSERT INTO `pmlog`.`project` (`idProject`, `modelFieldName`, `name`, `jiraProjectKeyA1QA`, `jiraProjectKeyPM`) VALUES ('3', 'Server', 'Server', 'Server');
-INSERT INTO `pmlog`.`project` (`idProject`, `modelFieldName`, `name`, `jiraProjectKeyA1QA`, `jiraProjectKeyPM`) VALUES ('4', 'Other project(-s)', 'Other project(-s)', 'Other project(-s)');
+INSERT INTO `pmlog`.`project` (`idProject`, `name`, `jiraProjectKeyA1QA`, `jiraProjectKeyPM`) VALUES ('1', 'Mobile', 'Mobile', 'Mobile');
+INSERT INTO `pmlog`.`project` (`idProject`, `name`, `jiraProjectKeyA1QA`, `jiraProjectKeyPM`) VALUES ('2', 'Social', 'Social', 'Social');
+INSERT INTO `pmlog`.`project` (`idProject`, `name`, `jiraProjectKeyA1QA`, `jiraProjectKeyPM`) VALUES ('3', 'Server', 'Server', 'Server');
+INSERT INTO `pmlog`.`project` (`idProject`, `name`, `jiraProjectKeyA1QA`, `jiraProjectKeyPM`) VALUES ('4', 'Other', 'Other', 'Other');
 
 INSERT INTO `pmlog`.`type` (`idType`, `name`) VALUES ('1', 'input');
 INSERT INTO `pmlog`.`type` (`idType`, `name`) VALUES ('2', 'dropdown');
@@ -146,22 +146,3 @@ INSERT INTO `pmlog`.`dropdown` (`idDropdown`, `idField`, `itemName`) VALUES ('10
 INSERT INTO `pmlog`.`dropdown` (`idDropdown`, `idField`, `itemName`) VALUES ('103', '4', 'iPad Air 10.0.1');
 INSERT INTO `pmlog`.`dropdown` (`idDropdown`, `idField`, `itemName`) VALUES ('104', '4', 'iPad Air 8.4');
 INSERT INTO `pmlog`.`dropdown` (`idDropdown`, `idField`, `itemName`) VALUES ('105', '4', 'iPad Air 2 9.1');
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

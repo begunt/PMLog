@@ -35,6 +35,10 @@ public class ProjectService {
         return this.projectDao.getProjectById(id);
     }
 
+    public Project getProjectByName(String name) {
+        return this.projectDao.getProjectByName(name);
+    }
+
     public List<Project> listProjects() {
         return this.projectDao.listProjects();
     }

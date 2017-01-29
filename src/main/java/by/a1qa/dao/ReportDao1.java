@@ -12,7 +12,6 @@ import java.util.List;
 public class ReportDao1 {
 
     public List<Report> addReport(Report report, List<Report> listOfReports) {
-        report = parsingReport(report);
         report.setIdReport(listOfReports.size()+1);
         report.setTimestamp(getCurrentTimeStamp());
 
@@ -21,7 +20,7 @@ public class ReportDao1 {
     }
 
     public List<Report> updateReport(Report report, List<Report> listOfReports) {
-        report = parsingReport(report);
+
         int index = getIndexOfReportById(listOfReports, report);
 
         listOfReports.get(index).setActivity(report.getActivity());
@@ -30,7 +29,8 @@ public class ReportDao1 {
         listOfReports.get(index).setDevices(report.getDevices());
         listOfReports.get(index).setEnvironment(report.getEnvironment());
         listOfReports.get(index).setLink(report.getLink());
-        listOfReports.get(index).setTimestamp(report.getTimestamp());
+//        listOfReports.get(index).setTimestamp(report.getTimestamp());
+        listOfReports.get(index).setTimestamp(getCurrentTimeStamp());
         listOfReports.get(index).setPerson(report.getPerson());
         listOfReports.get(index).setProduct(report.getProduct());
         listOfReports.get(index).setProject(report.getProject());

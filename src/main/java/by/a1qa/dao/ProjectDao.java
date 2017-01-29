@@ -1,8 +1,10 @@
 package by.a1qa.dao;
 
 import by.a1qa.model.Project;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
@@ -48,6 +50,13 @@ public class ProjectDao {
         logger.info("Project successfully loaded. Project details: " + project);
 
         return project;
+    }
+
+    public Project getProjectByName(String name) {
+        Session session = this.sessionFactory.getCurrentSession();
+        Criteria crit = session.createCriteria(Project.class);
+        crit.add(Restrictions.eq("name", name));
+        return (Project) crit.uniqueResult();
     }
 
     public List<Project> listProjects() {

@@ -1,3 +1,7 @@
+.error{
+    color:red;
+}
+
 *,
 *:after,
 *::before {
@@ -119,6 +123,8 @@
 .linkFiltr{
     margin-left: 235px;
 }
+
+
 
 
 

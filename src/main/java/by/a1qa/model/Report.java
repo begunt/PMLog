@@ -1,10 +1,17 @@
 package by.a1qa.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import java.io.Serializable;
+
 /**
  * Created by alexei.khilchuk on 23/01/2017.
  */
-public class Report {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class Report implements Serializable{
+
     private int idReport;
+    private Project selectedProject;
     private String timestamp;
     private String person;
     private String product;
@@ -26,6 +33,8 @@ public class Report {
     private String milestone;
     private String testruns;
     private String numberOfCheckedCases;
+
+    public Report(){}
 
     public int getIdReport() {
         return idReport;
@@ -229,5 +238,13 @@ public class Report {
                 ", testruns='" + testruns + '\'' +
                 ", numberOfCheckedCases='" + numberOfCheckedCases + '\'' +
                 '}';
+    }
+
+    public Project getSelectedProject() {
+        return selectedProject;
+    }
+
+    public void setSelectedProject(Project selectedProject) {
+        this.selectedProject = selectedProject;
     }
 }
