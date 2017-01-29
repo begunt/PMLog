@@ -189,7 +189,6 @@ public class SpreadsheetHelper {
             columnPositionMap.put(columnName, columnPosition);
             productColumnsMap.put(productName, columnPositionMap);
         }
-
         return columnPosition;
     }
 
@@ -238,7 +237,6 @@ public class SpreadsheetHelper {
             if (colForMethod != 0){
                 columnsPositionMap.put(colForMethod, method.invoke(report,null));
             }
-
         }
         int rowForReport = getLastRowPosition(productName);
         LOG.info(String.format("Submitting report of '%s' to the product '%s'",report.getPerson(), productName));
@@ -272,6 +270,7 @@ public class SpreadsheetHelper {
      * Clears hash map with column indexes
      */
     public static void clearColumnPositionCache(){
+        LOG.info("Clearing column indexes cache...");
         productColumnsMap.clear();
     }
 }
