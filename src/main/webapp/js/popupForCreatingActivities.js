@@ -159,13 +159,15 @@ function sentToController(){
 }
 
 function openPopup(){
-    var e = document.getElementById("selectIdProject");
-    var projects = [];
-    for(var i=0; i< e.options.length; i++) {
-        projects[i] = e.options[i].value;
-        $(".fields_of_project_id_" + projects[i]).each(function(){
-            $(this).val("");
-        })
+    if (document.getElementById("mainObject").value != "null") {
+        var e = document.getElementById("selectIdProject");
+        var projects = [];
+        for (var i = 0; i < e.options.length; i++) {
+            projects[i] = e.options[i].value;
+            $(".fields_of_project_id_" + projects[i]).each(function () {
+                $(this).val("");
+            })
+        }
     }
     $('#myModal').modal('show');
 }

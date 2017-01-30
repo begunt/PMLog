@@ -80,7 +80,7 @@ public class CommonData {
             ArrayList<Method> list = new ArrayList<Method>();
             Method[] methods = c.getDeclaredMethods();
             for (Method method : methods)
-                if (isGetter(method))
+                if (isGetter(method) && !method.getName().contains("SelectedProject"))
                     list.add(method);
             return list;
         }

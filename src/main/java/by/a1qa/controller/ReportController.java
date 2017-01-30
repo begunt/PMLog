@@ -1,6 +1,7 @@
 package by.a1qa.controller;
 
 import by.a1qa.dao.ReportDao1;
+import by.a1qa.helpers.ReportSender;
 import by.a1qa.model.Project;
 import by.a1qa.model.Report;
 import by.a1qa.service.DropdownService;
@@ -8,7 +9,6 @@ import by.a1qa.service.FieldService;
 import by.a1qa.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -109,6 +109,33 @@ public class ReportController {
         model.addAttribute("report", this.reportDao.getReportById(listOfReports, id));
         model.addAttribute("listReports", listOfReports);
 
+        return "tasks";
+    }
+
+    /*@RequestMapping(value = "sent", method = RequestMethod.POST)
+    public String sentReport(@ModelAttribute("listOfReports") List<Report> listOfReports, Model model, HttpServletRequest request) {
+*/
+    @RequestMapping(value = "sent", method = RequestMethod.GET)
+    public String sentReport (Model model, HttpServletRequest request){
+        for (Report report: listOfReports){
+            ReportSender.addReportToQueue(report);
+        }
+        listOfReports.clear();
+        model.addAttribute("project", new Project());
+        List<Project> listOfProjects = this.projectService.listProjects();
+
+        for (Project project : listOfProjects) {
+            project.setCustomFields(this.fieldService.listFieldsByIdProject(project.getIdProject()));
+        }
+        model.addAttribute("listProjects", listOfProjects);
+        model.addAttribute("listDropdown", this.dropdownService.listDropdowns());
+
+        //modelAndView.addObject("listFields", this.fieldService.listFields());
+        Report reportWithPerson = new Report();
+        reportWithPerson.setPerson(personEmail);
+        model.addAttribute("report", reportWithPerson);
+        model.addAttribute("listFields", this.fieldService.listFields());
+        model.addAttribute("listReports", listOfReports);
         return "tasks";
     }
 }

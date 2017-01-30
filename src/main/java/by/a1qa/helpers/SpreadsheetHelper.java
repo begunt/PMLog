@@ -235,7 +235,8 @@ public class SpreadsheetHelper {
             String columnName = method.getName().replace("get", "");
             int colForMethod = getColumnPositionCached(productName, columnName, addColumnIfAbsent);
             if (colForMethod != 0){
-                columnsPositionMap.put(colForMethod, method.invoke(report,null));
+                Object value = method.invoke(report,null);
+                columnsPositionMap.put(colForMethod, (value != null) ? value : "");
             }
         }
         int rowForReport = getLastRowPosition(productName);
