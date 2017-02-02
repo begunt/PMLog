@@ -2,47 +2,32 @@
  * Created by Asus on 23/01/2017.
  */
 var projectName = 'Mobile';
+var mainObject = document.getElementById("mainObject").value;
+var forAddButton = document.getElementById("forAddButton").value;
+
 $(window).load(function () {
+    if (mainObject != "null") {
 
-    if (document.getElementById("mainObject").value != "null")
+        var selectProduct= $( "#selectIdProject option:selected" ).text();
+        if(selectProduct != ""){
+            selectProject();
+        }
         $('#myModal').modal('show');
+        /*var activity = $("#mainObject").text();
+        console.log(activity);
+        chooseActivity(activity);*/
+    }
 
-    $( "#usersDevices" ).attr('disabled','disabled');
+    if(forAddButton == "updating"){
+        $('#myModal').modal('show');
+    }
+
+    //$( "#usersDevices" ).attr('disabled','disabled');
 
     $("#select_Activity").change(function() {
         var activity = $( "#select_Activity option:selected" ).text();
-        if(activity == "Full test pass"){
-            $(".fullPass").css("display","block");
-            $(".fullPass").attr("required", "");
-            $(".bugVerification").css("display","none");
-            $(".bugVerification").removeAttr("required");
-            $(".storyRegression").css("display","none");
-            $(".storyRegression").removeAttr("required");
-        }
-        if(activity == "Bug verification"){
-            $(".fullPass").css("display","none");
-            $(".fullPass").removeAttr("required");
-            $(".bugVerification").css("display","block");
-            $(".bugVerification").attr("required", "");
-            $(".storyRegression").css("display","none");
-            $(".storyRegression").removeAttr("required");
-        }
-        if(activity == "Regression"){
-            $(".fullPass").css("display","none");
-            $(".fullPass").removeAttr("required");
-            $(".bugVerification").css("display","none");
-            $(".bugVerification").removeAttr("required");
-            $(".storyRegression").css("display","block");
-            $(".storyRegression").attr("required", "");
-        }
-        if(activity != "Full test pass" && activity != "Bug verification" && activity != "Regression"){
-            $(".fullPass").css("display","none");
-            $(".fullPass").removeAttr("required");
-            $(".bugVerification").css("display","none");
-            $(".bugVerification").removeAttr("required");
-            $(".storyRegression").css("display","none");
-            $(".storyRegression").removeAttr("required");
-        }
+        //if(activity == "Full test pass" || activity == "Bug verification" || activity == "Regression")
+        chooseActivity(activity);
     });
 
     $("#selectIdProject").change(function () {
@@ -61,9 +46,43 @@ $(window).load(function () {
         })
     });
 
-    var selectProduct= $( "#selectIdProject option:selected" ).text();
-    if(selectProduct != ""){
-        selectProject();
+    function chooseActivity(activity){
+        if(activity == "Full test pass" && selectProduct== "Mobile"){
+            console.log(activity + "chooseActivity()");
+            $(".fullPass").css("display","block");
+            $(".fullPass").attr("required", "");
+            $(".bugVerification").css("display","none");
+            $(".bugVerification").removeAttr("required");
+            $(".storyRegression").css("display","none");
+            $(".storyRegression").removeAttr("required");
+        }
+        if(activity == "Bug verification"&& selectProduct== "Mobile"){
+            console.log(activity + "chooseActivity()");
+            $(".fullPass").css("display","none");
+            $(".fullPass").removeAttr("required");
+            $(".bugVerification").css("display","block");
+            $(".bugVerification").attr("required", "");
+            $(".storyRegression").css("display","none");
+            $(".storyRegression").removeAttr("required");
+        }
+        if(activity == "Regression"&& selectProduct== "Mobile"){
+            console.log(activity + "chooseActivity()");
+            $(".fullPass").css("display","none");
+            $(".fullPass").removeAttr("required");
+            $(".bugVerification").css("display","none");
+            $(".bugVerification").removeAttr("required");
+            $(".storyRegression").css("display","block");
+            $(".storyRegression").attr("required", "");
+        }
+        if(activity != "Full test pass" && activity != "Bug verification" && activity != "Regression"){
+            console.log(activity + "chooseActivity()");
+            $(".fullPass").css("display","none");
+            $(".fullPass").removeAttr("required");
+            $(".bugVerification").css("display","none");
+            $(".bugVerification").removeAttr("required");
+            $(".storyRegression").css("display","none");
+            $(".storyRegression").removeAttr("required");
+        }
     }
 
     function selectProject() {
@@ -76,12 +95,14 @@ $(window).load(function () {
         })
         projectName = e.options[e.selectedIndex].value;
         $("#fields_of_project_id_" + projectName).css("display","block");
-        $(".fields_of_project_id_" + projectName).each(function(){
-            if( $(this).css() != "display: none;")
-                $(this).attr("required", "");
-        })
-    }
 
+        chooseActivity(mainObject);
+
+       /* $(".fields_of_project_id_" + projectName).each(function(){
+            if( $(this).css() != "display: none;" && $("#mainObject").text() == 'null')
+                $(this).attr("required", "");
+        })*/
+    }
 
 });
 
@@ -127,8 +148,9 @@ function submitForm() {
     form.validate();
     if(form.valid())
         sentToController();
-
-    /*var i = 0 ;
+    if (mainObject != "null")
+        sentToController();
+        /*var i = 0 ;
     $(".fields_of_project_id_" + projectName).each(function(){
         if (!$(this).checkValidity())
             i++;
@@ -158,6 +180,7 @@ function sentToController(){
     });
 }
 
+/*
 function openPopup(){
     if (document.getElementById("mainObject").value != "null") {
         var e = document.getElementById("selectIdProject");
@@ -170,4 +193,4 @@ function openPopup(){
         }
     }
     $('#myModal').modal('show');
-}
+}*/

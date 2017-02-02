@@ -68,6 +68,7 @@ public class ReportController {
         model.addAttribute("report", reportWithPerson);
         model.addAttribute("listFields", this.fieldService.listFields());
         model.addAttribute("listReports", listOfReports);
+        model.addAttribute("forAddButton", "");
         return "tasks";
     }
 
@@ -136,6 +137,28 @@ public class ReportController {
         model.addAttribute("report", reportWithPerson);
         model.addAttribute("listFields", this.fieldService.listFields());
         model.addAttribute("listReports", listOfReports);
+        return "tasks";
+    }
+
+    @RequestMapping(value = "/updateAddButton", method = RequestMethod.GET)
+    public String updateAddButton(Model model, HttpServletRequest request) {
+        model.addAttribute("project", new Project());
+        List<Project> listOfProjects = this.projectService.listProjects();
+
+        for (Project project : listOfProjects) {
+            project.setCustomFields(this.fieldService.listFieldsByIdProject(project.getIdProject()));
+        }
+        model.addAttribute("listProjects", listOfProjects);
+        model.addAttribute("listDropdown", this.dropdownService.listDropdowns());
+
+        //modelAndView.addObject("listFields", this.fieldService.listFields());
+        Report reportWithPerson = new Report();
+        reportWithPerson.setPerson(personEmail);
+        model.addAttribute("report", reportWithPerson);
+        model.addAttribute("listFields", this.fieldService.listFields());
+        model.addAttribute("listReports", listOfReports);
+        model.addAttribute("forAddButton", "updating");
+
         return "tasks";
     }
 }

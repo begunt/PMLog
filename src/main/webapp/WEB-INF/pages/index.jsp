@@ -24,7 +24,7 @@
 
     <div class="loginBlock">
         <div class="container-fluid">
-            <h1>Введите личную информацию</h1>
+            <h1>Please enter your personal information</h1>
             <c:url var="addAction" value="/login"/>
             <form:form action="${addAction}" commandName="report" data-toggle="validator" role="form">
                 <div class="form-group">
@@ -32,12 +32,12 @@
                     <input class="form-control" placeholder="e.example" id="login" required="1"/>
                     <label for="password">Пароль jira.a1qa</label>
                     <input type="password" class="form-control" id="password" required="1"/>--%>
-                    <label for="inputEmail">Электронный адрес</label>
+                    <label for="inputEmail">Email</label>
                     <form:input path="person" type="email" class="form-control" placeholder="address.example@productmadness.com" id="inputEmail" required="true"/>
 
                 </div>
                 <div>
-                    <button type="submit" class="btn btn-default">Сохранить</button>
+                    <button type="submit" class="btn btn-default">Save</button>
                 </div>
 
             </form:form>
