@@ -6,7 +6,7 @@ var mainObject = document.getElementById("mainObject").value;
 var forAddButton = document.getElementById("forAddButton").value;
 
 $(window).load(function () {
-    if (mainObject != "null") {
+    if (mainObject != "null/") {
 
         var selectProduct= $( "#selectIdProject option:selected" ).text();
         if(selectProduct != ""){
@@ -148,7 +148,7 @@ function submitForm() {
     form.validate();
     if(form.valid())
         sentToController();
-    if (mainObject != "null")
+    if (mainObject != "null/")
         sentToController();
         /*var i = 0 ;
     $(".fields_of_project_id_" + projectName).each(function(){

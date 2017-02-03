@@ -18,7 +18,7 @@
 <div>
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="navbar-header">
-            <a class="navbar-brand" href="/" target="_blank">Product Madness - A1QA</a>
+            <a class="navbar-brand" href="/" target="_blank">Product Madness - A1QA (pre-alpha)</a>
         </div>
     </nav>
 

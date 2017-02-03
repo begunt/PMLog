@@ -63,6 +63,7 @@ public class SpreadsheetHelper {
             HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
             DATA_STORE_FACTORY = new FileDataStoreFactory(DATA_STORE_DIR);
         } catch (Throwable t) {
+            LOG.error("Error during establishing HTTP transport to Google Sheets");
             t.printStackTrace();
             System.exit(1);
         }
@@ -75,11 +76,12 @@ public class SpreadsheetHelper {
      */
     private static Credential authorize() throws IOException {
         // Load client secrets.
+        LOG.info("Loading client secrets...");
         InputStream in =
                 SpreadsheetHelper.class.getResourceAsStream("/client_secret.json");
+
         GoogleClientSecrets clientSecrets =
                 GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
-
         // Build flow and trigger user authorization request.
         GoogleAuthorizationCodeFlow flow =
                 new GoogleAuthorizationCodeFlow.Builder(
@@ -87,8 +89,10 @@ public class SpreadsheetHelper {
                         .setDataStoreFactory(DATA_STORE_FACTORY)
                         .setAccessType("offline")
                         .build();
+        LOG.info("Google Authorization Code Flow built");
         Credential credential = new AuthorizationCodeInstalledApp(
                 flow, new LocalServerReceiver()).authorize("user");
+        LOG.info("Returning credential object...");
         return credential;
     }
 
@@ -99,6 +103,7 @@ public class SpreadsheetHelper {
      */
     private static Sheets getSheetsService() throws IOException {
         Credential credential = authorize();
+        LOG.info("Building spreadsheet service...");
         return new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential)
                     .setApplicationName(APPLICATION_NAME)
                     .build();

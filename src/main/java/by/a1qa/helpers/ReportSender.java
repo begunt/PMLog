@@ -35,9 +35,12 @@ public class ReportSender {
             initialized = true;
             final Runnable sender = new Runnable() {
                 public void run() {
+                    LOG.info("Checking reports queue");
                     if (!reportsQueue.isEmpty()){
+                        LOG.info("Reports queue not empty. Processing sending...");
                         Report report;
                         try {
+                            LOG.info("Taking report from the queue...");
                             report = reportsQueue.take();
                         } catch (InterruptedException e) {
                             try {
