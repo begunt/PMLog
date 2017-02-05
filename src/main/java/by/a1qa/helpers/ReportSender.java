@@ -2,6 +2,8 @@ package by.a1qa.helpers;
 
 
 import by.a1qa.model.Report;
+import javafx.util.Pair;
+import net.rcarz.jiraclient.JiraClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,7 +25,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 public class ReportSender {
     static Logger LOG = LoggerFactory.getLogger(ReportSender.class.getName());
 
-    private static BlockingQueue<Report> reportsQueue = new LinkedBlockingQueue<Report>();
+    private static BlockingQueue<Pair<Report, JiraClient>> reportsQueue = new LinkedBlockingQueue<Pair<Report, JiraClient>>();
     private static final ScheduledExecutorService executorService =
             Executors.newScheduledThreadPool(1);
     private static boolean initialized = false;
@@ -38,26 +40,30 @@ public class ReportSender {
                     LOG.info("Checking reports queue");
                     if (!reportsQueue.isEmpty()){
                         LOG.info("Reports queue not empty. Processing sending...");
-                        Report report;
+                        Pair<Report, JiraClient> reportAndClientPair;
+
                         try {
                             LOG.info("Taking report from the queue...");
-                            report = reportsQueue.take();
+                            reportAndClientPair = reportsQueue.take();
                         } catch (InterruptedException e) {
                             try {
                                 LOG.error("There was an error during pulling report from the queue", e);
                                 Thread.sleep(750);
                             } catch (InterruptedException ignored) {}
                             try {
-                                report = reportsQueue.take();
+                                reportAndClientPair = reportsQueue.take();
                             }  catch (InterruptedException e1) {
-                                report = new Report();
+                                Report report = new Report();
                                 report.setPerson("ERROR DURING PULLING FROM QUEUE. PLEASE REPORT TO DEV.");
+
+                                reportAndClientPair = new Pair<>(report, null);
                                 LOG.error("There was an error during re-pulling report from the queue", e1);
                             }
                         }
                         try {
-                            SpreadsheetHelper.submitReport(report, ALL_REPORTS_TAB_NAME, true);
+                            SpreadsheetHelper.submitReport(reportAndClientPair.getKey(), ALL_REPORTS_TAB_NAME, true);
                             //SpreadsheetHelper.submitReport(report, report.getProduct(),false);
+                            //TODO: Log into Jira worklog - use reportAndClientPair.getValue if != null
                         } catch (InvocationTargetException | IllegalAccessException | IOException e) {
                             LOG.error("There was an error during submitting report to the Spreadsheet", e);
                         }
@@ -75,17 +81,17 @@ public class ReportSender {
         }
     }
 
-    public static void addReportToQueue(Report report) {
+    public static void addReportToQueue(Report report, JiraClient jiraClient) {
         ReportSender.init();
-        LOG.info(String.format("Adding report to queue: \n %s", report.toString()));
+        LOG.info(String.format("Adding report to queue: \n %s", report.getPerson()));
         try {
-            reportsQueue.put(report);
+            reportsQueue.put(new Pair<>(report, jiraClient));
         } catch (InterruptedException e) {
             try {
                 LOG.error("There was an error during adding report to the queue. Trying again...", e);
                 Thread.sleep(500);
             } catch (InterruptedException ignored) {}
-            addReportToQueue(report);
+            addReportToQueue(report, jiraClient);
         }
     }
 }

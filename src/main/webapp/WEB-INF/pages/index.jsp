@@ -7,7 +7,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Вход</title>
+    <title>Log In</title>
     <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/css/sb-admin.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/css/plugins/morris.css" rel="stylesheet">
@@ -28,15 +28,16 @@
             <c:url var="addAction" value="/login"/>
             <form:form action="${addAction}" commandName="report" data-toggle="validator" role="form">
                 <div class="form-group">
-                    <%--<label for="login">Логин jira.a1qa</label>
-                    <input class="form-control" placeholder="e.example" id="login" required="1"/>
-                    <label for="password">Пароль jira.a1qa</label>
-                    <input type="password" class="form-control" id="password" required="1"/>--%>
-                    <label for="inputLogin">Login</label>
-                    <form:input path="person" class="form-control" placeholder="address.example@productmadness.com" id="inputLogin" required="true"/>
-                    <label for="inputPassword">Password</label>
-                    <form:input path="password" type="password" class="form-control" id="inputPassword" required="true"/>
-
+                        <div <c:if test="${not empty wrongPass}">class="form-group has-error has-feedback"</c:if>>
+                            <c:if test="${not empty wrongPass}">
+                                <label class="control-label" for="inputLogin">
+                                    Sorry, your username and password are incorrect - please try again.</label>
+                            </c:if>
+                            <label for="inputLogin">Login</label>
+                            <form:input path="person" class="form-control" placeholder="address.example@productmadness.com" id="inputLogin" required="true"/>
+                            <label for="inputPassword">Password</label>
+                            <form:input path="password" type="password" class="form-control" id="inputPassword" required="true"/>
+                        </div>
                 </div>
                 <div>
                     <button type="submit" class="btn btn-default">Save</button>

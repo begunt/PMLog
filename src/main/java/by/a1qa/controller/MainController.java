@@ -1,6 +1,6 @@
 package by.a1qa.controller;
 
-import by.a1qa.model.Employee;
+import by.a1qa.helpers.JiraHelper;
 import by.a1qa.model.Project;
 import by.a1qa.model.Report;
 import by.a1qa.service.DropdownService;
@@ -15,8 +15,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
+
+import static by.a1qa.helpers.CommonData.AQA_JIRA_CLIENT_SESSION_ATTR;
 
 /**
  * Created by tbegu_000 on 06.11.2016.
@@ -57,30 +60,35 @@ public class MainController {
     }
 
     @RequestMapping(value = "/login",method = RequestMethod.POST)
-    public ModelAndView loginPMLog (@ModelAttribute("report") Report report){
-            ModelAndView modelAndView = new ModelAndView();
+    public ModelAndView loginPMLog (@ModelAttribute("report") Report report, HttpServletRequest request){
+        ModelAndView modelAndView = new ModelAndView();
+
+        if (JiraHelper.isAqaCredentialValid(report)){
+            request.getSession().setAttribute(AQA_JIRA_CLIENT_SESSION_ATTR, JiraHelper.getAqaJiraClient(report));
+
             modelAndView.addObject("project", new Project());
             List<Project> listOfProjects = this.projectService.listProjects();
-
             for (Project project: listOfProjects){
                 project.setCustomFields(this.fieldService.listFieldsByIdProject(project.getIdProject()));
             }
-
             modelAndView.addObject("listProjects", listOfProjects);
             modelAndView.addObject("report", report);
             modelAndView.addObject("listDropdown", this.dropdownService.listDropdowns());
             List<Report> listOfReports = reportController.getListOfReports();
             if(!listOfReports.isEmpty())
                 modelAndView.addObject("listReports",
-                    reportController.getListOfReportsDao().getListOfReportsByPerson(listOfReports, report.getPerson()));
-
-        //modelAndView.addObject("listFields", this.fieldService.listFields());
+                        reportController.getListOfReportsDao().getListOfReportsByPerson(listOfReports, report.getPerson()));
             modelAndView.addObject("reportSession", report);
-
             modelAndView.setViewName("tasks");
+        }
+        else{
+            modelAndView.addObject("wrongPass", new Boolean(true));
+            modelAndView.addObject("report", new Report());
+            modelAndView.setViewName("index");
 
-            return modelAndView;
+        }
 
+        return modelAndView;
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
@@ -88,7 +96,7 @@ public class MainController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("success", new Boolean(true));
         modelAndView.setViewName("index");
-        request.removeAttribute("employeeSession");
+        request.removeAttribute("reportSession");
 
         return modelAndView;
     }

@@ -165,6 +165,14 @@
             <version>1.22.0</version>
         </dependency>
 
+        <!-- Jira client-->
+        <dependency>
+            <groupId>net.rcarz</groupId>
+            <artifactId>jira-client</artifactId>
+            <version>0.5</version>
+            <scope>compile</scope>
+        </dependency>
+
         <!--MysQL-->
         <dependency>
             <groupId>mysql</groupId>
@@ -174,7 +182,7 @@
     </dependencies>
 
     <build>
-        <finalName>BookManger</finalName>
+        <finalName>pmlog</finalName>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>

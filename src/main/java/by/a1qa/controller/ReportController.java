@@ -9,6 +9,7 @@ import by.a1qa.service.DropdownService;
 import by.a1qa.service.FieldService;
 import by.a1qa.service.ListOfReportsService;
 import by.a1qa.service.ProjectService;
+import net.rcarz.jiraclient.JiraClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
+
+import static by.a1qa.helpers.CommonData.AQA_JIRA_CLIENT_SESSION_ATTR;
 
 /**
  * Created by tbegu_000 on 24.01.2017.
@@ -138,7 +141,6 @@ public class ReportController {
 */
     @RequestMapping("sent/{person:.*}")
     public String sentListOfReports(@PathVariable("person") String person, Model model, HttpServletRequest request){
-
         List<Report> tempListOfReports, listOfReportsFromBD;
         tempListOfReports = this.listOfReportsDao.getListOfReportsByPerson(listOfReports, person);//получить список репортов из общего списка по Логину
         this.listOfReportsService.addListOfReports(tempListOfReports);// добавить полученный список в БД
@@ -147,7 +149,7 @@ public class ReportController {
         //добавить все репорты из БД в гугл доку
         for (Report report: listOfReportsFromBD){
             if(report.getPerson().equals(person))
-                ReportSender.addReportToQueue(report);
+                ReportSender.addReportToQueue(report, (JiraClient) request.getSession().getAttribute(AQA_JIRA_CLIENT_SESSION_ATTR));
         }
 
         this.listOfReportsService.removeListOfReports(tempListOfReports);//удалить добавленные в гугл доку репорты из БД
