@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -61,10 +62,12 @@ public class ListOfReportsDao {
     }
 
     public List<Report> removeListOfReportsByPerson(List<Report> currentListOfReports, String person) {
-        //List<Report> tempListOfReports = new ArrayList<>();
-        for(int i=0; i<currentListOfReports.size();i++){
-            if(currentListOfReports.get(i).getPerson().equals(person))
-                currentListOfReports.remove(i);
+        Iterator iterator = currentListOfReports.iterator();
+        while (iterator.hasNext()){
+            Report report = (Report) iterator.next();
+            if (report.getPerson().equals(person)){
+                iterator.remove();
+            }
         }
         return currentListOfReports;
     }
