@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
 
+import static by.a1qa.helpers.CommonData.CommonMethods.timeToMinParse;
+
 /**
  * Created by alexei.khilchuk on 23/01/2017.
  */
@@ -184,7 +186,7 @@ public class Report implements Serializable{
     }
 
     public void setTime(String time) {
-        this.time = time;
+        this.time = String.valueOf(timeToMinParse(time));
     }
 
     public String getComment() {

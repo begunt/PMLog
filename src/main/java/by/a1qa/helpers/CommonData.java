@@ -37,15 +37,22 @@ public class CommonData {
     public static class CommonMethods{
         public static float timeToMinParse(String input) {
             float result = 0;
-            String number = "";
-            for (int i = 0; i < input.length(); i++) {
-                char c = input.charAt(i);
-                if (Character.isDigit(c)) {
-                    number += c;
-                } else if (Character.isLetter(c) && !number.isEmpty()) {
-                    float tmp = convertToMin(Integer.parseInt(number), c);
-                    result += tmp;
-                    number = "";
+            if (input != null){
+                String number = "";
+                for (int i = 0; i < input.length(); i++) {
+                    char c = input.charAt(i);
+                    if (Character.isDigit(c)) {
+                        number += c;
+                        if (number.length() == input.length()){
+                            float tmp = convertToMin(Integer.parseInt(number), 'm');
+                            result += tmp;
+                            number = "";
+                        }
+                    } else if (Character.isLetter(c) && !number.isEmpty()) {
+                        float tmp = convertToMin(Integer.parseInt(number), c);
+                        result += tmp;
+                        number = "";
+                    }
                 }
             }
             return result;
