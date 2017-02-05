@@ -32,7 +32,9 @@ public class CommonData {
             Integer.valueOf(appProperties.getProperty("numOfReportsToResetColumnPositionCache"));
     public static final String ALL_REPORTS_TAB_NAME =
             appProperties.getProperty("allReportsTabName");
-
+    public static final String AQA_JIRA_HOST =
+            appProperties.getProperty("aqaJiraHost");
+    public static final String AQA_JIRA_CLIENT_SESSION_ATTR = "aqaJiraClient";
 
     public static class CommonMethods{
         public static int timeToMinParse(String input) {
