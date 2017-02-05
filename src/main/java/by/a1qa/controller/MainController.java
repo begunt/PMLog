@@ -22,7 +22,7 @@ import java.util.List;
  * Created by tbegu_000 on 06.11.2016.
  */
 @Controller
-@SessionAttributes("employeeSession")
+@SessionAttributes("reportSession")
 public class MainController {
 
     private ProjectService projectService;
@@ -75,7 +75,10 @@ public class MainController {
                     reportController.getListOfReportsDao().getListOfReportsByPerson(listOfReports, report.getPerson()));
 
         //modelAndView.addObject("listFields", this.fieldService.listFields());
+            modelAndView.addObject("reportSession", report);
+
             modelAndView.setViewName("tasks");
+
             return modelAndView;
 
     }

@@ -1,10 +1,11 @@
 <%@ page import="by.a1qa.model.Project" %>
+<%@ page import="by.a1qa.model.Report" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib prefix="from" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%--<!--<%Employee employeeSession = (Employee) session.getAttribute("employeeSession");%>-->--%>
+<%Report reportSession =(Report) session.getAttribute("reportSession");%>
 
 <html>
 <head>
@@ -216,7 +217,7 @@
 
                 <button type="button" class="btn btn-primary" id="edit" style="margin-left: 0px;"
                         onClick='location.href="<c:url
-                                value="/reportController/sent/${report.person}"/>"'>Submit
+                                value="/reportController/sent/${reportSession.person}"/>"'>Submit
                 </button>
             </c:if>
 
@@ -243,8 +244,8 @@
                                        class="form-horizontal">
                                 <div class="modal-body">
                                     <div class="form-group">
-                                        <form:input path="person" style="display: none;" value="${report.person}"/>
-                                        <form:input path="password" style="display: none;" value="${report.password}"/>
+                                        <form:input path="person" style="display: none;" value="${reportSession.person}"/>
+                                        <form:input path="password" style="display: none;" value="${reportSession.password}"/>
                                         <form:input path="idReport" style="display: none;" value="${report.idReport}"/>
                                         <label for="selectIdProject" class="col-sm-2 control-label"
                                                style="width: 187px; text-align: left; ">Product</label>

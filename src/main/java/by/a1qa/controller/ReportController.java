@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -74,10 +75,15 @@ public class ReportController {
         model.addAttribute("listDropdown", this.dropdownService.listDropdowns());
 
         //modelAndView.addObject("listFields", this.fieldService.listFields());
-        Report reportWithPerson = new Report();
+
+        /*HttpSession session = request.getSession();
+        String person = (String)session.getAttribute("personFromReportSession");*/
+
+        /*Report reportWithPerson = new Report();
         reportWithPerson.setPerson(personEmail);
         reportWithPerson.setPassword(password);
-        model.addAttribute("report", reportWithPerson);
+        model.addAttribute("report", reportWithPerson);*/
+        model.addAttribute("report", new Report());
         model.addAttribute("listFields", this.fieldService.listFields());
         model.addAttribute("listReports", this.listOfReportsDao.getListOfReportsByPerson(listOfReports, personEmail));
         model.addAttribute("forAddButton", "");
@@ -157,10 +163,11 @@ public class ReportController {
         model.addAttribute("listDropdown", this.dropdownService.listDropdowns());
 
         //modelAndView.addObject("listFields", this.fieldService.listFields());
-        Report reportWithPerson = new Report();
+        /*Report reportWithPerson = new Report();
         reportWithPerson.setPerson(personEmail);
         reportWithPerson.setPassword(password);
-        model.addAttribute("report", reportWithPerson);
+        model.addAttribute("report", reportWithPerson);*/
+        model.addAttribute("report", new Report());
         model.addAttribute("listFields", this.fieldService.listFields());
         model.addAttribute("listReports", this.listOfReportsDao.getListOfReportsByPerson(listOfReports, personEmail));
         return "tasks";
@@ -178,10 +185,11 @@ public class ReportController {
         model.addAttribute("listDropdown", this.dropdownService.listDropdowns());
 
         //modelAndView.addObject("listFields", this.fieldService.listFields());
-        Report reportWithPerson = new Report();
+        /*Report reportWithPerson = new Report();
         reportWithPerson.setPerson(personEmail);
         reportWithPerson.setPassword(password);
-        model.addAttribute("report", reportWithPerson);
+        model.addAttribute("report", reportWithPerson);*/
+        model.addAttribute("report", new Report());
         model.addAttribute("listFields", this.fieldService.listFields());
         model.addAttribute("listReports", this.listOfReportsDao.getListOfReportsByPerson(listOfReports, personEmail));
         model.addAttribute("forAddButton", "updating");
