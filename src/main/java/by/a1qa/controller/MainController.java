@@ -28,6 +28,7 @@ public class MainController {
     private ProjectService projectService;
     private FieldService fieldService;
     private DropdownService dropdownService;
+    private ReportController reportController = new ReportController();
 
     @Autowired(required = true)
     @Qualifier(value = "projectService")
@@ -68,8 +69,12 @@ public class MainController {
             modelAndView.addObject("listProjects", listOfProjects);
             modelAndView.addObject("report", report);
             modelAndView.addObject("listDropdown", this.dropdownService.listDropdowns());
+            List<Report> listOfReports = reportController.getListOfReports();
+            if(!listOfReports.isEmpty())
+                modelAndView.addObject("listReports",
+                    reportController.getListOfReportsDao().getListOfReportsByPerson(listOfReports, report.getPerson()));
 
-            //modelAndView.addObject("listFields", this.fieldService.listFields());
+        //modelAndView.addObject("listFields", this.fieldService.listFields());
             modelAndView.setViewName("tasks");
             return modelAndView;
 

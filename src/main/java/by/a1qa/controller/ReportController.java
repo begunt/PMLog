@@ -26,13 +26,13 @@ import java.util.List;
 @RequestMapping("/reportController")
 public class ReportController {
 
-    private List<Report> listOfReports = new ArrayList<>();
+    private static List<Report> listOfReports = new ArrayList<>();
     private ReportDao1 reportDao = new ReportDao1();
-    private ListOfReportsDao listOfReportsDao = new ListOfReportsDao();
+    private static ListOfReportsDao listOfReportsDao = new ListOfReportsDao();
     private ProjectService projectService;
     private FieldService fieldService;
     private DropdownService dropdownService;
-    private String personEmail;
+    private static String personEmail;
     private String password;
     private ListOfReportsService listOfReportsService;
 
@@ -187,5 +187,29 @@ public class ReportController {
         model.addAttribute("forAddButton", "updating");
 
         return "tasks";
+    }
+
+    public ListOfReportsDao getListOfReportsDao() {
+        return listOfReportsDao;
+    }
+
+    public void setListOfReportsDao(ListOfReportsDao listOfReportsDao) {
+        this.listOfReportsDao = listOfReportsDao;
+    }
+
+    public List<Report> getListOfReports() {
+        return listOfReports;
+    }
+
+    public void setListOfReports(List<Report> listOfReports) {
+        this.listOfReports = listOfReports;
+    }
+
+    public String getPersonEmail() {
+        return personEmail;
+    }
+
+    public void setPersonEmail(String personEmail) {
+        this.personEmail = personEmail;
     }
 }

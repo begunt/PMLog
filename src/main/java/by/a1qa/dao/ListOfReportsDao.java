@@ -61,12 +61,12 @@ public class ListOfReportsDao {
     }
 
     public List<Report> removeListOfReportsByPerson(List<Report> currentListOfReports, String person) {
-        List<Report> tempListOfReports = new ArrayList<>();
+        //List<Report> tempListOfReports = new ArrayList<>();
         for(int i=0; i<currentListOfReports.size();i++){
-            if(currentListOfReports.get(i).getPerson() == person)
-                tempListOfReports.remove(i);
+            if(currentListOfReports.get(i).getPerson().equals(person))
+                currentListOfReports.remove(i);
         }
-        return tempListOfReports;
+        return currentListOfReports;
     }
 
     public List<Report> listOfReports() {
