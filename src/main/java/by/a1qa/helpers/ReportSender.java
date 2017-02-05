@@ -57,7 +57,7 @@ public class ReportSender {
                         }
                         try {
                             SpreadsheetHelper.submitReport(report, ALL_REPORTS_TAB_NAME, true);
-                            SpreadsheetHelper.submitReport(report, report.getProduct(),false);
+                            //SpreadsheetHelper.submitReport(report, report.getProduct(),false);
                         } catch (InvocationTargetException | IllegalAccessException | IOException e) {
                             LOG.error("There was an error during submitting report to the Spreadsheet", e);
                         }
