@@ -35,21 +35,22 @@ public class CommonData {
 
 
     public static class CommonMethods{
-        public static float timeToMinParse(String input) {
-            float result = 0;
+        public static int timeToMinParse(String input) {
+            int result = 0;
             if (input != null){
+
                 String number = "";
                 for (int i = 0; i < input.length(); i++) {
                     char c = input.charAt(i);
                     if (Character.isDigit(c)) {
                         number += c;
-                        if (number.length() == input.length()){
-                            float tmp = convertToMin(Integer.parseInt(number), 'm');
+                        if (input.indexOf(c) == input.length() - 1){
+                            int tmp = convertToMin(Integer.parseInt(number), 'm');
                             result += tmp;
                             number = "";
                         }
                     } else if (Character.isLetter(c) && !number.isEmpty()) {
-                        float tmp = convertToMin(Integer.parseInt(number), c);
+                        int tmp = convertToMin(Integer.parseInt(number), c);
                         result += tmp;
                         number = "";
                     }
@@ -58,12 +59,12 @@ public class CommonData {
             return result;
         }
 
-        private static float convertToMin(int value, char unit) {
+        private static int convertToMin(int value, char unit) {
             switch(unit) {
                 case 'd' : return value * 1440;
                 case 'h' : return value * 60;
                 case 'm' : return (value);
-                case 's' : return ((float)value / 60);
+                case 's' : return (value / 60);
             }
             return 0;
         }
