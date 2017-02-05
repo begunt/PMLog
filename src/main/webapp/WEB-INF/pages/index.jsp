@@ -32,8 +32,10 @@
                     <input class="form-control" placeholder="e.example" id="login" required="1"/>
                     <label for="password">Пароль jira.a1qa</label>
                     <input type="password" class="form-control" id="password" required="1"/>--%>
-                    <label for="inputEmail">Email</label>
-                    <form:input path="person" type="email" class="form-control" placeholder="address.example@productmadness.com" id="inputEmail" required="true"/>
+                    <label for="inputLogin">Login</label>
+                    <form:input path="person" class="form-control" placeholder="address.example@productmadness.com" id="inputLogin" required="true"/>
+                    <label for="inputPassword">Password</label>
+                    <form:input path="password" type="password" class="form-control" id="inputPassword" required="true"/>
 
                 </div>
                 <div>

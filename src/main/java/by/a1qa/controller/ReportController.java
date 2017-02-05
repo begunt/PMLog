@@ -1,11 +1,13 @@
 package by.a1qa.controller;
 
+import by.a1qa.dao.ListOfReportsDao;
 import by.a1qa.dao.ReportDao1;
 import by.a1qa.helpers.ReportSender;
 import by.a1qa.model.Project;
 import by.a1qa.model.Report;
 import by.a1qa.service.DropdownService;
 import by.a1qa.service.FieldService;
+import by.a1qa.service.ListOfReportsService;
 import by.a1qa.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -26,10 +28,19 @@ public class ReportController {
 
     private List<Report> listOfReports = new ArrayList<>();
     private ReportDao1 reportDao = new ReportDao1();
+    private ListOfReportsDao listOfReportsDao = new ListOfReportsDao();
     private ProjectService projectService;
     private FieldService fieldService;
     private DropdownService dropdownService;
     private String personEmail;
+    private String password;
+    private ListOfReportsService listOfReportsService;
+
+    @Autowired(required = true)
+    @Qualifier(value = "listOfReportsService")
+    public void setListOfReportsService(ListOfReportsService listOfReportsService) {
+        this.listOfReportsService = listOfReportsService;
+    }
 
     @Autowired(required = true)
     @Qualifier(value = "projectService")
@@ -65,9 +76,10 @@ public class ReportController {
         //modelAndView.addObject("listFields", this.fieldService.listFields());
         Report reportWithPerson = new Report();
         reportWithPerson.setPerson(personEmail);
+        reportWithPerson.setPassword(password);
         model.addAttribute("report", reportWithPerson);
         model.addAttribute("listFields", this.fieldService.listFields());
-        model.addAttribute("listReports", listOfReports);
+        model.addAttribute("listReports", this.listOfReportsDao.getListOfReportsByPerson(listOfReports, personEmail));
         model.addAttribute("forAddButton", "");
         return "tasks";
     }
@@ -78,10 +90,12 @@ public class ReportController {
             headers="Content-Type=application/json")
     @ResponseBody
     public String addReport(@RequestBody Report report, HttpServletRequest request) {
-        report.setSelectedProject(projectService.getProjectByName(report.getProduct()));
-        report.getSelectedProject().setCustomFields(this.fieldService.listFieldsByIdProject(report.getSelectedProject
-                ().getIdProject()));
+        report.setSelectedProject(projectService.getProjectByName(report.getProduct()).getIdProject());
+        Project selectedProject = this.projectService.getProjectById(report.getSelectedProject());
+        selectedProject.setCustomFields(this.fieldService.listFieldsByIdProject(report.getSelectedProject()));
         personEmail = report.getPerson();
+        password = report.getPassword();
+
         if (report.getIdReport() == 0)
             listOfReports = this.reportDao.addReport(report, listOfReports);
         else listOfReports = this.reportDao.updateReport(report, listOfReports);
@@ -108,7 +122,7 @@ public class ReportController {
         model.addAttribute("listDropdown", this.dropdownService.listDropdowns());
 
         model.addAttribute("report", this.reportDao.getReportById(listOfReports, id));
-        model.addAttribute("listReports", listOfReports);
+        model.addAttribute("listReports", this.listOfReportsDao.getListOfReportsByPerson(listOfReports, personEmail));
 
         return "tasks";
     }
@@ -116,12 +130,23 @@ public class ReportController {
     /*@RequestMapping(value = "sent", method = RequestMethod.POST)
     public String sentReport(@ModelAttribute("listOfReports") List<Report> listOfReports, Model model, HttpServletRequest request) {
 */
-    @RequestMapping(value = "sent", method = RequestMethod.GET)
-    public String sentReport (Model model, HttpServletRequest request){
-        for (Report report: listOfReports){
-            ReportSender.addReportToQueue(report);
+    @RequestMapping("sent/{person:.*}")
+    public String sentListOfReports(@PathVariable("person") String person, Model model, HttpServletRequest request){
+
+        List<Report> tempListOfReports, listOfReportsFromBD;
+        tempListOfReports = this.listOfReportsDao.getListOfReportsByPerson(listOfReports, person);//получить список репортов из общего списка по Логину
+        this.listOfReportsService.addListOfReports(tempListOfReports);// добавить полученный список в БД
+        listOfReportsFromBD = this.listOfReportsService.listOfReports();// получить список из БД
+
+        //добавить все репорты из БД в гугл доку
+        for (Report report: listOfReportsFromBD){
+            if(report.getPerson().equals(person))
+                ReportSender.addReportToQueue(report);
         }
-        listOfReports.clear();
+
+        this.listOfReportsService.removeListOfReports(tempListOfReports);//удалить добавленные в гугл доку репорты из БД
+        listOfReports = listOfReportsDao.removeListOfReportsByPerson(listOfReports, person); //удалить их из общего списка
+
         model.addAttribute("project", new Project());
         List<Project> listOfProjects = this.projectService.listProjects();
 
@@ -134,9 +159,10 @@ public class ReportController {
         //modelAndView.addObject("listFields", this.fieldService.listFields());
         Report reportWithPerson = new Report();
         reportWithPerson.setPerson(personEmail);
+        reportWithPerson.setPassword(password);
         model.addAttribute("report", reportWithPerson);
         model.addAttribute("listFields", this.fieldService.listFields());
-        model.addAttribute("listReports", listOfReports);
+        model.addAttribute("listReports", this.listOfReportsDao.getListOfReportsByPerson(listOfReports, personEmail));
         return "tasks";
     }
 
@@ -154,9 +180,10 @@ public class ReportController {
         //modelAndView.addObject("listFields", this.fieldService.listFields());
         Report reportWithPerson = new Report();
         reportWithPerson.setPerson(personEmail);
+        reportWithPerson.setPassword(password);
         model.addAttribute("report", reportWithPerson);
         model.addAttribute("listFields", this.fieldService.listFields());
-        model.addAttribute("listReports", listOfReports);
+        model.addAttribute("listReports", this.listOfReportsDao.getListOfReportsByPerson(listOfReports, personEmail));
         model.addAttribute("forAddButton", "updating");
 
         return "tasks";

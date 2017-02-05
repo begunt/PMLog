@@ -1,6 +1,7 @@
 package by.a1qa.dao;
 
 import by.a1qa.model.Report;
+import org.springframework.stereotype.Repository;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -9,6 +10,7 @@ import java.util.List;
 /**
  * Created by tbegu_000 on 26.01.2017.
  */
+@Repository
 public class ReportDao1 {
 
     public List<Report> addReport(Report report, List<Report> listOfReports) {
@@ -64,6 +66,7 @@ public class ReportDao1 {
         }
         return new Report();
     }
+
 
     public Integer getIndexOfReportById(List<Report> listOfReports, Report report){
         for(int i=0; i<listOfReports.size();i++){
