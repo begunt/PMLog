@@ -2,36 +2,93 @@ package by.a1qa.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
+
+import static by.a1qa.helpers.CommonData.CommonMethods.timeToMinParse;
 
 /**
  * Created by alexei.khilchuk on 23/01/2017.
  */
+@Entity
+@Table(name = "report")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Report implements Serializable{
 
+    @Id
+    @Column(name = "idReport")
     private int idReport;
-    private Project selectedProject;
+
+    @Column(name = "selectedProject")
+    private int selectedProject;
+
+    @Column(name = "timestamp")
     private String timestamp;
+
+    @Column(name = "person")
     private String person;
+
+    @Column(name = "password")
+    private String password;
+
+    @Column(name = "product")
     private String product;
+
+    @Column(name = "project")
     private String project;
+
+    @Column(name = "activity")
     private String activity;
+
+    @Column(name = "sprint")
     private String sprint;
+
+    @Column(name = "build")
     private String build;
+
+    @Column(name = "devices")
     private String devices;
+
+    @Column(name = "environment")
     private String environment;
+
+    @Column(name = "time")
     private String time;
+
+    @Column(name = "comment")
     private String comment;
+
+    @Column(name = "link")
     private String link;
+
+    @Column(name = "numberOfCheckedStories")
     private int numberOfCheckedStories;
+
+    @Column(name = "numberOfReopenedStories")
     private int numberOfReopenedStories;
+
+    @Column(name = "linkToReopenedStories")
     private String linkToReopenedStories;
+
+    @Column(name = "numberOfCheckedDefects")
     private int numberOfCheckedDefects;
+
+    @Column(name = "numberOfReopenedDefects")
     private int numberOfReopenedDefects;
+
+    @Column(name = "linkToReopenedDefects")
     private String linkToReopenedDefects;
+
+    @Column(name = "milestone")
     private String milestone;
+
+    @Column(name = "testruns")
     private String testruns;
+
+    @Column(name = "numberOfCheckedCases")
     private String numberOfCheckedCases;
 
     public Report(){}
@@ -58,6 +115,14 @@ public class Report implements Serializable{
 
     public void setPerson(String person) {
         this.person = person;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getProduct() {
@@ -121,7 +186,7 @@ public class Report implements Serializable{
     }
 
     public void setTime(String time) {
-        this.time = time;
+        this.time = String.valueOf(timeToMinParse(time));
     }
 
     public String getComment() {
@@ -212,12 +277,22 @@ public class Report implements Serializable{
         this.numberOfCheckedCases = numberOfCheckedCases;
     }
 
+    public int getSelectedProject() {
+        return selectedProject;
+    }
+
+    public void setSelectedProject(int selectedProject) {
+        this.selectedProject = selectedProject;
+    }
+
     @Override
     public String toString() {
         return "Report{" +
                 "idReport=" + idReport +
+                ", selectedProject=" + selectedProject +
                 ", timestamp='" + timestamp + '\'' +
                 ", person='" + person + '\'' +
+                ", password='" + password + '\'' +
                 ", product='" + product + '\'' +
                 ", project='" + project + '\'' +
                 ", activity='" + activity + '\'' +
@@ -238,13 +313,5 @@ public class Report implements Serializable{
                 ", testruns='" + testruns + '\'' +
                 ", numberOfCheckedCases='" + numberOfCheckedCases + '\'' +
                 '}';
-    }
-
-    public Project getSelectedProject() {
-        return selectedProject;
-    }
-
-    public void setSelectedProject(Project selectedProject) {
-        this.selectedProject = selectedProject;
     }
 }

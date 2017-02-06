@@ -32,31 +32,41 @@ public class CommonData {
             Integer.valueOf(appProperties.getProperty("numOfReportsToResetColumnPositionCache"));
     public static final String ALL_REPORTS_TAB_NAME =
             appProperties.getProperty("allReportsTabName");
-
+    public static final String AQA_JIRA_HOST =
+            appProperties.getProperty("aqaJiraHost");
+    public static final String AQA_JIRA_CLIENT_SESSION_ATTR = "aqaJiraClient";
 
     public static class CommonMethods{
-        public static float timeToMinParse(String input) {
-            float result = 0;
-            String number = "";
-            for (int i = 0; i < input.length(); i++) {
-                char c = input.charAt(i);
-                if (Character.isDigit(c)) {
-                    number += c;
-                } else if (Character.isLetter(c) && !number.isEmpty()) {
-                    float tmp = convertToMin(Integer.parseInt(number), c);
-                    result += tmp;
-                    number = "";
+        public static int timeToMinParse(String input) {
+            int result = 0;
+            if (input != null){
+
+                String number = "";
+                for (int i = 0; i < input.length(); i++) {
+                    char c = input.charAt(i);
+                    if (Character.isDigit(c)) {
+                        number += c;
+                        if (input.indexOf(c) == input.length() - 1){
+                            int tmp = convertToMin(Integer.parseInt(number), 'm');
+                            result += tmp;
+                            number = "";
+                        }
+                    } else if (Character.isLetter(c) && !number.isEmpty()) {
+                        int tmp = convertToMin(Integer.parseInt(number), c);
+                        result += tmp;
+                        number = "";
+                    }
                 }
             }
             return result;
         }
 
-        private static float convertToMin(int value, char unit) {
+        private static int convertToMin(int value, char unit) {
             switch(unit) {
                 case 'd' : return value * 1440;
                 case 'h' : return value * 60;
                 case 'm' : return (value);
-                case 's' : return ((float)value / 60);
+                case 's' : return (value / 60);
             }
             return 0;
         }

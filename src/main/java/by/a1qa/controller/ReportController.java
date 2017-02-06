@@ -1,12 +1,15 @@
 package by.a1qa.controller;
 
+import by.a1qa.dao.ListOfReportsDao;
 import by.a1qa.dao.ReportDao1;
 import by.a1qa.helpers.ReportSender;
 import by.a1qa.model.Project;
 import by.a1qa.model.Report;
 import by.a1qa.service.DropdownService;
 import by.a1qa.service.FieldService;
+import by.a1qa.service.ListOfReportsService;
 import by.a1qa.service.ProjectService;
+import net.rcarz.jiraclient.JiraClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -14,8 +17,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
+
+import static by.a1qa.helpers.CommonData.AQA_JIRA_CLIENT_SESSION_ATTR;
 
 /**
  * Created by tbegu_000 on 24.01.2017.
@@ -24,12 +30,21 @@ import java.util.List;
 @RequestMapping("/reportController")
 public class ReportController {
 
-    private List<Report> listOfReports = new ArrayList<>();
+    private static List<Report> listOfReports = new ArrayList<>();
     private ReportDao1 reportDao = new ReportDao1();
+    private static ListOfReportsDao listOfReportsDao = new ListOfReportsDao();
     private ProjectService projectService;
     private FieldService fieldService;
     private DropdownService dropdownService;
-    private String personEmail;
+    private static String personEmail;
+    private String password;
+    private ListOfReportsService listOfReportsService;
+
+    @Autowired(required = true)
+    @Qualifier(value = "listOfReportsService")
+    public void setListOfReportsService(ListOfReportsService listOfReportsService) {
+        this.listOfReportsService = listOfReportsService;
+    }
 
     @Autowired(required = true)
     @Qualifier(value = "projectService")
@@ -63,11 +78,17 @@ public class ReportController {
         model.addAttribute("listDropdown", this.dropdownService.listDropdowns());
 
         //modelAndView.addObject("listFields", this.fieldService.listFields());
-        Report reportWithPerson = new Report();
+
+        /*HttpSession session = request.getSession();
+        String person = (String)session.getAttribute("personFromReportSession");*/
+
+        /*Report reportWithPerson = new Report();
         reportWithPerson.setPerson(personEmail);
-        model.addAttribute("report", reportWithPerson);
+        reportWithPerson.setPassword(password);
+        model.addAttribute("report", reportWithPerson);*/
+        model.addAttribute("report", new Report());
         model.addAttribute("listFields", this.fieldService.listFields());
-        model.addAttribute("listReports", listOfReports);
+        model.addAttribute("listReports", this.listOfReportsDao.getListOfReportsByPerson(listOfReports, personEmail));
         model.addAttribute("forAddButton", "");
         return "tasks";
     }
@@ -78,10 +99,12 @@ public class ReportController {
             headers="Content-Type=application/json")
     @ResponseBody
     public String addReport(@RequestBody Report report, HttpServletRequest request) {
-        report.setSelectedProject(projectService.getProjectByName(report.getProduct()));
-        report.getSelectedProject().setCustomFields(this.fieldService.listFieldsByIdProject(report.getSelectedProject
-                ().getIdProject()));
+        report.setSelectedProject(projectService.getProjectByName(report.getProduct()).getIdProject());
+        Project selectedProject = this.projectService.getProjectById(report.getSelectedProject());
+        selectedProject.setCustomFields(this.fieldService.listFieldsByIdProject(report.getSelectedProject()));
         personEmail = report.getPerson();
+        password = report.getPassword();
+
         if (report.getIdReport() == 0)
             listOfReports = this.reportDao.addReport(report, listOfReports);
         else listOfReports = this.reportDao.updateReport(report, listOfReports);
@@ -108,7 +131,7 @@ public class ReportController {
         model.addAttribute("listDropdown", this.dropdownService.listDropdowns());
 
         model.addAttribute("report", this.reportDao.getReportById(listOfReports, id));
-        model.addAttribute("listReports", listOfReports);
+        model.addAttribute("listReports", this.listOfReportsDao.getListOfReportsByPerson(listOfReports, personEmail));
 
         return "tasks";
     }
@@ -116,12 +139,22 @@ public class ReportController {
     /*@RequestMapping(value = "sent", method = RequestMethod.POST)
     public String sentReport(@ModelAttribute("listOfReports") List<Report> listOfReports, Model model, HttpServletRequest request) {
 */
-    @RequestMapping(value = "sent", method = RequestMethod.GET)
-    public String sentReport (Model model, HttpServletRequest request){
-        for (Report report: listOfReports){
-            ReportSender.addReportToQueue(report);
+    @RequestMapping("sent/{person:.*}")
+    public String sentListOfReports(@PathVariable("person") String person, Model model, HttpServletRequest request){
+        List<Report> tempListOfReports, listOfReportsFromBD;
+        tempListOfReports = this.listOfReportsDao.getListOfReportsByPerson(listOfReports, person);//получить список репортов из общего списка по Логину
+        this.listOfReportsService.addListOfReports(tempListOfReports);// добавить полученный список в БД
+        listOfReportsFromBD = this.listOfReportsService.listOfReports();// получить список из БД
+
+        //добавить все репорты из БД в гугл доку
+        for (Report report: listOfReportsFromBD){
+            if(report.getPerson().equals(person))
+                ReportSender.addReportToQueue(report, (JiraClient) request.getSession().getAttribute(AQA_JIRA_CLIENT_SESSION_ATTR));
         }
-        listOfReports.clear();
+
+        this.listOfReportsService.removeListOfReports(tempListOfReports);//удалить добавленные в гугл доку репорты из БД
+        listOfReports = listOfReportsDao.removeListOfReportsByPerson(listOfReports, person); //удалить их из общего списка
+
         model.addAttribute("project", new Project());
         List<Project> listOfProjects = this.projectService.listProjects();
 
@@ -132,11 +165,13 @@ public class ReportController {
         model.addAttribute("listDropdown", this.dropdownService.listDropdowns());
 
         //modelAndView.addObject("listFields", this.fieldService.listFields());
-        Report reportWithPerson = new Report();
+        /*Report reportWithPerson = new Report();
         reportWithPerson.setPerson(personEmail);
-        model.addAttribute("report", reportWithPerson);
+        reportWithPerson.setPassword(password);
+        model.addAttribute("report", reportWithPerson);*/
+        model.addAttribute("report", new Report());
         model.addAttribute("listFields", this.fieldService.listFields());
-        model.addAttribute("listReports", listOfReports);
+        model.addAttribute("listReports", this.listOfReportsDao.getListOfReportsByPerson(listOfReports, personEmail));
         return "tasks";
     }
 
@@ -152,13 +187,39 @@ public class ReportController {
         model.addAttribute("listDropdown", this.dropdownService.listDropdowns());
 
         //modelAndView.addObject("listFields", this.fieldService.listFields());
-        Report reportWithPerson = new Report();
+        /*Report reportWithPerson = new Report();
         reportWithPerson.setPerson(personEmail);
-        model.addAttribute("report", reportWithPerson);
+        reportWithPerson.setPassword(password);
+        model.addAttribute("report", reportWithPerson);*/
+        model.addAttribute("report", new Report());
         model.addAttribute("listFields", this.fieldService.listFields());
-        model.addAttribute("listReports", listOfReports);
+        model.addAttribute("listReports", this.listOfReportsDao.getListOfReportsByPerson(listOfReports, personEmail));
         model.addAttribute("forAddButton", "updating");
 
         return "tasks";
+    }
+
+    public ListOfReportsDao getListOfReportsDao() {
+        return listOfReportsDao;
+    }
+
+    public void setListOfReportsDao(ListOfReportsDao listOfReportsDao) {
+        this.listOfReportsDao = listOfReportsDao;
+    }
+
+    public List<Report> getListOfReports() {
+        return listOfReports;
+    }
+
+    public void setListOfReports(List<Report> listOfReports) {
+        this.listOfReports = listOfReports;
+    }
+
+    public String getPersonEmail() {
+        return personEmail;
+    }
+
+    public void setPersonEmail(String personEmail) {
+        this.personEmail = personEmail;
     }
 }

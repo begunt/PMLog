@@ -1,8 +1,8 @@
 <%@ page import="by.a1qa.model.Employee" %>
+<%@ page import="by.a1qa.model.Report" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%Employee employeeSession =(Employee) session.getAttribute("employeeSession");%>
-
+<%Report reportSession =(Report) session.getAttribute("reportSession");%>
 
 <div id="wrapper">
   <!-- Navigation -->
@@ -14,7 +14,7 @@
     <!-- Top Menu Items -->
     <ul class="nav navbar-right top-nav">
       <li class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> ${report.person} <b></b></a>
+        <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> ${reportSession.person} <b></b></a>
       </li>
     </ul>
 

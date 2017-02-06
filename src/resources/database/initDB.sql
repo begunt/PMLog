@@ -73,3 +73,34 @@ CREATE TABLE IF NOT EXISTS `pmlog`.`dropdown` (
     ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
+
+-- -----------------------------------------------------
+-- Table `pmlog`.`report`
+-- -----------------------------------------------------
+CREATE TABLE `pmlog`.`report` (
+  `idreport` INT NOT NULL,
+  `selectedProject` INT NOT NULL,
+  `timestamp` VARCHAR(45) NOT NULL,
+  `person` VARCHAR(45) NOT NULL,
+  `password` VARCHAR(45) NOT NULL,
+  `product` VARCHAR(45) NOT NULL,
+  `project` VARCHAR(45) NOT NULL,
+  `activity` VARCHAR(45) NOT NULL,
+  `sprint` VARCHAR(45) NULL,
+  `build` VARCHAR(45) NULL,
+  `devices` VARCHAR(45) NULL,
+  `environment` VARCHAR(45) NULL,
+  `time` VARCHAR(45) NULL,
+  `comment` VARCHAR(45) NULL,
+  `link` VARCHAR(45) NULL,
+  `numberOfCheckedStories` INT NULL,
+  `numberOfReopenedStories` INT NULL,
+  `linkToReopenedStories` VARCHAR(45) NULL,
+  `numberOfCheckedDefects` INT NULL,
+  `numberOfReopenedDefects` INT NULL,
+  `linkToReopenedDefects` VARCHAR(45) NULL,
+  `milestone` VARCHAR(45) NULL,
+  `testruns` VARCHAR(45) NULL,
+  `numberOfCheckedCases` INT NULL,
+  `reportcol` VARCHAR(45) NULL,
+  PRIMARY KEY (`idreport`));

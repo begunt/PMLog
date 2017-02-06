@@ -92,6 +92,17 @@
         <property name="typeDao" ref="typeDao"/>
     </bean>
 
+    <!--ListOfReports and ProjectService beans-->
+    <bean id="listOfReportsDao" class="by.a1qa.dao.ListOfReportsDao">
+        <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory"/>
+    </bean>
+    <bean id="listOfReportsService" class="by.a1qa.service.ListOfReportsService">
+        <property name="reportDao" ref="listOfReportsDao"/>
+    </bean>
+    <bean id="listOfReportsServiceMain" class="by.a1qa.service.ListOfReportsService">
+        <property name="reportDao" ref="listOfReportsDao"/>
+    </bean>
+
     <context:component-scan base-package="by.a1qa"/>
 
     <tx:annotation-driven transaction-manager="transactionManager"/>

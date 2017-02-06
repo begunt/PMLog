@@ -4,7 +4,6 @@
 <%@ taglib prefix="from" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-
 <html>
 <head>
     <meta charset="utf-8">
@@ -68,12 +67,19 @@
                                 <label for="password">Пароль jira.a1qa</label>
                                 <input type="password" class="form-control" id="password" required="1"/>--%>
 
+                            <c:if test="${not empty wrongPass}">
+                                <label class="control-label" for="inputLogin">
+                                    Sorry, your username and password are incorrect - please try again.</label>
+                            </c:if>
+
                             <form:input  path="person" type="email" class="form-control gradient-bg" aria-describedby="basic-addon2"
                                         placeholder="address.example@productmadness.com" id="inputEmail"
                                         required="true"/>
                             <span class="input-group-btn">
                                        <button class="btn btn-default gradient-bg" type="submit">Login</button>
                                      </span>
+                            <form:input path="password" type="password" class="form-control" id="inputPassword" required="true"/>
+
                         </div>
                     </form:form>
                 </div>
@@ -82,7 +88,6 @@
         <div class="col-md-1"></div>
     </div>
 </div>
-
 <!-- jQuery -->
 <script src="${pageContext.request.contextPath}/js/jquery.js"></script>
 <!-- Typed JS -->
