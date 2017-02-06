@@ -34,7 +34,7 @@
                                     Sorry, your username and password are incorrect - please try again.</label>
                             </c:if>
                             <label for="inputLogin">Login</label>
-                            <form:input path="person" class="form-control" placeholder="address.example@productmadness.com" id="inputLogin" required="true"/>
+                            <form:input path="person" class="form-control" placeholder="e.example" id="inputLogin" required="true"/>
                             <label for="inputPassword">Password</label>
                             <form:input path="password" type="password" class="form-control" id="inputPassword" required="true"/>
                         </div>

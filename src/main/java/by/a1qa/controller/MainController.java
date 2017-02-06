@@ -64,6 +64,7 @@ public class MainController {
         ModelAndView modelAndView = new ModelAndView();
 
         if (JiraHelper.isAqaCredentialValid(report)){
+       /* if (true){*/
             request.getSession().setAttribute(AQA_JIRA_CLIENT_SESSION_ATTR, JiraHelper.getAqaJiraClient(report));
 
             modelAndView.addObject("project", new Project());
