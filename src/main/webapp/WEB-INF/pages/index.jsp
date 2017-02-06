@@ -4,6 +4,7 @@
 <%@ taglib prefix="from" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
+
 <html>
 <head>
     <meta charset="utf-8">
@@ -11,41 +12,93 @@
     <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/css/sb-admin.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/css/plugins/morris.css" rel="stylesheet">
-    <link href="${pageContext.request.contextPath}/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style-index.css" />
-<head>
+    <link href="${pageContext.request.contextPath}/font-awesome/css/font-awesome.min.css" rel="stylesheet"
+          type="text/css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style-index.css"/>
+    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans" rel="stylesheet">
+<style>
+    .container-background{
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background: linear-gradient(45deg, rgba(128,0,128,1) 0%, rgba(128,0,128,1) 6%, rgba(6,0,6,1) 67%, rgba(0,0,0,1) 70%);
+        min-height: 100%;
+    }
+    .gradient-bg{
+        background: linear-gradient(45deg, rgba(128,0,128,1) 0%, rgba(128,0,128,1) 6%, rgba(6,0,6,1) 67%, rgba(0,0,0,1) 70%);
+        color: white!important;
+    }
+    input[type="email"].form-control::-webkit-input-placeholder {
+        color: whitesmoke;
+        opacity: 0.5;
+    }
+    input:focus::-webkit-input-placeholder {
+        transition: text-indent 0.5s 0.5s ease;
+        text-indent: -100%;
+        opacity: 1;
+    }
+</style>
+
+    <head>
 <body>
-<div>
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="/" target="_blank">Product Madness - A1QA (pre-alpha)</a>
-        </div>
-    </nav>
+<div class="container-background" >
 
-    <div class="loginBlock">
-        <div class="container-fluid">
-            <h1>Please enter your personal information</h1>
-            <c:url var="addAction" value="/login"/>
-            <form:form action="${addAction}" commandName="report" data-toggle="validator" role="form">
-                <div class="form-group">
-                    <%--<label for="login">Логин jira.a1qa</label>
-                    <input class="form-control" placeholder="e.example" id="login" required="1"/>
-                    <label for="password">Пароль jira.a1qa</label>
-                    <input type="password" class="form-control" id="password" required="1"/>--%>
-                    <label for="inputEmail">Email</label>
-                    <form:input path="person" type="email" class="form-control" placeholder="address.example@productmadness.com" id="inputEmail" required="true"/>
+    <div class="panel-heading">
+        <div class="page-header" style="text-align: center">
+            <div style="height: 51px; font-size: 36px; color: white">
+                <span class="element"></span>
+            </div>
 
-                </div>
-                <div>
-                    <button type="submit" class="btn btn-default">Save</button>
-                </div>
-
-            </form:form>
         </div>
     </div>
+    <div class="container">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+            <div class="panel panel-default gradient-bg">
+                <div class="panel-heading gradient-bg">
+                    <h4>Please enter your personal information</h4>
+                </div>
+                <div class="panel-body">
+                    <c:url var="addAction" value="/login"/>
+                    <form:form action="${addAction}" commandName="report" data-toggle="validator" role="form">
+                        <div class="input-group input-group-lg">
+                                <%--<label for="login">Логин jira.a1qa</label>
+                                <input class="form-control" placeholder="e.example" id="login" required="1"/>
+                                <label for="password">Пароль jira.a1qa</label>
+                                <input type="password" class="form-control" id="password" required="1"/>--%>
+
+                            <form:input  path="person" type="email" class="form-control gradient-bg" aria-describedby="basic-addon2"
+                                        placeholder="address.example@productmadness.com" id="inputEmail"
+                                        required="true"/>
+                            <span class="input-group-btn">
+                                       <button class="btn btn-default gradient-bg" type="submit">Login</button>
+                                     </span>
+                        </div>
+                    </form:form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-1"></div>
+    </div>
 </div>
+
 <!-- jQuery -->
 <script src="${pageContext.request.contextPath}/js/jquery.js"></script>
+<!-- Typed JS -->
+<script src="${pageContext.request.contextPath}/js/typed.js-master/js/typed.js"></script>
+<script>
+    $(function(){
+        $(".element").typed({
+            strings: ["Product Madness", "A1QA"],
+            typeSpeed: 50,
+            backSpeed: 50,
+            loop: true,
+            cursorChar: "|",
+            backDelay: 1000
+
+        });
+    });
+</script>
 
 <!-- Bootstrap Core JavaScript -->
 <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>

@@ -7,15 +7,17 @@
 /* Global Styles */
 
 body {
-    margin-top: 100px;
-    background-color: #222;
+   /* margin-top: 100px;*/
+    /*background-color: #222;*/
+    font-family: 'Nunito Sans', sans-serif;
 }
-
+/*
 @media(min-width:768px) {
     body {
         margin-top: 50px;
     }
 }
+*/
 
 #wrapper {
     padding-left: 0;
