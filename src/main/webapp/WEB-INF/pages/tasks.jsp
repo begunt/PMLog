@@ -87,129 +87,131 @@
                         </thead>
                         <tbody>
                         <c:forEach items="${listReports}" var="report">
-                            <tr>
-                                <td>${report.activity}</td>
-                                <td>
-                                    idReport: ${report.idReport}
-                                    <br>Timestamp: ${report.timestamp}
-                                    <br>Person: ${report.person}
-                                    <br>Product: ${report.product}
+                             <c:if test="${report.person == reportSession.person}" >
+                                 <tr>
+                                     <td>${report.activity}</td>
+                                     <td>
+                                         idReport: ${report.idReport}
+                                         <br>Timestamp: ${report.timestamp}
+                                         <br>Person: ${report.person}
+                                         <br>Product: ${report.product}
 
-                                    <c:forEach items="${listProjects}" var="projectFromReport">
-                                        <c:if test="${report.selectedProject == projectFromReport.idProject}">
-                                            <c:forEach items="${projectFromReport.customFields}" var="field">
-                                                <c:choose>
-                                                    <c:when test="${field.modelFieldName == 'project'}">
-                                                        <c:if test="${not empty report.project}">
-                                                            <br>${field.name}: ${report.project}
-                                                        </c:if>
-                                                    </c:when>
-                                                    <c:when test="${field.modelFieldName == 'sprint'}">
-                                                        <c:if test="${not empty report.sprint}">
-                                                            <br>${field.name}: ${report.sprint}
-                                                        </c:if>
-                                                    </c:when>
-                                                    <c:when test="${field.modelFieldName == 'build'}">
-                                                        <c:if test="${not empty report.build}">
-                                                            <br>${field.name}: ${report.build}
-                                                        </c:if>
-                                                    </c:when>
-                                                    <c:when test="${field.modelFieldName == 'devices'}">
-                                                        <c:if test="${not empty report.devices}">
-                                                            <br>${field.name}: ${report.devices}
-                                                        </c:if>
-                                                    </c:when>
-                                                    <c:when test="${field.modelFieldName == 'environment'}">
-                                                        <c:if test="${not empty report.environment}">
-                                                            <br>${field.name}: ${report.environment}
-                                                        </c:if>
-                                                    </c:when>
-                                                    <c:when test="${field.modelFieldName == 'time'}">
-                                                        <c:if test="${not empty report.time}">
-                                                            <br>${field.name}: ${report.time}
-                                                        </c:if>
-                                                    </c:when>
-                                                    <c:when test="${field.modelFieldName == 'comment'}">
-                                                        <c:if test="${not empty report.comment}">
-                                                            <br>${field.name}: ${report.comment}
-                                                        </c:if>
-                                                    </c:when>
-                                                    <c:when test="${field.modelFieldName == 'link'}">
-                                                        <c:if test="${not empty report.link}">
-                                                            <br>${field.name}: ${report.link}
-                                                        </c:if>
-                                                    </c:when>
-                                                    <c:when test="${field.modelFieldName == 'numberOfCheckedStories'}">
-                                                        <c:if test="${report.numberOfCheckedStories != 0}">
-                                                            <br>${field.name}: ${report.numberOfCheckedStories}
-                                                        </c:if>
-                                                    </c:when>
-                                                    <c:when test="${field.modelFieldName == 'numberOfReopenedStories'}">
-                                                        <c:if test="${report.numberOfReopenedStories  != 0}">
-                                                            <br>${field.name}: ${report.numberOfReopenedStories}
-                                                        </c:if>
-                                                    </c:when>
-                                                    <c:when test="${field.modelFieldName == 'linkToReopenedStories'}">
-                                                        <c:if test="${not empty report.linkToReopenedStories}">
-                                                            <br>${field.name}: ${report.linkToReopenedStories}
-                                                        </c:if>
-                                                    </c:when>
-                                                    <c:when test="${field.modelFieldName == 'numberOfCheckedDefects'}">
-                                                        <c:if test="${report.numberOfCheckedDefects  != 0}">
-                                                            <br>${field.name}: ${report.numberOfCheckedDefects}
-                                                        </c:if>
-                                                    </c:when>
-                                                    <c:when test="${field.modelFieldName == 'numberOfReopenedDefects'}">
-                                                        <c:if test="${report.numberOfReopenedDefects  != 0}">
-                                                            <br>${field.name}: ${report.numberOfReopenedDefects}
-                                                        </c:if>
-                                                    </c:when>
-                                                    <c:when test="${field.modelFieldName == 'linkToReopenedDefects'}">
-                                                        <c:if test="${not empty report.linkToReopenedDefects}">
-                                                            <br>${field.name}: ${report.linkToReopenedDefects}
-                                                        </c:if>
-                                                    </c:when>
-                                                    <c:when test="${field.modelFieldName == 'milestone'}">
-                                                        <c:if test="${not empty report.milestone}">
-                                                            <br>${field.name}: ${report.milestone}
-                                                        </c:if>
-                                                    </c:when>
-                                                    <c:when test="${field.modelFieldName == 'testruns'}">
-                                                        <c:if test="${not empty report.testruns}">
-                                                            <br>${field.name}: ${report.testruns}
-                                                        </c:if>
-                                                    </c:when>
-                                                    <c:when test="${field.modelFieldName == 'numberOfCheckedCases'}">
-                                                        <c:if test="${report.numberOfCheckedCases != 0}">
-                                                            <br>${field.name}: ${report.numberOfCheckedCases}
-                                                        </c:if>
-                                                    </c:when>
-                                                    <c:when test="${field.modelFieldName == 'comment'}">
-                                                        <c:if test="${not empty report.comment}">
-                                                            <br>${field.name}: ${report.comment}
-                                                        </c:if>
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                    </c:otherwise>
-                                                </c:choose>
-                                            </c:forEach>
-                                        </c:if>
-                                    </c:forEach>
-                                </td>
-                                <td>${report.time}</td>
-                                <td>
-                                    <button type="button" class="btn btn-primary" id="edit" style="margin-left: 0px;"
-                                            onClick='location.href="<c:url
-                                                    value="/reportController/edit/${report.idReport}"/>"'>Edit
-                                    </button>
-                                </td>
-                                <td>
-                                    <button type="button" id="delete" class="btn btn-primary"
-                                            onClick='location.href="<c:url
-                                                    value="/reportController/remove/${report.idReport}"/>"'>Delete
-                                    </button>
-                                </td>
-                            </tr>
+                                         <c:forEach items="${listProjects}" var="projectFromReport">
+                                             <c:if test="${report.selectedProject == projectFromReport.idProject}">
+                                                 <c:forEach items="${projectFromReport.customFields}" var="field">
+                                                     <c:choose>
+                                                         <c:when test="${field.modelFieldName == 'project'}">
+                                                             <c:if test="${not empty report.project}">
+                                                                 <br>${field.name}: ${report.project}
+                                                             </c:if>
+                                                         </c:when>
+                                                         <c:when test="${field.modelFieldName == 'sprint'}">
+                                                             <c:if test="${not empty report.sprint}">
+                                                                 <br>${field.name}: ${report.sprint}
+                                                             </c:if>
+                                                         </c:when>
+                                                         <c:when test="${field.modelFieldName == 'build'}">
+                                                             <c:if test="${not empty report.build}">
+                                                                 <br>${field.name}: ${report.build}
+                                                             </c:if>
+                                                         </c:when>
+                                                         <c:when test="${field.modelFieldName == 'devices'}">
+                                                             <c:if test="${not empty report.devices}">
+                                                                 <br>${field.name}: ${report.devices}
+                                                             </c:if>
+                                                         </c:when>
+                                                         <c:when test="${field.modelFieldName == 'environment'}">
+                                                             <c:if test="${not empty report.environment}">
+                                                                 <br>${field.name}: ${report.environment}
+                                                             </c:if>
+                                                         </c:when>
+                                                         <c:when test="${field.modelFieldName == 'time'}">
+                                                             <c:if test="${not empty report.time}">
+                                                                 <br>${field.name}: ${report.time}
+                                                             </c:if>
+                                                         </c:when>
+                                                         <c:when test="${field.modelFieldName == 'comment'}">
+                                                             <c:if test="${not empty report.comment}">
+                                                                 <br>${field.name}: ${report.comment}
+                                                             </c:if>
+                                                         </c:when>
+                                                         <c:when test="${field.modelFieldName == 'link'}">
+                                                             <c:if test="${not empty report.link}">
+                                                                 <br>${field.name}: ${report.link}
+                                                             </c:if>
+                                                         </c:when>
+                                                         <c:when test="${field.modelFieldName == 'numberOfCheckedStories'}">
+                                                             <c:if test="${report.numberOfCheckedStories != 0}">
+                                                                 <br>${field.name}: ${report.numberOfCheckedStories}
+                                                             </c:if>
+                                                         </c:when>
+                                                         <c:when test="${field.modelFieldName == 'numberOfReopenedStories'}">
+                                                             <c:if test="${report.numberOfReopenedStories  != 0}">
+                                                                 <br>${field.name}: ${report.numberOfReopenedStories}
+                                                             </c:if>
+                                                         </c:when>
+                                                         <c:when test="${field.modelFieldName == 'linkToReopenedStories'}">
+                                                             <c:if test="${not empty report.linkToReopenedStories}">
+                                                                 <br>${field.name}: ${report.linkToReopenedStories}
+                                                             </c:if>
+                                                         </c:when>
+                                                         <c:when test="${field.modelFieldName == 'numberOfCheckedDefects'}">
+                                                             <c:if test="${report.numberOfCheckedDefects  != 0}">
+                                                                 <br>${field.name}: ${report.numberOfCheckedDefects}
+                                                             </c:if>
+                                                         </c:when>
+                                                         <c:when test="${field.modelFieldName == 'numberOfReopenedDefects'}">
+                                                             <c:if test="${report.numberOfReopenedDefects  != 0}">
+                                                                 <br>${field.name}: ${report.numberOfReopenedDefects}
+                                                             </c:if>
+                                                         </c:when>
+                                                         <c:when test="${field.modelFieldName == 'linkToReopenedDefects'}">
+                                                             <c:if test="${not empty report.linkToReopenedDefects}">
+                                                                 <br>${field.name}: ${report.linkToReopenedDefects}
+                                                             </c:if>
+                                                         </c:when>
+                                                         <c:when test="${field.modelFieldName == 'milestone'}">
+                                                             <c:if test="${not empty report.milestone}">
+                                                                 <br>${field.name}: ${report.milestone}
+                                                             </c:if>
+                                                         </c:when>
+                                                         <c:when test="${field.modelFieldName == 'testruns'}">
+                                                             <c:if test="${not empty report.testruns}">
+                                                                 <br>${field.name}: ${report.testruns}
+                                                             </c:if>
+                                                         </c:when>
+                                                         <c:when test="${field.modelFieldName == 'numberOfCheckedCases'}">
+                                                             <c:if test="${report.numberOfCheckedCases != 0}">
+                                                                 <br>${field.name}: ${report.numberOfCheckedCases}
+                                                             </c:if>
+                                                         </c:when>
+                                                         <c:when test="${field.modelFieldName == 'comment'}">
+                                                             <c:if test="${not empty report.comment}">
+                                                                 <br>${field.name}: ${report.comment}
+                                                             </c:if>
+                                                         </c:when>
+                                                         <c:otherwise>
+                                                         </c:otherwise>
+                                                     </c:choose>
+                                                 </c:forEach>
+                                             </c:if>
+                                         </c:forEach>
+                                     </td>
+                                     <td>${report.time}</td>
+                                     <td>
+                                         <button type="button" class="btn btn-primary" id="edit" style="margin-left: 0px;"
+                                                 onClick='location.href="<c:url
+                                                         value="/reportController/edit/${report.idReport}"/>"'>Edit
+                                         </button>
+                                     </td>
+                                     <td>
+                                         <button type="button" id="delete" class="btn btn-primary"
+                                                 onClick='location.href="<c:url
+                                                         value="/reportController/remove/${report.idReport}"/>"'>Delete
+                                         </button>
+                                     </td>
+                                 </tr>
+                             </c:if>
                         </c:forEach>
                         </tbody>
                     </table>
