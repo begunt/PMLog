@@ -59,7 +59,7 @@
                     <h4>Please enter your personal information</h4>
                 </div>
                 <div class="panel-body">
-                    <div></div>
+
                     <c:url var="addAction" value="/login"/>
                     <form:form action="${addAction}" commandName="report" data-toggle="validator" role="form">
                         <div class="input-group input-group-lg">
