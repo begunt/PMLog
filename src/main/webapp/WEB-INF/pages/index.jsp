@@ -58,6 +58,7 @@
                 <div class="panel-heading gradient-bg">
                     <h4>Please enter your personal information</h4>
                 </div>
+                <div></div>
                 <div class="panel-body">
                     <c:url var="addAction" value="/login"/>
                     <form:form action="${addAction}" commandName="report" data-toggle="validator" role="form">
