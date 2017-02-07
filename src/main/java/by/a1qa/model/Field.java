@@ -27,6 +27,15 @@ public class Field {
     @Column(name = "modelFieldName")
     private String modelFieldName;
 
+    @Column(name = "required")
+    private String required;
+
+    @Column(name = "tooltip")
+    private String tooltip;
+
+    @Column(name = "linkToTask")
+    private String linkToTask;
+
     public String getModelFieldName() {
         return modelFieldName;
     }
@@ -67,6 +76,30 @@ public class Field {
         this.idProject = idProject;
     }
 
+    public String getRequired() {
+        return required;
+    }
+
+    public void setRequired(String required) {
+        this.required = required;
+    }
+
+    public String getTooltip() {
+        return tooltip;
+    }
+
+    public void setTooltip(String tooltip) {
+        this.tooltip = tooltip;
+    }
+
+    public String getLinkToTask() {
+        return linkToTask;
+    }
+
+    public void setLinkToTask(String linkToTask) {
+        this.linkToTask = linkToTask;
+    }
+
     @Override
     public String toString() {
         return "Field{" +
@@ -75,6 +108,9 @@ public class Field {
                 ", name='" + name + '\'' +
                 ", idProject=" + idProject +
                 ", modelFieldName='" + modelFieldName + '\'' +
+                ", required='" + required + '\'' +
+                ", tooltip='" + tooltip + '\'' +
+                ", linkToTask='" + linkToTask + '\'' +
                 '}';
     }
 }
