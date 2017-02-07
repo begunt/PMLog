@@ -6,6 +6,7 @@ import by.a1qa.model.Report;
 import by.a1qa.service.DropdownService;
 import by.a1qa.service.FieldService;
 import by.a1qa.service.ProjectService;
+import net.rcarz.jiraclient.JiraClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -62,10 +63,10 @@ public class MainController {
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     public ModelAndView loginPMLog (@ModelAttribute("report") Report report, HttpServletRequest request){
         ModelAndView modelAndView = new ModelAndView();
-
-        if (JiraHelper.isAqaCredentialValid(report)){
+        JiraClient client = JiraHelper.getAqaJiraClient(report);
+        if (client != null){
        /* if (true){*/
-            request.getSession().setAttribute(AQA_JIRA_CLIENT_SESSION_ATTR, JiraHelper.getAqaJiraClient(report));
+            request.getSession().setAttribute(AQA_JIRA_CLIENT_SESSION_ATTR, client);
 
             modelAndView.addObject("project", new Project());
             List<Project> listOfProjects = this.projectService.listProjects();

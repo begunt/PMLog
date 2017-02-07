@@ -15,11 +15,6 @@ import static by.a1qa.helpers.CommonData.AQA_JIRA_HOST;
 public class JiraHelper {
     static Logger LOG = LoggerFactory.getLogger(JiraHelper.class.getName());
 
-
-    public static boolean isAqaCredentialValid(Report report){
-        return (getAqaJiraClient(report) == null) ? false : true;
-    }
-
     public static JiraClient getAqaJiraClient(Report report){
           return getJiraClient(AQA_JIRA_HOST,
                   report.getPerson(), report.getPassword());
