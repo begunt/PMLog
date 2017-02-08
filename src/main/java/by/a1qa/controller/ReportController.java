@@ -171,7 +171,7 @@ public class ReportController {
         model.addAttribute("report", reportWithPerson);*/
         model.addAttribute("report", new Report());
         model.addAttribute("listFields", this.fieldService.listFields());
-        model.addAttribute("listReports", this.listOfReportsDao.getListOfReportsByPerson(listOfReports, personEmail));
+        model.addAttribute("listReports", this.listOfReportsDao.getListOfReportsByPerson(listOfReports, person));
         return "tasks";
     }
 

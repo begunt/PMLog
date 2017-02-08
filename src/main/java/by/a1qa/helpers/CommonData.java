@@ -46,7 +46,7 @@ public class CommonData {
                     char c = input.charAt(i);
                     if (Character.isDigit(c)) {
                         number += c;
-                        if (input.indexOf(c) == input.length() - 1){
+                        if (i == input.length() - 1){
                             int tmp = convertToMin(Integer.parseInt(number), 'm');
                             result += tmp;
                             number = "";
@@ -90,7 +90,7 @@ public class CommonData {
             ArrayList<Method> list = new ArrayList<Method>();
             Method[] methods = c.getDeclaredMethods();
             for (Method method : methods)
-                if (isGetter(method) && !method.getName().contains("SelectedProject"))
+                if (isGetter(method) && !method.getName().contains("SelectedProject") && !method.getName().contains("Password"))
                     list.add(method);
             return list;
         }
