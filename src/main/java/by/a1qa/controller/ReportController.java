@@ -37,7 +37,6 @@ public class ReportController {
     private FieldService fieldService;
     private DropdownService dropdownService;
     private static String personEmail;
-    private String password;
     private ListOfReportsService listOfReportsService;
 
     @Autowired(required = true)
@@ -103,7 +102,6 @@ public class ReportController {
         Project selectedProject = this.projectService.getProjectById(report.getSelectedProject());
         selectedProject.setCustomFields(this.fieldService.listFieldsByIdProject(report.getSelectedProject()));
         personEmail = report.getPerson();
-        password = report.getPassword();
 
         if (report.getIdReport() == 0)
             listOfReports = this.reportDao.addReport(report, listOfReports);
@@ -142,18 +140,18 @@ public class ReportController {
     @RequestMapping("sent/{person:.*}")
     public String sentListOfReports(@PathVariable("person") String person, Model model, HttpServletRequest request){
         List<Report> tempListOfReports, listOfReportsFromBD;
-        tempListOfReports = this.listOfReportsDao.getListOfReportsByPerson(listOfReports, person);//получить список репортов из общего списка по Логину
-        this.listOfReportsService.addListOfReports(tempListOfReports);// добавить полученный список в БД
-        listOfReportsFromBD = this.listOfReportsService.listOfReports();// получить список из БД
+        tempListOfReports = this.listOfReportsDao.getListOfReportsByPerson(listOfReports, person);//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+        this.listOfReportsService.addListOfReports(tempListOfReports);// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅ
+        listOfReportsFromBD = this.listOfReportsService.listOfReports();// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅ
 
-        //добавить все репорты из БД в гугл доку
+        //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
         for (Report report: listOfReportsFromBD){
             if(report.getPerson().equals(person))
                 ReportSender.addReportToQueue(report, (JiraClient) request.getSession().getAttribute(AQA_JIRA_CLIENT_SESSION_ATTR));
         }
 
-        this.listOfReportsService.removeListOfReports(tempListOfReports);//удалить добавленные в гугл доку репорты из БД
-        listOfReports = listOfReportsDao.removeListOfReportsByPerson(listOfReports, person); //удалить их из общего списка
+        this.listOfReportsService.removeListOfReports(tempListOfReports);//пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅ
+        listOfReports = listOfReportsDao.removeListOfReportsByPerson(listOfReports, person); //пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 
         model.addAttribute("project", new Project());
         List<Project> listOfProjects = this.projectService.listProjects();
@@ -213,13 +211,5 @@ public class ReportController {
 
     public void setListOfReports(List<Report> listOfReports) {
         this.listOfReports = listOfReports;
-    }
-
-    public String getPersonEmail() {
-        return personEmail;
-    }
-
-    public void setPersonEmail(String personEmail) {
-        this.personEmail = personEmail;
     }
 }

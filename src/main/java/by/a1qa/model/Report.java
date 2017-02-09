@@ -2,10 +2,7 @@ package by.a1qa.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 
 import static by.a1qa.helpers.CommonData.CommonMethods.timeToMinParse;
@@ -31,7 +28,7 @@ public class Report implements Serializable{
     @Column(name = "person")
     private String person;
 
-    @Column(name = "password")
+    @Transient
     private String password;
 
     @Column(name = "product")
@@ -90,6 +87,9 @@ public class Report implements Serializable{
 
     @Column(name = "numberOfCheckedCases")
     private String numberOfCheckedCases;
+
+    @Column(name = "linkToTask")
+    private String linkToTask;
 
     public Report(){}
 
@@ -285,6 +285,14 @@ public class Report implements Serializable{
         this.selectedProject = selectedProject;
     }
 
+    public String getLinkToTask() {
+        return linkToTask;
+    }
+
+    public void setLinkToTask(String linkToTask) {
+        this.linkToTask = linkToTask;
+    }
+
     @Override
     public String toString() {
         return "Report{" +
@@ -312,6 +320,7 @@ public class Report implements Serializable{
                 ", milestone='" + milestone + '\'' +
                 ", testruns='" + testruns + '\'' +
                 ", numberOfCheckedCases='" + numberOfCheckedCases + '\'' +
+                ", linkToTask='" + linkToTask + '\'' +
                 '}';
     }
 }

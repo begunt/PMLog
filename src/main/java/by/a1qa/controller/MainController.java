@@ -63,6 +63,10 @@ public class MainController {
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     public ModelAndView loginPMLog (@ModelAttribute("report") Report report, HttpServletRequest request){
         ModelAndView modelAndView = new ModelAndView();
+        Report reportToModel = new Report();
+        reportToModel.setPerson(report.getPerson());
+
+        //if (JiraHelper.isAqaCredentialValid(report)){
         JiraClient client = JiraHelper.getAqaJiraClient(report);
         if (client != null){
        /* if (true){*/
@@ -74,13 +78,13 @@ public class MainController {
                 project.setCustomFields(this.fieldService.listFieldsByIdProject(project.getIdProject()));
             }
             modelAndView.addObject("listProjects", listOfProjects);
-            modelAndView.addObject("report", report);
+            modelAndView.addObject("report", reportToModel);
             modelAndView.addObject("listDropdown", this.dropdownService.listDropdowns());
             List<Report> listOfReports = reportController.getListOfReports();
             if(!listOfReports.isEmpty())
                 modelAndView.addObject("listReports",
                         reportController.getListOfReportsDao().getListOfReportsByPerson(listOfReports, report.getPerson()));
-            modelAndView.addObject("reportSession", report);
+            modelAndView.addObject("reportSession", reportToModel);
             modelAndView.setViewName("tasks");
         }
         else{
