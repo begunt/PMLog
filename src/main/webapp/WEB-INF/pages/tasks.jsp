@@ -249,8 +249,6 @@
                                     <div class="form-group">
                                         <form:input path="person" style="display: none;"
                                                     value="${reportSession.person}"/>
-                                        <form:input path="password" style="display: none;"
-                                                    value="${reportSession.password}"/>
                                         <form:input path="idReport" style="display: none;" value="${report.idReport}"/>
                                         <label for="selectIdProject" class="col-sm-2 control-label"
                                                style="width: 187px; text-align: left; ">Product</label>

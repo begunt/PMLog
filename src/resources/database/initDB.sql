@@ -40,7 +40,6 @@ CREATE TABLE IF NOT EXISTS `pmlog`.`field` (
   `modelFieldName` VARCHAR(45) NOT NULL,
   `required` VARCHAR(45) NULL,
   `tooltip` VARCHAR(200) NULL,
-  `linkToTask` VARCHAR(200) NULL,
   PRIMARY KEY (`idField`),
   UNIQUE INDEX `idProject_UNIQUE` (`idField` ASC),
   INDEX `FKProjectField_idx` (`idProject` ASC),
@@ -85,7 +84,6 @@ CREATE TABLE `pmlog`.`report` (
   `selectedProject` INT NOT NULL,
   `timestamp` VARCHAR(45) NOT NULL,
   `person` VARCHAR(45) NOT NULL,
-  `password` VARCHAR(45) NOT NULL,
   `product` VARCHAR(45) NOT NULL,
   `project` VARCHAR(45) NOT NULL,
   `activity` VARCHAR(45) NOT NULL,
@@ -106,4 +104,5 @@ CREATE TABLE `pmlog`.`report` (
   `testruns` VARCHAR(45) NULL,
   `numberOfCheckedCases` INT NULL,
   `reportcol` VARCHAR(45) NULL,
+  `linkToTask` VARCHAR(200) NULL,
   PRIMARY KEY (`idreport`));
