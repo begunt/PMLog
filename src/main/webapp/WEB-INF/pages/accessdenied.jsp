@@ -7,7 +7,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Доступ запрещен</title>
+  <title>Error 403</title>
   <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
   <link href="${pageContext.request.contextPath}/css/sb-admin.css" rel="stylesheet">
   <link href="${pageContext.request.contextPath}/css/plugins/morris.css" rel="stylesheet">
@@ -18,13 +18,14 @@
 <div>
   <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="navbar-header">
-      <a class="navbar-brand" href="/" target="_blank">BUGSall</a>
+      <a class="navbar-brand" href="/" target="_blank">Product Madness - A1QA (pre-alpha)</a>
     </div>
   </nav>
 
   <div class="loginBlock">
     <div class="container-fluid">
-      <h1>Доступ запрещен</h1>
+      <h1>Error 403</h1>
+      <h3>Access denied:(</h3>
     </div>
   </div>
 </div>

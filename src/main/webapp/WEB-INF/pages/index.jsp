@@ -8,6 +8,7 @@
 <head>
     <meta charset="utf-8">
     <title>Log In</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/css/sb-admin.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/css/plugins/morris.css" rel="stylesheet">

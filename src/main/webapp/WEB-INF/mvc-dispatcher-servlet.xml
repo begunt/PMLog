@@ -37,17 +37,6 @@
         </property>
     </bean>
 
-    <!--EmployeeDao and EmployeeService beans-->
-    <bean id="employeeDao" class="by.a1qa.dao.EmployeeDao">
-        <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory"/>
-    </bean>
-    <bean id="employeeService" class="by.a1qa.service.EmployeeService">
-        <property name="employeeDao" ref="employeeDao"/>
-    </bean>
-    <bean id="employeeServiceMain" class="by.a1qa.service.EmployeeService">
-        <property name="employeeDao" ref="employeeDao"/>
-    </bean>
-
     <!--DropdownDao and DropdownService beans-->
     <bean id="dropdownDao" class="by.a1qa.dao.DropdownDao">
         <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory"/>

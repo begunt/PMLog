@@ -137,9 +137,10 @@ public class ReportController {
     /*@RequestMapping(value = "sent", method = RequestMethod.POST)
     public String sentReport(@ModelAttribute("listOfReports") List<Report> listOfReports, Model model, HttpServletRequest request) {
 */
-    @RequestMapping("sent/{person:.*}")
-    public String sentListOfReports(@PathVariable("person") String person, Model model, HttpServletRequest request){
+    @RequestMapping("sent")
+    public String sentListOfReports( Model model, HttpServletRequest request){
         List<Report> tempListOfReports, listOfReportsFromBD;
+        String person = ((JiraClient)request.getSession().getAttribute(AQA_JIRA_CLIENT_SESSION_ATTR)).getSelf();
         tempListOfReports = this.listOfReportsDao.getListOfReportsByPerson(listOfReports, person);//�������� ������ �������� �� ������ ������ �� ������
         this.listOfReportsService.addListOfReports(tempListOfReports);// �������� ���������� ������ � ��
         listOfReportsFromBD = this.listOfReportsService.listOfReports();// �������� ������ �� ��

@@ -46,7 +46,10 @@
 <body>
 <div id="wrapper">
     <c:import url="template.jsp"></c:import>
-
+    <%
+        int timeout = session.getMaxInactiveInterval();
+        response.setHeader("Refresh", timeout + "; URL = /");
+    %>
     <div id="page-wrapper">
         <div class="container-fluid">
             <c:if test="${empty report.activity}">
@@ -220,7 +223,7 @@
 
                 <button type="button" class="btn btn-primary" id="edit" style="margin-left: 0px;"
                         onClick='location.href="<c:url
-                                value="/reportController/sent/${reportSession.person}"/>"'>Submit
+                                value="/reportController/sent"/>"'>Submit
                 </button>
             </c:if>
 
