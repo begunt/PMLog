@@ -118,19 +118,19 @@ public class CommonData {
 
         public static String getAqaCategoryName(String nonAqaActivityName){
             String resString;
-            if (Arrays.asList(TESTING_ACTIVITIES).contains(nonAqaActivityName.replace('_', ' ')))
+            if (Arrays.asList(TESTING_ACTIVITIES).contains(nonAqaActivityName.replace(' ', '_')))
                 resString = "Testing Activities";
-            else if (Arrays.asList(TEST_DOCUMENTATION_CREATION).contains(nonAqaActivityName.replace('_', ' ')))
+            else if (Arrays.asList(TEST_DOCUMENTATION_CREATION).contains(nonAqaActivityName.replace(' ', '_')))
                 resString = "Test Documentation Creation";
-            else if (Arrays.asList(KNOWLEDGE_TRANSFER_ISSUE_INV).contains(nonAqaActivityName.replace('_', ' ')))
+            else if (Arrays.asList(KNOWLEDGE_TRANSFER_ISSUE_INV).contains(nonAqaActivityName.replace(' ', '_')))
                 resString = "Knowledge Transfer / Product Investigation";
-            else if (Arrays.asList(OTHER).contains(nonAqaActivityName.replace('_', ' ')))
+            else if (Arrays.asList(OTHER).contains(nonAqaActivityName.replace(' ', '_')))
                 resString = "Other";
-            else if (Arrays.asList(PROJECT_MANAGEMENT).contains(nonAqaActivityName.replace('_', ' ')))
+            else if (Arrays.asList(PROJECT_MANAGEMENT).contains(nonAqaActivityName.replace(' ', '_')))
                 resString = "Project management";
-            else if (Arrays.asList(MEETING).contains(nonAqaActivityName.replace('_', ' ')))
+            else if (Arrays.asList(MEETING).contains(nonAqaActivityName.replace(' ', '_')))
                 resString = "Meeting";
-            else if (Arrays.asList(PROBATION_PERIOD).contains(nonAqaActivityName.replace('_', ' ')))
+            else if (Arrays.asList(PROBATION_PERIOD).contains(nonAqaActivityName.replace(' ', '_')))
                 resString = "Probation Period";
             else resString = "Other";
 
