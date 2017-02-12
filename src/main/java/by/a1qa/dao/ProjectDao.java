@@ -15,7 +15,7 @@ import java.util.List;
  */
 @Repository
 public class ProjectDao {
-    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(EmployeeDao.class);
+    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(ProjectDao.class);
     private SessionFactory sessionFactory;
 
     public void setSessionFactory(SessionFactory sessionFactory) {

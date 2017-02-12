@@ -91,18 +91,18 @@ public class MainController {
             modelAndView.addObject("wrongPass", new Boolean(true));
             modelAndView.addObject("report", new Report());
             modelAndView.setViewName("index");
-
         }
 
         return modelAndView;
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public ModelAndView logoutBTS(HttpSession request) {
+    public ModelAndView logout(HttpSession request) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("success", new Boolean(true));
+        modelAndView.addObject("report", new Report());
         modelAndView.setViewName("index");
         request.removeAttribute("reportSession");
+        request.removeAttribute(AQA_JIRA_CLIENT_SESSION_ATTR);
 
         return modelAndView;
     }
