@@ -14,9 +14,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ScheduledExecutorService;
 
-import static by.a1qa.helpers.CommonData.ALL_REPORTS_TAB_NAME;
-import static by.a1qa.helpers.CommonData.POSITION_CACHE_RESET_REPORTS_INTERVAL;
-import static by.a1qa.helpers.CommonData.REPORT_SEND_EXEC_INTERVAL;
+import static by.a1qa.helpers.CommonData.*;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 /**
@@ -44,7 +42,9 @@ public class ReportSender {
 
                         try {
                             LOG.info("Taking report from the queue...");
-                            reportAndClientPair = reportsQueue.take();
+                            synchronized (ReportSender.class){
+                                reportAndClientPair = reportsQueue.take();
+                            }
                         } catch (InterruptedException e) {
                             try {
                                 LOG.error("There was an error during pulling report from the queue", e);
@@ -63,7 +63,6 @@ public class ReportSender {
                         try {
                             SpreadsheetHelper.submitReport(reportAndClientPair.getKey(), ALL_REPORTS_TAB_NAME, true);
                             //SpreadsheetHelper.submitReport(report, report.getProduct(),false);
-                            //TODO: Log into Jira worklog - use reportAndClientPair.getValue if != null
                         } catch (InvocationTargetException | IllegalAccessException | IOException e) {
                             LOG.error("There was an error during submitting report to the Spreadsheet", e);
                         }
@@ -81,11 +80,13 @@ public class ReportSender {
         }
     }
 
-    public static void addReportToQueue(Report report, JiraClient jiraClient) {
+    public synchronized static void addReportToQueue(Report report, JiraClient jiraClient) {
         ReportSender.init();
         LOG.info(String.format("Adding report to queue: \n %s", report.getPerson()));
         try {
-            reportsQueue.put(new Pair<>(report, jiraClient));
+            synchronized (ReportSender.class){
+                reportsQueue.put(new Pair<>(report, jiraClient));
+            }
         } catch (InterruptedException e) {
             try {
                 LOG.error("There was an error during adding report to the queue. Trying again...", e);

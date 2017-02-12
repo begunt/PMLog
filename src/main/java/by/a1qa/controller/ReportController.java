@@ -2,6 +2,7 @@ package by.a1qa.controller;
 
 import by.a1qa.dao.ListOfReportsDao;
 import by.a1qa.dao.ReportDao1;
+import by.a1qa.helpers.ExcelExporter;
 import by.a1qa.helpers.ReportSender;
 import by.a1qa.model.Project;
 import by.a1qa.model.Report;
@@ -10,6 +11,7 @@ import by.a1qa.service.FieldService;
 import by.a1qa.service.ListOfReportsService;
 import by.a1qa.service.ProjectService;
 import net.rcarz.jiraclient.JiraClient;
+import org.apache.poi.util.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -19,7 +21,10 @@ import org.springframework.web.bind.annotation.*;
 import com.google.gson.Gson;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletResponse;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -148,18 +153,23 @@ public class ReportController {
     public String sentListOfReports( Model model, HttpServletRequest request){
         List<Report> tempListOfReports, listOfReportsFromBD;
         String person = ((JiraClient)request.getSession().getAttribute(AQA_JIRA_CLIENT_SESSION_ATTR)).getSelf();
-        tempListOfReports = this.listOfReportsDao.getListOfReportsByPerson(listOfReports, person);//�������� ������ �������� �� ������ ������ �� ������
-        this.listOfReportsService.addListOfReports(tempListOfReports);// �������� ���������� ������ � ��
-        listOfReportsFromBD = this.listOfReportsService.listOfReports();// �������� ������ �� ��
+        tempListOfReports = this.listOfReportsDao.getListOfReportsByPerson(listOfReports, person);//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+        this.listOfReportsService.addListOfReports(tempListOfReports);// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅ
+        listOfReportsFromBD = this.listOfReportsService.listOfReports();// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅ
 
-        //�������� ��� ������� �� �� � ���� ����
+        //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
         for (Report report: listOfReportsFromBD){
             if(report.getPerson().equals(person))
                 ReportSender.addReportToQueue(report, (JiraClient) request.getSession().getAttribute(AQA_JIRA_CLIENT_SESSION_ATTR));
         }
+        try {
+            model.addAttribute("fileToDownload", ExcelExporter.exportReportsToFile(tempListOfReports));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        this.listOfReportsService.removeListOfReports(tempListOfReports);//������� ����������� � ���� ���� ������� �� ��
-        listOfReports = listOfReportsDao.removeListOfReportsByPerson(listOfReports, person); //������� �� �� ������ ������
+        this.listOfReportsService.removeListOfReports(tempListOfReports);//пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅ
+        listOfReports = listOfReportsDao.removeListOfReportsByPerson(listOfReports, person); //пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 
         model.addAttribute("project", new Project());
         List<Project> listOfProjects = this.projectService.listProjects();
@@ -203,6 +213,20 @@ public class ReportController {
         model.addAttribute("forAddButton", "updating");
 
         return "tasks";
+    }
+
+    @RequestMapping(value = "/files/{file_name}", method = RequestMethod.GET)
+    public void getFile(
+            @PathVariable("file_name") String fileName,
+            HttpServletResponse response) {
+        try {
+            InputStream is = new FileInputStream(fileName + ".xls");
+            IOUtils.copy(is, response.getOutputStream());
+            response.flushBuffer();
+            is.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     public ListOfReportsDao getListOfReportsDao() {

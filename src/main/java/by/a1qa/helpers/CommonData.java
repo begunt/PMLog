@@ -3,6 +3,7 @@ package by.a1qa.helpers;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by alexei.khilchuk on 24/09/2016.
@@ -11,6 +12,13 @@ public class CommonData {
     private static final String APPLICATION_PROPERTY_FILE = "application.properties";
     private static final PropertiesResourceManager appProperties = new PropertiesResourceManager(APPLICATION_PROPERTY_FILE);
 
+    private static final String[] KNOWLEDGE_TRANSFER_ISSUE_INV = appProperties.getProperty("Knowledge_Transfer_/_Product_Investigation").split("#");
+    private static final String[] MEETING = appProperties.getProperty("Meeting").split("#");
+    private static final String[] OTHER = appProperties.getProperty("Other").split("#");
+    private static final String[] PROBATION_PERIOD = appProperties.getProperty("Probation_Period").split("#");
+    private static final String[] PROJECT_MANAGEMENT = appProperties.getProperty("Project_management").split("#");
+    private static final String[] TEST_DOCUMENTATION_CREATION = appProperties.getProperty("Test_Documentation_Creation").split("#");
+    private static final String[] TESTING_ACTIVITIES = appProperties.getProperty("Testing_Activities").split("#");
     /*
     private static Properties appProperties = new Properties();
     static {
@@ -106,6 +114,27 @@ public class CommonData {
                     return true;
             }
             return false;
+        }
+
+        public static String getAqaCategoryName(String nonAqaActivityName){
+            String resString;
+            if (Arrays.asList(TESTING_ACTIVITIES).contains(nonAqaActivityName.replace('_', ' ')))
+                resString = "Testing Activities";
+            else if (Arrays.asList(TEST_DOCUMENTATION_CREATION).contains(nonAqaActivityName.replace('_', ' ')))
+                resString = "Test Documentation Creation";
+            else if (Arrays.asList(KNOWLEDGE_TRANSFER_ISSUE_INV).contains(nonAqaActivityName.replace('_', ' ')))
+                resString = "Knowledge Transfer / Product Investigation";
+            else if (Arrays.asList(OTHER).contains(nonAqaActivityName.replace('_', ' ')))
+                resString = "Other";
+            else if (Arrays.asList(PROJECT_MANAGEMENT).contains(nonAqaActivityName.replace('_', ' ')))
+                resString = "Project management";
+            else if (Arrays.asList(MEETING).contains(nonAqaActivityName.replace('_', ' ')))
+                resString = "Meeting";
+            else if (Arrays.asList(PROBATION_PERIOD).contains(nonAqaActivityName.replace('_', ' ')))
+                resString = "Probation Period";
+            else resString = "Other";
+
+            return resString;
         }
     }
 }

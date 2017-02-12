@@ -226,8 +226,16 @@
                 </button>
             </c:if>
 
-            <c:if test="${empty listReports}">
-                <div><h1>The list of activities is empty</h1></div>
+            <c:if test="${empty listReports and empty fileToDownload}">
+                <div><h1>The list of not submitted activities is empty</h1></div>
+            </c:if>
+
+            <c:if test="${not empty fileToDownload}">
+                <div><h1>The list of activities was sent!</h1></div>
+                <button type="button" class="btn btn-primary" id="edit" style="margin-left: 0px;"
+                        onClick='location.href="<c:url
+                                value="/reportController/files/${fileToDownload}"/>"'>Download .xls
+                </button>
             </c:if>
 
             <!-- Попап создания -->
