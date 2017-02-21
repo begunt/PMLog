@@ -89,10 +89,10 @@ public class SpreadsheetHelper {
                         .setDataStoreFactory(DATA_STORE_FACTORY)
                         .setAccessType("offline")
                         .build();
-        LOG.info("Google Authorization Code Flow built");
+        //LOG.info("Google Authorization Code Flow built");
         Credential credential = new AuthorizationCodeInstalledApp(
                 flow, new LocalServerReceiver()).authorize("user");
-        LOG.info("Returning credential object...");
+        //LOG.info("Returning credential object...");
         return credential;
     }
 
@@ -103,7 +103,7 @@ public class SpreadsheetHelper {
      */
     private static Sheets getSheetsService() throws IOException {
         Credential credential = authorize();
-        LOG.info("Building spreadsheet service...");
+        //LOG.info("Building spreadsheet service...");
         return new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential)
                     .setApplicationName(APPLICATION_NAME)
                     .build();

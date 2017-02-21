@@ -70,7 +70,7 @@ public class ReportController {
 
 
     @RequestMapping(value = "reports", method = RequestMethod.GET)
-    public String listReports(Model model, HttpServletRequest request) {
+    public synchronized String listReports(Model model, HttpServletRequest request) {
 
         model.addAttribute("project", new Project());
         List<Project> listOfProjects = this.projectService.listProjects();
@@ -102,28 +102,31 @@ public class ReportController {
             produces="text/plain",
             headers="Content-Type=application/json")
     @ResponseBody
-    public String addReport(@RequestBody Report report, HttpServletRequest request) {
+    public synchronized String addReport(@RequestBody Report report, HttpServletRequest request) {
         report.setSelectedProject(projectService.getProjectByName(report.getProduct()).getIdProject());
         Project selectedProject = this.projectService.getProjectById(report.getSelectedProject());
         selectedProject.setCustomFields(this.fieldService.listFieldsByIdProject(report.getSelectedProject()));
         personEmail = report.getPerson();
 
+
         if (report.getIdReport() == 0)
             listOfReports = this.reportDao.addReport(report, listOfReports);
         else listOfReports = this.reportDao.updateReport(report, listOfReports);
+
+
 
         return "/reportController/reports";
     }
 
     @RequestMapping("/remove/{id}")
-    public String removeReport(@PathVariable("id") int id, HttpServletRequest request) {
+    public synchronized String removeReport(@PathVariable("id") int id, HttpServletRequest request) {
         listOfReports = this.reportDao.removeReport(id, listOfReports);
 
         return "redirect:/reportController/reports";
     }
 
     @RequestMapping("edit/{id}")
-    public String editReport(@PathVariable("id") int id, Model model, HttpServletRequest request) {
+    public synchronized String editReport(@PathVariable("id") int id, Model model, HttpServletRequest request) {
         model.addAttribute("project", new Project());
         List<Project> listOfProjects = this.projectService.listProjects();
 
@@ -132,10 +135,10 @@ public class ReportController {
         }
         model.addAttribute("listProjects", listOfProjects);
         model.addAttribute("listDropdown", this.dropdownService.listDropdowns());
-
-        model.addAttribute("report", this.reportDao.getReportById(listOfReports, id));
-        model.addAttribute("listReports", this.listOfReportsDao.getListOfReportsByPerson(listOfReports, personEmail));
-
+        synchronized (ReportController.class) {
+            model.addAttribute("report", this.reportDao.getReportById(listOfReports, id));
+            model.addAttribute("listReports", this.listOfReportsDao.getListOfReportsByPerson(listOfReports, personEmail));
+        }
         return "tasks";
     }
 
@@ -143,7 +146,7 @@ public class ReportController {
     public String sentReport(@ModelAttribute("listOfReports") List<Report> listOfReports, Model model, HttpServletRequest request) {
 */
     @RequestMapping("sent")
-    public String sentListOfReports( Model model, HttpServletRequest request){
+    public synchronized String sentListOfReports( Model model, HttpServletRequest request){
         List<Report> tempListOfReports, listOfReportsFromBD;
         String person = ((JiraClient)request.getSession().getAttribute(AQA_JIRA_CLIENT_SESSION_ATTR)).getSelf();
         tempListOfReports = this.listOfReportsDao.getListOfReportsByPerson(listOfReports, person);//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
@@ -185,7 +188,7 @@ public class ReportController {
     }
 
     @RequestMapping(value = "/updateAddButton", method = RequestMethod.GET)
-    public String updateAddButton(Model model, HttpServletRequest request) {
+    public synchronized String updateAddButton(Model model, HttpServletRequest request) {
         model.addAttribute("project", new Project());
         List<Project> listOfProjects = this.projectService.listProjects();
 
@@ -209,7 +212,7 @@ public class ReportController {
     }
 
     @RequestMapping(value = "/files/{file_name}", method = RequestMethod.GET)
-    public void getFile(
+    public synchronized void getFile(
             @PathVariable("file_name") String fileName,
             HttpServletResponse response) {
         try {

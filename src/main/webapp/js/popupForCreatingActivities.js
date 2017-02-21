@@ -1,7 +1,7 @@
 /**
  * Created by Asus on 23/01/2017.
  */
-var projectName = 'Mobile';
+var projectName = 'Select';
 var mainObject = document.getElementById("mainObject").value;
 var forAddButton = document.getElementById("forAddButton").value;
 
@@ -47,7 +47,7 @@ $(window).load(function () {
     });
 
     function chooseActivity(activity){
-        if(activity == "Full test pass" && selectProduct== "Mobile"){
+       /* if(activity == "Full test pass" && selectProduct== "Mobile"){
             console.log(activity + "chooseActivity()");
             $(".fullPass").css("display","block");
             $(".fullPass").attr("required", "");
@@ -82,7 +82,7 @@ $(window).load(function () {
             $(".bugVerification").removeAttr("required");
             $(".storyRegression").css("display","none");
             $(".storyRegression").removeAttr("required");
-        }
+        }*/
     }
 
     function selectProject() {
@@ -96,7 +96,7 @@ $(window).load(function () {
         projectName = e.options[e.selectedIndex].value;
         $("#fields_of_project_id_" + projectName).css("display","block");
 
-        chooseActivity(mainObject);
+     //   chooseActivity(mainObject);
 
        /* $(".fields_of_project_id_" + projectName).each(function(){
             if( $(this).css() != "display: none;" && $("#mainObject").text() == 'null')

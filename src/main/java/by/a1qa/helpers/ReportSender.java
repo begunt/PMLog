@@ -1,18 +1,18 @@
 package by.a1qa.helpers;
 
 
+import by.a1qa.controller.ReportController;
 import by.a1qa.model.Report;
 import javafx.util.Pair;
 import net.rcarz.jiraclient.JiraClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.ContextClosedEvent;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.Executors;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.*;
 
 import static by.a1qa.helpers.CommonData.*;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -20,12 +20,15 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 /**
  * Created by alexei.khilchuk on 27/01/2017.
  */
-public class ReportSender {
+public class ReportSender extends ReportController implements ApplicationListener<ContextClosedEvent> {
     static Logger LOG = LoggerFactory.getLogger(ReportSender.class.getName());
 
-    private static BlockingQueue<Pair<Report, JiraClient>> reportsQueue = new LinkedBlockingQueue<Pair<Report, JiraClient>>();
+    static ScheduledFuture<?> taskHandle = null;
     private static final ScheduledExecutorService executorService =
             Executors.newScheduledThreadPool(1);
+
+    private static BlockingQueue<Pair<Report, JiraClient>> reportsQueue = new LinkedBlockingQueue<Pair<Report, JiraClient>>();
+
     private static boolean initialized = false;
     private static int numOfProcessedReports = 0;
 
@@ -61,7 +64,9 @@ public class ReportSender {
                             }
                         }
                         try {
-                            SpreadsheetHelper.submitReport(reportAndClientPair.getKey(), ALL_REPORTS_TAB_NAME, true);
+                            Report report = reportAndClientPair.getKey();
+                            report.setProduct(report.getProduct().replace('0', 'o'));
+                            SpreadsheetHelper.submitReport(report, ALL_REPORTS_TAB_NAME, true);
                             //SpreadsheetHelper.submitReport(report, report.getProduct(),false);
                         } catch (InvocationTargetException | IllegalAccessException | IOException e) {
                             LOG.error("There was an error during submitting report to the Spreadsheet", e);
@@ -75,7 +80,7 @@ public class ReportSender {
 
                 }
             };
-            executorService.scheduleAtFixedRate(sender, 10, REPORT_SEND_EXEC_INTERVAL, SECONDS);
+            taskHandle = executorService.scheduleAtFixedRate(sender, 10, REPORT_SEND_EXEC_INTERVAL, SECONDS);
             LOG.info("Initializing send report scheduler DONE");
         }
     }
@@ -94,5 +99,12 @@ public class ReportSender {
             } catch (InterruptedException ignored) {}
             addReportToQueue(report, jiraClient);
         }
+    }
+
+    @Override
+    public void onApplicationEvent(ContextClosedEvent contextClosedEvent) {
+        if (taskHandle != null)
+            taskHandle.cancel(true);
+        executorService.shutdown();
     }
 }
