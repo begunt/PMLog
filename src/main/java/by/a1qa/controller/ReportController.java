@@ -41,7 +41,7 @@ public class ReportController {
     private ProjectService projectService;
     private FieldService fieldService;
     private DropdownService dropdownService;
-    private static String personEmail;
+    private String personEmail = new String();
     private ListOfReportsService listOfReportsService;
 
     @Autowired(required = true)
@@ -92,7 +92,7 @@ public class ReportController {
         model.addAttribute("report", reportWithPerson);*/
         model.addAttribute("report", new Report());
         model.addAttribute("listFields", this.fieldService.listFields());
-        model.addAttribute("listReports", this.listOfReportsDao.getListOfReportsByPerson(listOfReports, personEmail));
+        model.addAttribute("listReports", this.listOfReportsDao.getListOfReportsByPerson(listOfReports, ((JiraClient)request.getSession().getAttribute(AQA_JIRA_CLIENT_SESSION_ATTR)).getSelf()));
         model.addAttribute("forAddButton", "");
         return "tasks";
     }
@@ -106,7 +106,7 @@ public class ReportController {
         report.setSelectedProject(projectService.getProjectByName(report.getProduct()).getIdProject());
         Project selectedProject = this.projectService.getProjectById(report.getSelectedProject());
         selectedProject.setCustomFields(this.fieldService.listFieldsByIdProject(report.getSelectedProject()));
-        personEmail = report.getPerson();
+        this.personEmail = report.getPerson();
 
 
         if (report.getIdReport() == 0)
@@ -137,7 +137,7 @@ public class ReportController {
         model.addAttribute("listDropdown", this.dropdownService.listDropdowns());
         synchronized (ReportController.class) {
             model.addAttribute("report", this.reportDao.getReportById(listOfReports, id));
-            model.addAttribute("listReports", this.listOfReportsDao.getListOfReportsByPerson(listOfReports, personEmail));
+            model.addAttribute("listReports", this.listOfReportsDao.getListOfReportsByPerson(listOfReports, this.personEmail));
         }
         return "tasks";
     }
@@ -205,7 +205,7 @@ public class ReportController {
         model.addAttribute("report", reportWithPerson);*/
         model.addAttribute("report", new Report());
         model.addAttribute("listFields", this.fieldService.listFields());
-        model.addAttribute("listReports", this.listOfReportsDao.getListOfReportsByPerson(listOfReports, personEmail));
+        model.addAttribute("listReports", this.listOfReportsDao.getListOfReportsByPerson(listOfReports, this.personEmail));
         model.addAttribute("forAddButton", "updating");
 
         return "tasks";
