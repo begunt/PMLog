@@ -16,6 +16,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import com.google.gson.Gson;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -94,7 +96,7 @@ public class ReportController {
 
     @RequestMapping(value = "/reports/add",
             method = RequestMethod.POST,
-            produces="text/plain",
+            produces="application/json",
             headers="Content-Type=application/json")
     @ResponseBody
     public String addReport(@RequestBody Report report, HttpServletRequest request) {
@@ -107,7 +109,9 @@ public class ReportController {
             listOfReports = this.reportDao.addReport(report, listOfReports);
         else listOfReports = this.reportDao.updateReport(report, listOfReports);
 
-        return "/reportController/reports";
+        Gson gson = new Gson();
+        String jsonReport = gson.toJson(report);
+        return jsonReport;
     }
 
     @RequestMapping("/remove/{id}")
@@ -130,6 +134,9 @@ public class ReportController {
 
         model.addAttribute("report", this.reportDao.getReportById(listOfReports, id));
         model.addAttribute("listReports", this.listOfReportsDao.getListOfReportsByPerson(listOfReports, personEmail));
+
+        Gson gson = new Gson();
+        String task = gson.toJson(model);
 
         return "tasks";
     }

@@ -20,7 +20,7 @@
     <head>
 <body>
   <div class="login">
-      <h1>Daily Report</h1>
+      <h1>Test</h1>
       <c:url var="addAction" value="/login"/>
       <form:form action="${addAction}" commandName="report" data-toggle="validator" role="form">
          <c:if test="${not empty wrongPass}">

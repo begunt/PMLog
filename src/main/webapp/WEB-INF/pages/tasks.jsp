@@ -20,6 +20,8 @@
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style-index.css"/>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style-info.css"/>
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/component.css"/>
+   <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/table-style.css">
+
 
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
@@ -44,14 +46,9 @@
     </script>
 <head>
 <body>
-<div id="wrapper">
-    <c:import url="template.jsp"></c:import>
-    <%
-        int timeout = session.getMaxInactiveInterval();
-        response.setHeader("Refresh", timeout + "; URL = /");
-    %>
-    <div id="page-wrapper">
-        <div class="container-fluid">
+
+
+
             <c:if test="${empty report.activity}">
                 <button type="button" class="btn btn-primary" class="btn btn-primary" data-toggle="modal"
                         data-target="#myModal">Add
@@ -78,69 +75,71 @@
             <c:if test="${!empty listReports}">
                 <%--<form:form action="/reportController/sent" commandName="listOfReports" class="form-horizontal">--%>
                 <div><h1>List of activities</h1></div>
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover table-striped">
-                        <thead>
-                        <tr>
-                            <th width="80">Task</th>
-                            <th width="1000">Description</th>
-                            <th width="60">Time</th>
-                            <th width="60" colspan="2"></th>
-                        </tr>
-                        </thead>
-                        <tbody>
+                <!-- Пошла таблица -->
+
+                    <table class="table" id="reportTable"  id="reportTable">
+
+                            <thead>
+                                <tr>
+                                    <th style="width: 20%">Task</th>
+                                    <th>Description</th>
+                                    <th style="width: 10%">Time</th>
+                                    <th style="width: 10%">Actions</th>
+                                </tr>
+                            </thead>
+
+
+
+
+
+                        <tbody class="tbl-content">
                         <c:forEach items="${listReports}" var="report">
                             <c:if test="${report.person == reportSession.person}">
                                 <tr>
                                     <td>${report.activity}</td>
                                     <td>
-                                        idReport: ${report.idReport}
-                                        <br>Timestamp: ${report.timestamp}
-                                        <br>Person: ${report.person}
-                                        <br>Product: ${report.product}
-
                                         <c:forEach items="${listProjects}" var="projectFromReport">
-                                            <c:if test="${report.selectedProject == projectFromReport.idProject}">
+                                           <c:if test="${report.selectedProject == projectFromReport.idProject}">
                                                 <c:forEach items="${projectFromReport.customFields}" var="field">
                                                     <c:choose>
                                                         <c:when test="${field.modelFieldName == 'project'}">
                                                             <c:if test="${not empty report.project}">
-                                                                <br>${field.name}: ${report.project}
+
                                                             </c:if>
                                                         </c:when>
                                                         <c:when test="${field.modelFieldName == 'sprint'}">
                                                             <c:if test="${not empty report.sprint}">
-                                                                <br>${field.name}: ${report.sprint}
+                                                                ${field.name}: ${report.sprint}
                                                             </c:if>
                                                         </c:when>
                                                         <c:when test="${field.modelFieldName == 'build'}">
                                                             <c:if test="${not empty report.build}">
-                                                                <br>${field.name}: ${report.build}
+                                                                ${field.name}: ${report.build}
                                                             </c:if>
                                                         </c:when>
                                                         <c:when test="${field.modelFieldName == 'devices'}">
                                                             <c:if test="${not empty report.devices}">
-                                                                <br>${field.name}: ${report.devices}
+                                                                ${field.name}: ${report.devices}
                                                             </c:if>
                                                         </c:when>
                                                         <c:when test="${field.modelFieldName == 'environment'}">
                                                             <c:if test="${not empty report.environment}">
-                                                                <br>${field.name}: ${report.environment}
+                                                                ${field.name}: ${report.environment}
                                                             </c:if>
                                                         </c:when>
                                                         <c:when test="${field.modelFieldName == 'time'}">
                                                             <c:if test="${not empty report.time}">
-                                                                <br>${field.name}: ${report.time}
+
                                                             </c:if>
                                                         </c:when>
                                                         <c:when test="${field.modelFieldName == 'comment'}">
                                                             <c:if test="${not empty report.comment}">
-                                                                <br>${field.name}: ${report.comment}
+                                                                ${field.name}: ${report.comment}
                                                             </c:if>
                                                         </c:when>
                                                         <c:when test="${field.modelFieldName == 'link'}">
                                                             <c:if test="${not empty report.link}">
-                                                                <br>${field.name}: ${report.link}
+                                                                ${field.name}: ${report.link}
                                                             </c:if>
                                                         </c:when>
                                                         <c:when test="${field.modelFieldName == 'numberOfCheckedStories'}">
@@ -207,8 +206,6 @@
                                                 onClick='location.href="<c:url
                                                         value="/reportController/edit/${report.idReport}"/>"'>Edit
                                         </button>
-                                    </td>
-                                    <td>
                                         <button type="button" id="delete" class="btn btn-primary"
                                                 onClick='location.href="<c:url
                                                         value="/reportController/remove/${report.idReport}"/>"'>Delete
@@ -218,8 +215,10 @@
                             </c:if>
                         </c:forEach>
                         </tbody>
+
                     </table>
-                </div>
+
+
 
                 <button type="button" class="btn btn-primary" id="edit" style="margin-left: 0px;"
                         onClick='location.href="<c:url
@@ -253,6 +252,7 @@
                                         <form:input path="person" style="display: none;"
                                                     value="${reportSession.person}"/>
                                         <form:input path="idReport" style="display: none;" value="${report.idReport}"/>
+
                                         <label for="selectIdProject" class="col-sm-2 control-label"
                                                style="width: 187px; text-align: left; ">Product</label>
 
