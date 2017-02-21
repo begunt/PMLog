@@ -269,8 +269,18 @@
                                                          id="selectIdProject"> <%--onchange="selectProject()"--%>
                                                 <form:option value="0">Select product</form:option>
                                                 <c:forEach items="${listProjects}" var="project">
-                                                    <form:option
-                                                            value="${project.name}">${project.name}</form:option>
+                                                    <!--K0STYL'-->
+                                                    <c:if test="${project.name == 'M0bile'}">
+                                                        <form:option
+                                                            value="${project.name}">Mobile
+                                                        </form:option>
+                                                    </c:if>
+
+                                                    <c:if test="${project.name != 'M0bile'}">
+                                                        <form:option
+                                                            value="${project.name}">${project.name}
+                                                        </form:option>
+                                                    </c:if>
                                                 </c:forEach>
                                             </form:select>
                                         </div>

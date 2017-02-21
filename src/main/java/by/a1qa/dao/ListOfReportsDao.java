@@ -25,7 +25,7 @@ public class ListOfReportsDao {
     public void addListOfReports(List<Report> listOfReports) {
         for (Report report : listOfReports) {
             Session session = this.sessionFactory.getCurrentSession();
-            session.persist(report);
+            session.save(report);
             logger.info("Report successfully saved. Report details: " + report);
         }
     }
