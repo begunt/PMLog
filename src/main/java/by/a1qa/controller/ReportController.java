@@ -18,8 +18,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import com.google.gson.Gson;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileInputStream;
@@ -43,7 +41,7 @@ public class ReportController {
     private ProjectService projectService;
     private FieldService fieldService;
     private DropdownService dropdownService;
-    private static String personEmail;
+    private String personEmail = new String();
     private ListOfReportsService listOfReportsService;
 
     @Autowired(required = true)
@@ -94,29 +92,30 @@ public class ReportController {
         model.addAttribute("report", reportWithPerson);*/
         model.addAttribute("report", new Report());
         model.addAttribute("listFields", this.fieldService.listFields());
-        model.addAttribute("listReports", this.listOfReportsDao.getListOfReportsByPerson(listOfReports, personEmail));
+        model.addAttribute("listReports", this.listOfReportsDao.getListOfReportsByPerson(listOfReports, ((JiraClient)request.getSession().getAttribute(AQA_JIRA_CLIENT_SESSION_ATTR)).getSelf()));
         model.addAttribute("forAddButton", "");
         return "tasks";
     }
 
     @RequestMapping(value = "/reports/add",
             method = RequestMethod.POST,
-            produces="application/json",
+            produces="text/plain",
             headers="Content-Type=application/json")
     @ResponseBody
     public synchronized String addReport(@RequestBody Report report, HttpServletRequest request) {
         report.setSelectedProject(projectService.getProjectByName(report.getProduct()).getIdProject());
         Project selectedProject = this.projectService.getProjectById(report.getSelectedProject());
         selectedProject.setCustomFields(this.fieldService.listFieldsByIdProject(report.getSelectedProject()));
-        personEmail = report.getPerson();
+        this.personEmail = report.getPerson();
+
 
         if (report.getIdReport() == 0)
             listOfReports = this.reportDao.addReport(report, listOfReports);
         else listOfReports = this.reportDao.updateReport(report, listOfReports);
 
-        Gson gson = new Gson();
-        String jsonReport = gson.toJson(report);
-        return jsonReport;
+
+
+        return "/reportController/reports";
     }
 
     @RequestMapping("/remove/{id}")
@@ -136,15 +135,10 @@ public class ReportController {
         }
         model.addAttribute("listProjects", listOfProjects);
         model.addAttribute("listDropdown", this.dropdownService.listDropdowns());
-
         synchronized (ReportController.class) {
             model.addAttribute("report", this.reportDao.getReportById(listOfReports, id));
-            model.addAttribute("listReports", this.listOfReportsDao.getListOfReportsByPerson(listOfReports, personEmail));
+            model.addAttribute("listReports", this.listOfReportsDao.getListOfReportsByPerson(listOfReports, this.personEmail));
         }
-
-        Gson gson = new Gson();
-        String task = gson.toJson(model);
-
         return "tasks";
     }
 
@@ -211,7 +205,7 @@ public class ReportController {
         model.addAttribute("report", reportWithPerson);*/
         model.addAttribute("report", new Report());
         model.addAttribute("listFields", this.fieldService.listFields());
-        model.addAttribute("listReports", this.listOfReportsDao.getListOfReportsByPerson(listOfReports, personEmail));
+        model.addAttribute("listReports", this.listOfReportsDao.getListOfReportsByPerson(listOfReports, this.personEmail));
         model.addAttribute("forAddButton", "updating");
 
         return "tasks";
