@@ -10,7 +10,6 @@ import by.a1qa.service.DropdownService;
 import by.a1qa.service.FieldService;
 import by.a1qa.service.ListOfReportsService;
 import by.a1qa.service.ProjectService;
-import net.rcarz.jiraclient.JiraClient;
 import org.apache.poi.util.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -92,7 +91,7 @@ public class ReportController {
         model.addAttribute("report", reportWithPerson);*/
         model.addAttribute("report", new Report());
         model.addAttribute("listFields", this.fieldService.listFields());
-        model.addAttribute("listReports", this.listOfReportsDao.getListOfReportsByPerson(listOfReports, ((JiraClient)request.getSession().getAttribute(AQA_JIRA_CLIENT_SESSION_ATTR)).getSelf()));
+        model.addAttribute("listReports", this.listOfReportsDao.getListOfReportsByPerson(listOfReports, (String)request.getSession().getAttribute(AQA_JIRA_CLIENT_SESSION_ATTR)));
         model.addAttribute("forAddButton", "");
         return "tasks";
     }
@@ -148,7 +147,7 @@ public class ReportController {
     @RequestMapping("sent")
     public synchronized String sentListOfReports( Model model, HttpServletRequest request){
         List<Report> tempListOfReports, listOfReportsFromBD;
-        String person = ((JiraClient)request.getSession().getAttribute(AQA_JIRA_CLIENT_SESSION_ATTR)).getSelf();
+        String person = (String)request.getSession().getAttribute(AQA_JIRA_CLIENT_SESSION_ATTR);
         tempListOfReports = this.listOfReportsDao.getListOfReportsByPerson(listOfReports, person);//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         this.listOfReportsService.addListOfReports(tempListOfReports);// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅ
         listOfReportsFromBD = this.listOfReportsService.listOfReports();// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅ
@@ -156,7 +155,7 @@ public class ReportController {
         //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
         for (Report report: listOfReportsFromBD){
             if(report.getPerson().equals(person))
-                ReportSender.addReportToQueue(report, (JiraClient) request.getSession().getAttribute(AQA_JIRA_CLIENT_SESSION_ATTR));
+                ReportSender.addReportToQueue(report);
         }
         try {
             model.addAttribute("fileToDownload", ExcelExporter.exportReportsToFile(tempListOfReports));

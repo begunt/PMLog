@@ -36,8 +36,8 @@
                             </c:if>
                             <label for="inputLogin">Login</label>
                             <form:input path="person" class="form-control" placeholder="e.example" id="inputLogin" required="true"/>
-                            <label for="inputPassword">Password</label>
-                            <form:input path="password" type="password" class="form-control" id="inputPassword" required="true"/>
+                            <%--<label for="inputPassword">Password</label>
+                            <form:input path="password" type="password" class="form-control" id="inputPassword" required="true"/>--%>
                         </div>
                 </div>
                 <div>

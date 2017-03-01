@@ -1,12 +1,11 @@
 package by.a1qa.controller;
 
-import by.a1qa.helpers.JiraHelper;
 import by.a1qa.model.Project;
 import by.a1qa.model.Report;
 import by.a1qa.service.DropdownService;
 import by.a1qa.service.FieldService;
 import by.a1qa.service.ProjectService;
-import net.rcarz.jiraclient.JiraClient;
+import by.a1qa.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -31,6 +30,7 @@ public class MainController {
 
     private ProjectService projectService;
     private FieldService fieldService;
+    private UserService userService;
     private DropdownService dropdownService;
     private ReportController reportController = new ReportController();
 
@@ -52,6 +52,12 @@ public class MainController {
         this.dropdownService = dropdownService;
     }
 
+    @Autowired(required = true)
+    @Qualifier(value = "userService")
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView main() {
         ModelAndView modelAndView = new ModelAndView();
@@ -66,11 +72,9 @@ public class MainController {
         Report reportToModel = new Report();
         reportToModel.setPerson(report.getPerson());
 
-        //if (JiraHelper.isAqaCredentialValid(report)){
-        JiraClient client = JiraHelper.getAqaJiraClient(report);
-        if (client != null){
+        if (this.userService.ifUserExists(report.getPerson())){
        /* if (true){*/
-            request.getSession().setAttribute(AQA_JIRA_CLIENT_SESSION_ATTR, client);
+            request.getSession().setAttribute(AQA_JIRA_CLIENT_SESSION_ATTR, report.getPerson());
 
             modelAndView.addObject("project", new Project());
             List<Project> listOfProjects = this.projectService.listProjects();
