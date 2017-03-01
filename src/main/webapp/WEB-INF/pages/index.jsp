@@ -7,7 +7,8 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Вход</title>
+    <title>Log In</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/css/sb-admin.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/css/plugins/morris.css" rel="stylesheet">
@@ -18,36 +19,29 @@
 <div>
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="navbar-header">
-            <a class="navbar-brand" href="/" target="_blank">BUGSall</a>
+            <a class="navbar-brand" href="/" target="_blank">Product Madness - A1QA (pre-alpha)</a>
         </div>
     </nav>
 
     <div class="loginBlock">
         <div class="container-fluid">
-            <h1>Вход в баг-трекинговую систему</h1>
+            <h1>Please enter your personal information</h1>
             <c:url var="addAction" value="/login"/>
-            <form:form action="${addAction}" commandName="employee">
-
-                <c:if test="${success}">
-                    <div class="form-group">
-                        <label>Логин</label>
-                        <form:input path="login" class="form-control" placeholder="Введите логин"/>
-                        <label>Пароль</label>
-                        <form:input type="password" path="password" class="form-control" placeholder="Введите пароль"/>
-                    </div>
-                </c:if>
-
-                <c:if test="${!success}">
-                    <div class="form-group has-error">
-                        <label class="control-label" for="inputError">Логин</label>
-                        <form:input path="login" class="form-control" id="inputError" placeholder="Введите логин"/>
-                        <label class="control-label" for="inputError">Пароль</label>
-                        <form:input type="password" path="password" class="form-control" id="inputError" placeholder="Введите пароль"/>
-
-                    </div>
-                </c:if>
+            <form:form action="${addAction}" commandName="report" data-toggle="validator" role="form">
+                <div class="form-group">
+                        <div <c:if test="${not empty wrongPass}">class="form-group has-error has-feedback"</c:if>>
+                            <c:if test="${not empty wrongPass}">
+                                <label class="control-label" for="inputLogin">
+                                    Sorry, your username and password are incorrect - please try again.</label>
+                            </c:if>
+                            <label for="inputLogin">Login</label>
+                            <form:input path="person" class="form-control" placeholder="e.example" id="inputLogin" required="true"/>
+                            <%--<label for="inputPassword">Password</label>
+                            <form:input path="password" type="password" class="form-control" id="inputPassword" required="true"/>--%>
+                        </div>
+                </div>
                 <div>
-                    <button type="submit" class="btn btn-default">Вход</button>
+                    <button type="submit" class="btn btn-default">Save</button>
                 </div>
 
             </form:form>
@@ -64,6 +58,7 @@
 <script src="${pageContext.request.contextPath}/js/plugins/morris/raphael.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/plugins/morris/morris.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/plugins/morris/morris-data.js"></script>
+<script src="${pageContext.request.contextPath}/js/indexPage.js"></script>
 </body>
 
 </html>

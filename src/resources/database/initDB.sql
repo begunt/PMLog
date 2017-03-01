@@ -1,117 +1,108 @@
-CREATE DATABASE IF NOT EXISTS `bts` /*!40100 DEFAULT CHARACTER SET latin1 */;
-USE `bts`;
+-- -----------------------------------------------------
+-- Schema pmlog
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `pmlog` DEFAULT CHARACTER SET utf8 ;
+USE `pmlog` ;
 
-DROP TABLE IF EXISTS `Time`;
-DROP TABLE IF EXISTS `Task`;
-DROP TABLE IF EXISTS `Issue`;
-DROP TABLE IF EXISTS `m2m_project_employee`;
-DROP TABLE IF EXISTS `Employee`;
-DROP TABLE IF EXISTS `Project`;
-DROP TABLE IF EXISTS `Role`;
-
-CREATE TABLE IF NOT EXISTS `Role` (
-	`idRole` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `nameRole` VARCHAR(45) NOT NULL,
-    UNIQUE INDEX `idRole_UNIQUE` (`idRole` ASC),
-    UNIQUE INDEX `NameRole_UNIQUE` (`NameRole` ASC),
-    PRIMARY KEY (`idRole`)
-)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_general_ci;
-
-CREATE TABLE IF NOT EXISTS `Project` (
-  `idProject` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+-- -----------------------------------------------------
+-- Table `pmlog`.`project`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `pmlog`.`project` (
+  `idProject` INT(11) NOT NULL,
   `name` VARCHAR(45) NOT NULL,
-  `description` VARCHAR(255) NOT NULL,
-  UNIQUE INDEX `idProject_UNIQUE` (`idProject` ASC),
-  UNIQUE INDEX `name_UNIQUE` (`name` ASC),
-  PRIMARY KEY (`idProject`)
- )
+  `jiraProjectKeyA1QA` VARCHAR(45) NOT NULL,
+  `jiraProjectKeyPM` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`idProject`),
+  UNIQUE INDEX `idProject_UNIQUE` (`idProject` ASC))
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_general_ci;
+DEFAULT CHARACTER SET = utf8;
 
-CREATE TABLE IF NOT EXISTS `Employee` (
-  `idEmployee` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `idRole` INT UNSIGNED NOT NULL,
-  `firstName` VARCHAR(45) NOT NULL,
-  `lastName` VARCHAR(45) NOT NULL,
-  `login` VARCHAR(25) NOT NULL,
-  `password` VARCHAR(9) NOT NULL,
-  `salary` BIGINT NOT NULL,
-  UNIQUE INDEX `idEmployee_UNIQUE` (`idEmployee` ASC),
-  UNIQUE INDEX `login_UNIQUE` (`login` ASC),
-  UNIQUE INDEX `lastName_UNIQUE` (`lastName` ASC),
-  CONSTRAINT `idRole` FOREIGN KEY (`idRole`) REFERENCES `Role` (`idRole`) ON DELETE CASCADE ON UPDATE CASCADE,
-  PRIMARY KEY (`idEmployee`)
- )
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_general_ci;
 
-CREATE TABLE IF NOT EXISTS `m2m_project_employee` (
-  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `idProject` INT UNSIGNED NOT NULL,
-  `idEmployee` INT UNSIGNED NOT NULL,
-  UNIQUE INDEX `id_UNIQUE` (`id` ASC),
-  CONSTRAINT `idProject` FOREIGN KEY (`idProject`) REFERENCES `Project` (`idProject`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `idEmployee` FOREIGN KEY (`idEmployee`) REFERENCES `Employee` (`idEmployee`) ON DELETE CASCADE ON UPDATE CASCADE,
-  PRIMARY KEY (`id`)
-)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_general_ci;
-
-CREATE TABLE IF NOT EXISTS `Issue` (
-  `idIssue` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `idEmployee` INT UNSIGNED NOT NULL,
-  `idProject` INT UNSIGNED NOT NULL,
-  `summary` VARCHAR(255) NOT NULL,
-  `issueType` VARCHAR(45) NOT NULL,
-  `priority` VARCHAR(25) NOT NULL,
-  `status` VARCHAR(25) NOT NULL,
-  `description` VARCHAR(255) NOT NULL,
-  `createdDate` DATE NOT NULL,
-  `severity` VARCHAR(25) NOT NULL,
-  `errorType` VARCHAR(25) NOT NULL,
-  `assignee` VARCHAR(25) NOT NULL,
-  UNIQUE INDEX `idIssue_UNIQUE` (`idIssue` ASC),
-  CONSTRAINT `idEmployeeIssue` FOREIGN KEY (`idEmployee`) REFERENCES `Employee` (`idEmployee`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `idProjectIssue` FOREIGN KEY (`idProject`) REFERENCES `Project` (`idProject`) ON DELETE CASCADE ON UPDATE CASCADE,
-  PRIMARY KEY (`idIssue`)
- )
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_general_ci;
-
-CREATE TABLE IF NOT EXISTS `Task` (
-  `idTask` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `idProject` INT UNSIGNED NOT NULL,
+-- -----------------------------------------------------
+-- Table `pmlog`.`type`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `pmlog`.`type` (
+  `idType` INT(11) NOT NULL,
   `name` VARCHAR(45) NOT NULL,
-  `description` VARCHAR(255) NOT NULL,
-  UNIQUE INDEX `idTask_UNIQUE` (`idTask` ASC),
-  UNIQUE INDEX `name_UNIQUE` (`name` ASC),
-  CONSTRAINT `idProjectTask` FOREIGN KEY (`idProject`) REFERENCES `Project` (`idProject`) ON DELETE CASCADE ON UPDATE CASCADE,
-  PRIMARY KEY (`idTask`)
- )
+  PRIMARY KEY (`idType`))
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_general_ci;
+DEFAULT CHARACTER SET = utf8;
 
-CREATE TABLE IF NOT EXISTS `Time` (
-  `idTime` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `idTask` INT UNSIGNED NOT NULL,
-  `idEmployee` INT UNSIGNED NOT NULL,
-  `description` VARCHAR(255) NOT NULL,
-  `category` VARCHAR(255) NOT NULL,
-  `status` VARCHAR(25) NOT NULL,
-  `timeSpent` TIME NOT NULL,
-  UNIQUE INDEX `ididTime_UNIQUE` (`idTime` ASC),
-  CONSTRAINT `idTask` FOREIGN KEY (`idTask`) REFERENCES `Task` (`idTask`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `idEmployeeTime` FOREIGN KEY (`idEmployee`) REFERENCES `Employee` (`idEmployee`) ON DELETE CASCADE ON UPDATE CASCADE,
-  PRIMARY KEY (`idTime`)
- )
+
+-- -----------------------------------------------------
+-- Table `pmlog`.`field`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `pmlog`.`field` (
+  `idField` INT(11) NOT NULL,
+  `idType` INT(11) NOT NULL,
+  `name` VARCHAR(45) NOT NULL,
+  `idProject` INT(11) NOT NULL,
+  `modelFieldName` VARCHAR(45) NOT NULL,
+  `required` VARCHAR(45) NULL,
+  `tooltip` VARCHAR(200) NULL,
+  PRIMARY KEY (`idField`),
+  UNIQUE INDEX `idProject_UNIQUE` (`idField` ASC),
+  INDEX `FKProjectField_idx` (`idProject` ASC),
+  INDEX `FKTypeField_idx` (`idType` ASC),
+  CONSTRAINT `FKProjectField`
+    FOREIGN KEY (`idProject`)
+    REFERENCES `pmlog`.`project` (`idProject`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `FKTypeField`
+    FOREIGN KEY (`idType`)
+    REFERENCES `pmlog`.`type` (`idType`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
 ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_general_ci;book
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `pmlog`.`dropdown`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `pmlog`.`dropdown` (
+  `idDropdown` INT(11) NOT NULL,
+  `idField` INT(11) NOT NULL,
+  `itemName` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`idDropdown`),
+  UNIQUE INDEX `idProject_UNIQUE` (`idDropdown` ASC),
+  INDEX `FKFieldDropdown_idx` (`idField` ASC),
+  CONSTRAINT `FKFieldDropdown`
+    FOREIGN KEY (`idField`)
+    REFERENCES `pmlog`.`field` (`idField`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+-- -----------------------------------------------------
+-- Table `pmlog`.`report`
+-- -----------------------------------------------------
+CREATE TABLE `pmlog`.`report` (
+  `idreport` INT NOT NULL,
+  `selectedProject` INT NOT NULL,
+  `timestamp` VARCHAR(45) NOT NULL,
+  `person` VARCHAR(45) NOT NULL,
+  `product` VARCHAR(45) NOT NULL,
+  `project` VARCHAR(45) NOT NULL,
+  `activity` VARCHAR(45) NOT NULL,
+  `sprint` VARCHAR(45) NULL,
+  `build` VARCHAR(45) NULL,
+  `devices` VARCHAR(45) NULL,
+  `environment` VARCHAR(45) NULL,
+  `time` VARCHAR(45) NULL,
+  `comment` VARCHAR(45) NULL,
+  `link` VARCHAR(45) NULL,
+  `numberOfCheckedStories` INT NULL,
+  `numberOfReopenedStories` INT NULL,
+  `linkToReopenedStories` VARCHAR(45) NULL,
+  `numberOfCheckedDefects` INT NULL,
+  `numberOfReopenedDefects` INT NULL,
+  `linkToReopenedDefects` VARCHAR(45) NULL,
+  `milestone` VARCHAR(45) NULL,
+  `testruns` VARCHAR(45) NULL,
+  `numberOfCheckedCases` INT NULL,
+  `reportcol` VARCHAR(45) NULL,
+  `linkToTask` VARCHAR(200) NULL,
+  PRIMARY KEY (`idreport`));

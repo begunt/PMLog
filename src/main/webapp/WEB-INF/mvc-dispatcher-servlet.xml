@@ -6,7 +6,7 @@
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
-    <context:component-scan base-package="by.bsuir.bugTrackingSystem"/>
+    <context:component-scan base-package="by.a1qa"/>
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/pages/"/>
@@ -18,16 +18,16 @@
           destroy-method="close">
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
         <property name="url"
-                  value="jdbc:mysql://localhost:3306/bts"/>
+                  value="jdbc:mysql://185.80.129.43:3306/pmlog?useUnicode=yes&amp;characterEncoding=UTF-8"/>
         <property name="username" value="root"/>
-        <property name="password" value="root"/>
+        <property name="password" value="Pr0ductm@dne55"/>
     </bean>
 
     <!-- Hibernate 4 SessionFactory Bean definition -->
     <bean id="hibernate4AnnotatedSessionFactory"
           class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
-        <property name="packagesToScan" value="by.bsuir.bugTrackingSystem.model"/>
+        <property name="packagesToScan" value="by.a1qa.model"/>
 
         <property name="hibernateProperties">
             <props>
@@ -37,43 +37,73 @@
         </property>
     </bean>
 
-    <!--IssueDao and IssueService beans-->
-    <bean id="issueDao" class="by.bsuir.bugTrackingSystem.dao.IssueDaoImpl">
+    <!--DropdownDao and DropdownService beans-->
+    <bean id="dropdownDao" class="by.a1qa.dao.DropdownDao">
         <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory"/>
     </bean>
-    <bean id="issueService" class="by.bsuir.bugTrackingSystem.service.IssueServiceImpl">
-        <property name="issueDao" ref="issueDao"/>
+    <bean id="dropdownService" class="by.a1qa.service.DropdownService">
+        <property name="dropdownDao" ref="dropdownDao"/>
+    </bean>
+    <bean id="dropdownServiceMain" class="by.a1qa.service.DropdownService">
+        <property name="dropdownDao" ref="dropdownDao"/>
     </bean>
 
+    <!--FieldDao and FieldService beans-->
+    <bean id="fieldDao" class="by.a1qa.dao.FieldDao">
+        <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory"/>
+    </bean>
+    <bean id="fieldService" class="by.a1qa.service.FieldService">
+        <property name="fieldDao" ref="fieldDao"/>
+    </bean>
+    <bean id="fieldServiceMain" class="by.a1qa.service.FieldService">
+        <property name="fieldDao" ref="fieldDao"/>
+    </bean>
+
+    <!--UserDao and UserService beans-->
+    <bean id="userDao" class="by.a1qa.dao.UserDao">
+        <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory"/>
+    </bean>
+    <bean id="userService" class="by.a1qa.service.UserService">
+        <property name="userDao" ref="userDao"/>
+    </bean>
+    <bean id="userServiceMain" class="by.a1qa.service.UserService">
+        <property name="userDao" ref="userDao"/>
+    </bean>
 
     <!--ProjectDao and ProjectService beans-->
-    <bean id="projectDao" class="by.bsuir.bugTrackingSystem.dao.ProjectDaoImpl">
+    <bean id="projectDao" class="by.a1qa.dao.ProjectDao">
         <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory"/>
     </bean>
-    <bean id="projectService" class="by.bsuir.bugTrackingSystem.service.ProjectServiceImpl">
+    <bean id="projectService" class="by.a1qa.service.ProjectService">
+        <property name="projectDao" ref="projectDao"/>
+    </bean>
+    <bean id="projectServiceMain" class="by.a1qa.service.ProjectService">
         <property name="projectDao" ref="projectDao"/>
     </bean>
 
-    <!--TaskDao and TaskService beans-->
-    <bean id="taskDao" class="by.bsuir.bugTrackingSystem.dao.TaskDaoImpl">
+    <!--TypeDao and TypeService beans-->
+    <bean id="typeDao" class="by.a1qa.dao.TypeDao">
         <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory"/>
     </bean>
-    <bean id="taskService" class="by.bsuir.bugTrackingSystem.service.TaskServiceImpl">
-        <property name="taskDao" ref="taskDao"/>
+    <bean id="typeService" class="by.a1qa.service.TypeService">
+        <property name="typeDao" ref="typeDao"/>
+    </bean>
+    <bean id="typeServiceMain" class="by.a1qa.service.TypeService">
+        <property name="typeDao" ref="typeDao"/>
     </bean>
 
-    <!--EmployeeDao and EmployeeService beans-->
-    <bean id="employeeDao" class="by.bsuir.bugTrackingSystem.dao.EmployeeDaoImpl">
+    <!--ListOfReports and ProjectService beans-->
+    <bean id="listOfReportsDao" class="by.a1qa.dao.ListOfReportsDao">
         <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory"/>
     </bean>
-    <bean id="employeeService" class="by.bsuir.bugTrackingSystem.service.EmployeeServiceImpl">
-        <property name="employeeDao" ref="employeeDao"/>
+    <bean id="listOfReportsService" class="by.a1qa.service.ListOfReportsService">
+        <property name="reportDao" ref="listOfReportsDao"/>
     </bean>
-    <bean id="employeeServiceMain" class="by.bsuir.bugTrackingSystem.service.EmployeeServiceImpl">
-        <property name="employeeDao" ref="employeeDao"/>
+    <bean id="listOfReportsServiceMain" class="by.a1qa.service.ListOfReportsService">
+        <property name="reportDao" ref="listOfReportsDao"/>
     </bean>
 
-    <context:component-scan base-package="by.bsuir.bugTrackingSystem"/>
+    <context:component-scan base-package="by.a1qa"/>
 
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
