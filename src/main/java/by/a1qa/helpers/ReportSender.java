@@ -4,7 +4,6 @@ package by.a1qa.helpers;
 import by.a1qa.controller.ReportController;
 import by.a1qa.model.Report;
 import javafx.util.Pair;
-import net.rcarz.jiraclient.JiraClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
@@ -27,7 +26,7 @@ public class ReportSender extends ReportController implements ApplicationListene
     private static final ScheduledExecutorService executorService =
             Executors.newScheduledThreadPool(1);
 
-    private static BlockingQueue<Pair<Report, JiraClient>> reportsQueue = new LinkedBlockingQueue<Pair<Report, JiraClient>>();
+    private static BlockingQueue<Report> reportsQueue = new LinkedBlockingQueue<Report>();
 
     private static boolean initialized = false;
     private static int numOfProcessedReports = 0;
@@ -41,12 +40,12 @@ public class ReportSender extends ReportController implements ApplicationListene
                     LOG.info("Checking reports queue");
                     if (!reportsQueue.isEmpty()){
                         LOG.info("Reports queue not empty. Processing sending...");
-                        Pair<Report, JiraClient> reportAndClientPair;
+                        Report report;
 
                         try {
                             LOG.info("Taking report from the queue...");
                             synchronized (ReportSender.class){
-                                reportAndClientPair = reportsQueue.take();
+                                report = reportsQueue.take();
                             }
                         } catch (InterruptedException e) {
                             try {
@@ -54,17 +53,16 @@ public class ReportSender extends ReportController implements ApplicationListene
                                 Thread.sleep(750);
                             } catch (InterruptedException ignored) {}
                             try {
-                                reportAndClientPair = reportsQueue.take();
+                                report = reportsQueue.take();
                             }  catch (InterruptedException e1) {
-                                Report report = new Report();
-                                report.setPerson("ERROR DURING PULLING FROM QUEUE. PLEASE REPORT TO DEV.");
+                                Report reportError = new Report();
+                                reportError.setPerson("ERROR DURING PULLING FROM QUEUE. PLEASE REPORT TO DEV.");
 
-                                reportAndClientPair = new Pair<>(report, null);
+                                report = reportError;
                                 LOG.error("There was an error during re-pulling report from the queue", e1);
                             }
                         }
                         try {
-                            Report report = reportAndClientPair.getKey();
                             report.setProduct(report.getProduct().replace('0', 'o'));
                             SpreadsheetHelper.submitReport(report, ALL_REPORTS_TAB_NAME, true);
                             //SpreadsheetHelper.submitReport(report, report.getProduct(),false);
@@ -85,19 +83,19 @@ public class ReportSender extends ReportController implements ApplicationListene
         }
     }
 
-    public synchronized static void addReportToQueue(Report report, JiraClient jiraClient) {
+    public synchronized static void addReportToQueue(Report report) {
         ReportSender.init();
         LOG.info(String.format("Adding report to queue: \n %s", report.getPerson()));
         try {
             synchronized (ReportSender.class){
-                reportsQueue.put(new Pair<>(report, jiraClient));
+                reportsQueue.put(report);
             }
         } catch (InterruptedException e) {
             try {
                 LOG.error("There was an error during adding report to the queue. Trying again...", e);
                 Thread.sleep(500);
             } catch (InterruptedException ignored) {}
-            addReportToQueue(report, jiraClient);
+            addReportToQueue(report);
         }
     }
 

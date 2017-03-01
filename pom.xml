@@ -172,14 +172,6 @@
             <version>1.22.0</version>
         </dependency>
 
-        <!-- Jira client-->
-        <dependency>
-            <groupId>net.rcarz</groupId>
-            <artifactId>jira-client</artifactId>
-            <version>0.6-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-
         <!--MySQL-->
         <dependency>
             <groupId>mysql</groupId>

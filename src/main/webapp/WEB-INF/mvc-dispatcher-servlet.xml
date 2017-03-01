@@ -59,6 +59,17 @@
         <property name="fieldDao" ref="fieldDao"/>
     </bean>
 
+    <!--UserDao and UserService beans-->
+    <bean id="userDao" class="by.a1qa.dao.UserDao">
+        <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory"/>
+    </bean>
+    <bean id="userService" class="by.a1qa.service.UserService">
+        <property name="userDao" ref="userDao"/>
+    </bean>
+    <bean id="userServiceMain" class="by.a1qa.service.UserService">
+        <property name="userDao" ref="userDao"/>
+    </bean>
+
     <!--ProjectDao and ProjectService beans-->
     <bean id="projectDao" class="by.a1qa.dao.ProjectDao">
         <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory"/>
