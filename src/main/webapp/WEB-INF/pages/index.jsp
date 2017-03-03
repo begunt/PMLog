@@ -14,6 +14,7 @@
     <link href="${pageContext.request.contextPath}/css/plugins/morris.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style-index.css" />
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/login-style.css">
 <head>
 <body>
   <div class="login">

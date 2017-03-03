@@ -33,6 +33,9 @@ public class Field {
     @Column(name = "tooltip")
     private String tooltip;
 
+    @Column(name = "dependsOnActivity")
+    private String dependsOnActivity;
+
     public String getModelFieldName() {
         return modelFieldName;
     }
@@ -87,6 +90,15 @@ public class Field {
 
     public void setTooltip(String tooltip) {
         this.tooltip = tooltip;
+    }
+
+
+    public String getDependsOnActivity() {
+        return dependsOnActivity;
+    }
+
+    public void setDependsOnActivity(String dependsOnActivity) {
+        this.dependsOnActivity = dependsOnActivity;
     }
 
     @Override

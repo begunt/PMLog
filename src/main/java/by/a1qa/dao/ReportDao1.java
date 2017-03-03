@@ -31,7 +31,7 @@ public class ReportDao1 {
         listOfReports.get(index).setDevices(report.getDevices());
         listOfReports.get(index).setEnvironment(report.getEnvironment());
         listOfReports.get(index).setLink(report.getLink());
-//        listOfReports.get(index).setTimestamp(report.getTimestamp());
+      //  listOfReports.get(index).setTimestamp(report.getTimestamp());
         listOfReports.get(index).setTimestamp(getCurrentTimeStamp());
         listOfReports.get(index).setPerson(report.getPerson());
         listOfReports.get(index).setProduct(report.getProduct());
@@ -76,7 +76,7 @@ public class ReportDao1 {
         return 0;
     }
     public String getCurrentTimeStamp() {
-        SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//dd/MM/yyyy
+        SimpleDateFormat sdfDate = new SimpleDateFormat("dd/MM/yyyy");//dd/MM/yyyy
         Date now = new Date();
         String strDate = sdfDate.format(now);
         return strDate;

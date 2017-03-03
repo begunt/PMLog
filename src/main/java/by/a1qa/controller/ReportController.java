@@ -17,6 +17,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import com.google.gson.Gson;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileInputStream;
@@ -113,8 +115,8 @@ public class ReportController {
         else listOfReports = this.reportDao.updateReport(report, listOfReports);
 
 
-
         return "/reportController/reports";
+
     }
 
     @RequestMapping("/remove/{id}")
@@ -134,10 +136,15 @@ public class ReportController {
         }
         model.addAttribute("listProjects", listOfProjects);
         model.addAttribute("listDropdown", this.dropdownService.listDropdowns());
+
         synchronized (ReportController.class) {
             model.addAttribute("report", this.reportDao.getReportById(listOfReports, id));
-            model.addAttribute("listReports", this.listOfReportsDao.getListOfReportsByPerson(listOfReports, this.personEmail));
+            model.addAttribute("listReports", this.listOfReportsDao.getListOfReportsByPerson(listOfReports, personEmail));
         }
+
+        Gson gson = new Gson();
+        String task = gson.toJson(model);
+
         return "tasks";
     }
 
@@ -204,7 +211,7 @@ public class ReportController {
         model.addAttribute("report", reportWithPerson);*/
         model.addAttribute("report", new Report());
         model.addAttribute("listFields", this.fieldService.listFields());
-        model.addAttribute("listReports", this.listOfReportsDao.getListOfReportsByPerson(listOfReports, this.personEmail));
+        model.addAttribute("listReports", this.listOfReportsDao.getListOfReportsByPerson(listOfReports, personEmail));
         model.addAttribute("forAddButton", "updating");
 
         return "tasks";

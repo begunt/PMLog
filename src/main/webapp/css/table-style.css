@@ -1,3 +1,7 @@
+html{
+    overflow: hidden;
+}
+
 
 h1{
     font-size: 30px;
@@ -48,7 +52,7 @@ body{
     color: white;
     width: 100%;
     height:100%;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Open Sans', sans-serif!important;
     background: #092756;
     background: -moz-radial-gradient(0% 100%, ellipse cover, rgba(104,128,138,.4) 10%,rgba(138,114,76,0) 40%),-moz-linear-gradient(top,  rgba(57,173,219,.25) 0%, rgba(42,60,87,.4) 100%), -moz-linear-gradient(-45deg,  #670d10 0%, #092756 100%);
     background: -webkit-radial-gradient(0% 100%, ellipse cover, rgba(104,128,138,.4) 10%,rgba(138,114,76,0) 40%), -webkit-linear-gradient(top,  rgba(57,173,219,.25) 0%,rgba(42,60,87,.4) 100%), -webkit-linear-gradient(-45deg,  #670d10 0%,#092756 100%);
@@ -57,12 +61,83 @@ body{
     background: -webkit-radial-gradient(0% 100%, ellipse cover, rgba(104,128,138,.4) 10%,rgba(138,114,76,0) 40%), linear-gradient(to bottom,  rgba(57,173,219,.25) 0%,rgba(42,60,87,.4) 100%), linear-gradient(135deg,  #670d10 0%,#092756 100%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3E1D6D', endColorstr='#092756',GradientType=1 );
 }
-}
+
 section{
     margin: 50px;
 }
 
+tbody span{
+    display: block;
+}
+table{
+    width: 77%!important;
+    margin-left: 11%;
+}
+
+.for-submit{
+    background: #337C21;
+    border: none;
+}
+
+.for-add, #edit, #delete{
+    border: none;
+}
+
+.for-delete{
+    background-color: darkred;
+    border: none;
+}
+
+.for-delete:hover{
+    background-color: darkred;
+    background-color: #960018;
+}
+
+.buttons-div{
+    float: left;
+    margin-left: 12%;
+}
+
+.buttons-div button{
+    width: 120px;
+}
+
+.full-test-pass, .bug-verification, .regression{
+    display: none;
+}
+
+.add-btn-initial{
+    position: absolute;
+    top: calc(50vh - (70px / 2));
+    left: calc(50vw - (300px / 2));
+    width: 300px!important;
+    height: 70px;
+}
+
+.download-xls{
+    position: absolute;
+    top: calc(40vh - (70px/2));
+    left: calc(50vw - (300px / 2));
+    width: 300px!important;
+    height: 70px;
+}
+
+.hide-add-btn{
+    display: none;
+}
 
 
+.logout{
+    width: 200px;
+    position: absolute;
+    top:2%;
+    left: 91%;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: none;
 
+}
 
+.logout a{
+    color:  #66a9d8!important;
+}

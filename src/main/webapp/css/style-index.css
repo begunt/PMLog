@@ -5,10 +5,10 @@
 .success{
     color:red;
 }
-
+/*
 .form-group{
     width: 300px;
-}
+}*/
 
 #selectProject, #selectIssueType,#inputSummary,#selectAssignee, #selectPriority, #selectSeverity, #areaDescription, #selectErrorType{
     width: 600px;
