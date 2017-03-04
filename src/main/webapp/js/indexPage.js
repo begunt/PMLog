@@ -16,11 +16,11 @@ $(window).load(function () {
                 email: {
                     validators: {
                         emailAddress: {
-                            message: 'Введите допустимый адрес электронной почты'
+                            message: 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ'
                         },
                         regexp: {
                             regexp: '^[^@\\s]+@([^@\\s]+\\.)+[^@\\s]+$',
-                            message: 'Введите допустимый адрес электронной почты'
+                            message: 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ'
                         }
                     }
                 }
@@ -44,3 +44,16 @@ $(window).load(function () {
         });
 });*/
 
+function validate(input){
+    input.className += 'validator';
+    input.addEventListener('focus', removePopup);
+    input.addEventListener('focusout', returnPopup);
+}
+
+function removePopup(e) {
+    document.getElementById('alertDiv').classList.add('when-focus')
+};
+
+function returnPopup(){
+    document.getElementById('alertDiv').classList.remove('when-focus');
+}

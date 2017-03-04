@@ -76,3 +76,44 @@ div.container-fluid span{
     font-size: large;
     cursor: default;
 }
+
+.validator {
+    -webkit-box-shadow: inset 0px 0px 14px 0px rgba(247, 10, 77, 1);
+    -moz-box-shadow: inset 0px 0px 14px 0px rgba(247, 10, 77, 1);
+    box-shadow: inset 0px 0px 14px 0px rgba(247, 10, 77, 1);
+}
+
+.alert-animantion{
+    color: white!important;
+    background-color: #830303!important;
+    opacity: 1;
+    border: none;
+    width: 40%;
+    position: absolute;
+    left: 100%;
+    animation: move 1s ease;
+    animation-fill-mode:forwards;
+    transform: translateZ(0);
+}
+
+@keyframes move {
+    100% {
+        transform: translate(-30%);
+    }
+}
+
+.validator:focus{
+
+}
+
+.when-focus{
+    animation: back 10s ease;
+    animation-fill-mode:forwards;
+    transform: translateZ(0);
+}
+
+@keyframes back {
+    100%{
+        transform: translate(30%);
+    }
+}

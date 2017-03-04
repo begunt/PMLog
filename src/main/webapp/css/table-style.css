@@ -11,21 +11,7 @@ h1{
     text-align: center;
     margin-bottom: 15px;
 }
-/*
-table{
-    width:100%;
-    table-layout: fixed;
-}
-.tbl-header{
-    background-color: rgba(255,255,255,0.3);
-}
-.tbl-content{
-    height:300px;
-    overflow-x:auto;
-    margin-top: 0px;
-    border: 1px solid rgba(255,255,255,0.3);
-}
-*/
+
 th{
     padding: 20px 15px;
     text-align: left;
@@ -89,7 +75,6 @@ table{
 }
 
 .for-delete:hover{
-    background-color: darkred;
     background-color: #960018;
 }
 
@@ -128,10 +113,10 @@ table{
 
 
 .logout{
-    width: 200px;
     position: absolute;
     top:2%;
-    left: 91%;
+    /*left: 91%;*/
+    left: calc(100vw - 150px);
     cursor: pointer;
     font-size: 14px;
     text-decoration: none;
@@ -140,4 +125,20 @@ table{
 
 .logout a{
     color:  #66a9d8!important;
+    transition: color 1s ease;
+}
+
+.logout a:hover{
+    color: darkred!important;
+    text-decoration: none;
+}
+
+.error:not(label){
+    -webkit-box-shadow: inset 0px 0px 14px 0px rgba(247, 10, 77, 1)!important;
+    -moz-box-shadow: inset 0px 0px 14px 0px rgba(247, 10, 77, 1)!important;
+    box-shadow: inset 0px 0px 14px 0px rgba(247, 10, 77, 1)!important;
+}
+
+.error:focus{
+    box-shadow: none!important;
 }

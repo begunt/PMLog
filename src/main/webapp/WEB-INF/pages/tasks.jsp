@@ -241,7 +241,7 @@
                 </c:if>
 
                 <c:if test="${!empty report.activity}">
-                    <button  type="button" class="btn btn-primary for-add hide-add-btn"
+                    <button id="activityUpBtn" type="button" class="btn btn-primary for-add hide-add-btn"
                          onClick='location.href="<c:url value="/reportController/updateAddButton"/>"'>
                         <span class="glyphicon glyphicon-plus"></span>Add
                     </button>

@@ -8,7 +8,7 @@ var forAddButton = document.getElementById("forAddButton").value;
 $(window).load(function () {
 
     if(document.getElementById('reportTable') != undefined){
-        $('#activityAddBtn').removeClass('hide-add-btn')
+        $('#activityAddBtn, #activityUpBtn').removeClass('hide-add-btn')
     }
     else {
         $('#activityAddBtn').addClass('btn btn-primary for-add add-btn-initial');
@@ -21,9 +21,7 @@ $(window).load(function () {
      dropEnvs.forEach(function(element){
         element.setAttribute('multiple', '');
      });
-    $("select[id*=select_Environment]").selectpicker('render');
-
-    resetDrops();
+    //$("select[id*=select_Environment]").selectpicker('render');
 
     if (mainObject != "null/") {
 
@@ -45,12 +43,8 @@ $(window).load(function () {
     }
 
     if(forAddButton == "updating"){
+        resetDrops();
         $('#myModal').modal('show');
-    }
-
-    function resetDrops(){
-        $('.selectpicker').selectpicker('val', '');
-        $('.selectpicker').selectpicker('render');
     }
 
     function setDevices(){
@@ -62,9 +56,11 @@ $(window).load(function () {
 
     function setEnvs(product){
           var inputsVals = $('#users_Environment_' + product).val();
-          var arrVals = inputsVals.split(',');
-          $('#select_Environment_' + product).selectpicker('val', arrVals);
-          $('#select_Environment_' + product).selectpicker('render');
+          if (inputsVals) {
+              var arrVals = inputsVals.split(',');
+              $('#select_Environment_' + product).selectpicker('val', arrVals);
+              $('#select_Environment_' + product).selectpicker('render');
+          }
     }
     //$( "#usersDevices" ).attr('disabled','disabled');
 /*
@@ -433,5 +429,14 @@ function hideMobileFields(collectionToHide){
     $( "input[type='number']").val(0);
 
 }
+
+function resetDrops(){
+    $('.selectpicker').selectpicker('val', '');
+    $('.selectpicker').selectpicker('render');
+}
+
+$('#activityAddBtn, #activityUpBtn').on('click', function(){
+    resetDrops();
+});
 
 

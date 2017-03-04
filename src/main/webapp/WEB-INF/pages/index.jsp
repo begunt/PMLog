@@ -15,27 +15,32 @@
     <link href="${pageContext.request.contextPath}/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style-index.css" />
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/login-style.css">
+    <script src="${pageContext.request.contextPath}/js/indexPage.js"></script>
 <head>
 <body>
   <div class="login">
       <h1>Test</h1>
       <c:url var="addAction" value="/login"/>
       <form:form action="${addAction}" commandName="report" data-toggle="validator" role="form">
-         <c:if test="${not empty wrongPass}">
-            <label class="control-label" for="inputLogin">
-                Sorry, your username and password are incorrect - please try again.</label>
-        </c:if>
         <form:input  path="person" type="text"
                      placeholder="e.example" id="inputEmail"
                      required="true"/>
         <button class="btn btn-primary btn-block btn-large"  type="submit">Login</button>
-    </form:form>
+      </form:form>
   </div>
   <footer class="navbar-fixed-bottom">
       <div class="container-fluid">
           <span>Product Madness - A1QA</span>
       </div>
   </footer>
+  <c:if test="${not empty wrongPass}">
+      <script>
+          validate(document.getElementById('inputEmail'))
+      </script>
+      <div id="alertDiv" class="alert alert-danger alert-animantion">
+          <strong>Wrong password!</strong>
+      </div>
+  </c:if>
 <!-- jQuery -->
 <script src="${pageContext.request.contextPath}/js/jquery.js"></script>
 
@@ -46,7 +51,6 @@
 <script src="${pageContext.request.contextPath}/js/plugins/morris/raphael.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/plugins/morris/morris.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/plugins/morris/morris-data.js"></script>
-<script src="${pageContext.request.contextPath}/js/indexPage.js"></script>
 </body>
 
 </html>
