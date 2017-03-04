@@ -81,16 +81,6 @@ public class ReportController {
         }
         model.addAttribute("listProjects", listOfProjects);
         model.addAttribute("listDropdown", this.dropdownService.listDropdowns());
-
-        //modelAndView.addObject("listFields", this.fieldService.listFields());
-
-        /*HttpSession session = request.getSession();
-        String person = (String)session.getAttribute("personFromReportSession");*/
-
-        /*Report reportWithPerson = new Report();
-        reportWithPerson.setPerson(personEmail);
-        reportWithPerson.setPassword(password);
-        model.addAttribute("report", reportWithPerson);*/
         model.addAttribute("report", new Report());
         model.addAttribute("listFields", this.fieldService.listFields());
         model.addAttribute("listReports", this.listOfReportsDao.getListOfReportsByPerson(listOfReports, (String)request.getSession().getAttribute(AQA_JIRA_CLIENT_SESSION_ATTR)));
@@ -109,14 +99,22 @@ public class ReportController {
         selectedProject.setCustomFields(this.fieldService.listFieldsByIdProject(report.getSelectedProject()));
         this.personEmail = report.getPerson();
 
-
         if (report.getIdReport() == 0)
             listOfReports = this.reportDao.addReport(report, listOfReports);
         else listOfReports = this.reportDao.updateReport(report, listOfReports);
 
+        //re-checking in case if there the same IDs - KOSTYL'
+        if (listOfReports.size() > 1){
+            int prevId = listOfReports.get(0).getIdReport();
+            for (int i = 1; i < listOfReports.size(); i++ ){
+                if (listOfReports.get(i).getIdReport() == prevId) {
+                    listOfReports.get(i).setIdReport(prevId + 1);
+                    prevId = listOfReports.get(i).getIdReport();
+                }
+            }
+        }
 
         return "/reportController/reports";
-
     }
 
     @RequestMapping("/remove/{id}")

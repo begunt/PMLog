@@ -212,7 +212,7 @@
                                     <td>${report.time}</td>
                                     <td>
                                         <p>
-                                            <button type="button" class="btn btn-primary" id="edit"
+                                            <button data-toggle="tooltip" title="ID = ${report.idReport}" type="button" class="btn btn-primary" id="edit"
                                                 style="margin-left: 0px;"
                                                 onClick='location.href="<c:url
                                                         value="/reportController/edit/${report.idReport}"/>"'>
