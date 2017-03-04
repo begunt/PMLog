@@ -10,6 +10,7 @@ import by.a1qa.service.DropdownService;
 import by.a1qa.service.FieldService;
 import by.a1qa.service.ListOfReportsService;
 import by.a1qa.service.ProjectService;
+import com.google.gson.Gson;
 import org.apache.poi.util.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -17,14 +18,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import com.google.gson.Gson;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static by.a1qa.helpers.CommonData.AQA_JIRA_CLIENT_SESSION_ATTR;
@@ -36,7 +36,7 @@ import static by.a1qa.helpers.CommonData.AQA_JIRA_CLIENT_SESSION_ATTR;
 @RequestMapping("/reportController")
 public class ReportController {
 
-    private static List<Report> listOfReports = new ArrayList<>();
+    private static List<Report> listOfReports = Collections.synchronizedList(new ArrayList());
     private ReportDao1 reportDao = new ReportDao1();
     private static ListOfReportsDao listOfReportsDao = new ListOfReportsDao();
     private ProjectService projectService;
@@ -83,7 +83,9 @@ public class ReportController {
         model.addAttribute("listDropdown", this.dropdownService.listDropdowns());
         model.addAttribute("report", new Report());
         model.addAttribute("listFields", this.fieldService.listFields());
-        model.addAttribute("listReports", this.listOfReportsDao.getListOfReportsByPerson(listOfReports, (String)request.getSession().getAttribute(AQA_JIRA_CLIENT_SESSION_ATTR)));
+        synchronized (listOfReports) {
+            model.addAttribute("listReports", this.listOfReportsDao.getListOfReportsByPerson(listOfReports, (String) request.getSession().getAttribute(AQA_JIRA_CLIENT_SESSION_ATTR)));
+        }
         model.addAttribute("forAddButton", "");
         return "tasks";
     }
@@ -99,9 +101,11 @@ public class ReportController {
         selectedProject.setCustomFields(this.fieldService.listFieldsByIdProject(report.getSelectedProject()));
         this.personEmail = report.getPerson();
 
-        if (report.getIdReport() == 0)
-            listOfReports = this.reportDao.addReport(report, listOfReports);
-        else listOfReports = this.reportDao.updateReport(report, listOfReports);
+        synchronized (listOfReports){
+            if (report.getIdReport() == 0)
+                listOfReports = this.reportDao.addReport(report, listOfReports);
+            else listOfReports = this.reportDao.updateReport(report, listOfReports);
+        }
 
         //re-checking in case if there the same IDs - KOSTYL'
         if (listOfReports.size() > 1){
@@ -119,8 +123,9 @@ public class ReportController {
 
     @RequestMapping("/remove/{id}")
     public synchronized String removeReport(@PathVariable("id") int id, HttpServletRequest request) {
-        listOfReports = this.reportDao.removeReport(id, listOfReports);
-
+        synchronized (listOfReports) {
+            listOfReports = this.reportDao.removeReport(id, listOfReports);
+        }
         return "redirect:/reportController/reports";
     }
 
@@ -135,7 +140,7 @@ public class ReportController {
         model.addAttribute("listProjects", listOfProjects);
         model.addAttribute("listDropdown", this.dropdownService.listDropdowns());
 
-        synchronized (ReportController.class) {
+        synchronized (listOfReports){
             model.addAttribute("report", this.reportDao.getReportById(listOfReports, id));
             model.addAttribute("listReports", this.listOfReportsDao.getListOfReportsByPerson(listOfReports, personEmail));
         }
@@ -153,7 +158,9 @@ public class ReportController {
     public synchronized String sentListOfReports( Model model, HttpServletRequest request){
         List<Report> tempListOfReports, listOfReportsFromBD;
         String person = (String)request.getSession().getAttribute(AQA_JIRA_CLIENT_SESSION_ATTR);
-        tempListOfReports = this.listOfReportsDao.getListOfReportsByPerson(listOfReports, person);//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+        synchronized (listOfReports) {
+            tempListOfReports = this.listOfReportsDao.getListOfReportsByPerson(listOfReports, person);//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+        }
         this.listOfReportsService.addListOfReports(tempListOfReports);// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅ
         listOfReportsFromBD = this.listOfReportsService.listOfReports();// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅ
 
@@ -167,9 +174,10 @@ public class ReportController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        this.listOfReportsService.removeListOfReports(tempListOfReports);//пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅ
-        listOfReports = listOfReportsDao.removeListOfReportsByPerson(listOfReports, person); //пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+        synchronized (listOfReports) {
+            this.listOfReportsService.removeListOfReports(tempListOfReports);//пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅ
+            listOfReports = listOfReportsDao.removeListOfReportsByPerson(listOfReports, person); //пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+        }
 
         model.addAttribute("project", new Project());
         List<Project> listOfProjects = this.projectService.listProjects();
@@ -187,7 +195,9 @@ public class ReportController {
         model.addAttribute("report", reportWithPerson);*/
         model.addAttribute("report", new Report());
         model.addAttribute("listFields", this.fieldService.listFields());
-        model.addAttribute("listReports", this.listOfReportsDao.getListOfReportsByPerson(listOfReports, person));
+        synchronized (listOfReports) {
+            model.addAttribute("listReports", this.listOfReportsDao.getListOfReportsByPerson(listOfReports, person));
+        }
         return "tasks";
     }
 
@@ -209,7 +219,9 @@ public class ReportController {
         model.addAttribute("report", reportWithPerson);*/
         model.addAttribute("report", new Report());
         model.addAttribute("listFields", this.fieldService.listFields());
-        model.addAttribute("listReports", this.listOfReportsDao.getListOfReportsByPerson(listOfReports, personEmail));
+        synchronized (listOfReports) {
+            model.addAttribute("listReports", this.listOfReportsDao.getListOfReportsByPerson(listOfReports, personEmail));
+        }
         model.addAttribute("forAddButton", "updating");
 
         return "tasks";
