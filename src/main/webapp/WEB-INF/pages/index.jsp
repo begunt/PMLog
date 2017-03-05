@@ -19,7 +19,7 @@
 <head>
 <body>
   <div class="login">
-      <h1>Test</h1>
+      <h1>Daily Report</h1>
       <c:url var="addAction" value="/login"/>
       <form:form action="${addAction}" commandName="report" data-toggle="validator" role="form">
         <form:input  path="person" type="text"
