@@ -108,6 +108,12 @@
                                     </td>
 
                                     <td>
+                                        <span>idReport: ${report.idReport}</span>
+                                        <span>Timestamp: ${report.timestamp}</span>
+                                        <span>Person: ${report.person}</span>
+                                        <c:if test="${report.product == 'M0bile'}"><span>Product: Mobile</span></c:if>
+                                        <a href="#rest_${report.idReport} " data-toggle="collapse">Collapsible</a>
+                                        <div id="rest_${report.idReport}" class="collapse">
                                         <c:forEach items="${listProjects}" var="projectFromReport">
                                            <c:if test="${report.selectedProject == projectFromReport.idProject}">
                                                 <c:forEach items="${projectFromReport.customFields}" var="field">
@@ -137,6 +143,7 @@
                                                                 <span>${field.name}: ${report.environment}</span>
                                                             </c:if>
                                                         </c:when>
+
                                                         <%--<c:when test="${field.modelFieldName == 'time'}">
                                                             <c:if test="${not empty report.time}">
 
@@ -208,6 +215,7 @@
                                                 </c:forEach>
                                             </c:if>
                                         </c:forEach>
+                                        </div>
                                     </td>
                                     <td>${report.time}</td>
                                     <td>
