@@ -108,10 +108,11 @@
                                     </td>
 
                                     <td>
-                                        <span>idReport: ${report.idReport}</span>
-                                        <span>Timestamp: ${report.timestamp}</span>
-                                        <span>Person: ${report.person}</span>
-                                        <c:if test="${report.product == 'M0bile'}"><span>Product: Mobile</span></c:if>
+                                        <%--<span><b>idReport:</b> ${report.idReport}</span>--%>
+                                        <span><b>Timestamp:</b> ${report.timestamp}</span>
+                                        <span><b>Person:</b> ${report.person}</span>
+                                        <c:if test="${report.product == 'M0bile'}"><span><b>Product:</b> Mobile</span></c:if>
+                                            <c:if test="${report.product != 'M0bile'}"><span><b>Product:</b> ${report.product}</span></c:if>
                                         <a href="#rest_${report.idReport} " data-toggle="collapse">Collapsible</a>
                                         <div id="rest_${report.idReport}" class="collapse">
                                         <c:forEach items="${listProjects}" var="projectFromReport">
@@ -125,22 +126,22 @@
                                                         </c:when>--%>
                                                         <c:when test="${field.modelFieldName == 'sprint'}">
                                                             <c:if test="${not empty report.sprint}">
-                                                                <span>${field.name}: ${report.sprint}</span>
+                                                                <span><b>${field.name}:</b> ${report.sprint}</span>
                                                             </c:if>
                                                         </c:when>
                                                         <c:when test="${field.modelFieldName == 'build'}">
                                                             <c:if test="${not empty report.build}">
-                                                                <span>${field.name}: ${report.build}</span>
+                                                                <span><b>${field.name}:</b> ${report.build}</span>
                                                             </c:if>
                                                         </c:when>
                                                         <c:when test="${field.modelFieldName == 'devices'}">
                                                             <c:if test="${not empty report.devices}">
-                                                                <span>${field.name}: ${report.devices}</span>
+                                                                <span><b>${field.name}:</b> ${report.devices}</span>
                                                             </c:if>
                                                         </c:when>
                                                         <c:when test="${field.modelFieldName == 'environment'}">
                                                             <c:if test="${not empty report.environment}">
-                                                                <span>${field.name}: ${report.environment}</span>
+                                                                <span><b>${field.name}:</b> ${report.environment}</span>
                                                             </c:if>
                                                         </c:when>
 
@@ -151,62 +152,67 @@
                                                         </c:when>--%>
                                                         <c:when test="${field.modelFieldName == 'comment'}">
                                                             <c:if test="${not empty report.comment}">
-                                                                <span>${field.name}: ${report.comment}</span>
+                                                                <span><b>${field.name}:</b> ${report.comment}</span>
                                                             </c:if>
                                                         </c:when>
                                                         <c:when test="${field.modelFieldName == 'link'}">
                                                             <c:if test="${not empty report.link}">
-                                                                <span>${field.name}: ${report.link}</span>
+                                                                <span><b>${field.name}:</b> ${report.link}</span>
                                                             </c:if>
                                                         </c:when>
                                                         <c:when test="${field.modelFieldName == 'numberOfCheckedStories'}">
                                                             <c:if test="${report.numberOfCheckedStories != 0}">
-                                                                <span>${field.name}: ${report.numberOfCheckedStories}</span>
+                                                                <span><b>${field.name}:</b> ${report.numberOfCheckedStories}</span>
                                                             </c:if>
                                                         </c:when>
                                                         <c:when test="${field.modelFieldName == 'numberOfReopenedStories'}">
                                                             <c:if test="${report.numberOfReopenedStories  != 0}">
-                                                                <span>${field.name}: ${report.numberOfReopenedStories}</span>
+                                                                <span><b>${field.name}:</b> ${report.numberOfReopenedStories}</span>
                                                             </c:if>
                                                         </c:when>
                                                         <c:when test="${field.modelFieldName == 'linkToReopenedStories'}">
                                                             <c:if test="${not empty report.linkToReopenedStories}">
-                                                                <span>${field.name}: ${report.linkToReopenedStories}</span>
+                                                                <span><b>${field.name}:</b> ${report.linkToReopenedStories}</span>
                                                             </c:if>
                                                         </c:when>
                                                         <c:when test="${field.modelFieldName == 'numberOfCheckedDefects'}">
                                                             <c:if test="${report.numberOfCheckedDefects  != 0}">
-                                                                <span>${field.name}: ${report.numberOfCheckedDefects}</span>
+                                                                <span><b>${field.name}:</b> ${report.numberOfCheckedDefects}</span>
                                                             </c:if>
                                                         </c:when>
                                                         <c:when test="${field.modelFieldName == 'numberOfReopenedDefects'}">
                                                             <c:if test="${report.numberOfReopenedDefects  != 0}">
-                                                                <span>${field.name}: ${report.numberOfReopenedDefects}</span>
+                                                                <span><b>${field.name}:</b> ${report.numberOfReopenedDefects}</span>
                                                             </c:if>
                                                         </c:when>
                                                         <c:when test="${field.modelFieldName == 'linkToReopenedDefects'}">
                                                             <c:if test="${not empty report.linkToReopenedDefects}">
-                                                                <span>${field.name}: ${report.linkToReopenedDefects}</span>
+                                                                <span><b>${field.name}:</b> ${report.linkToReopenedDefects}</span>
                                                             </c:if>
                                                         </c:when>
                                                         <c:when test="${field.modelFieldName == 'milestone'}">
                                                             <c:if test="${not empty report.milestone}">
-                                                                <span>${field.name}: ${report.milestone}</span>
+                                                                <span><b>${field.name}:</b> ${report.milestone}</span>
                                                             </c:if>
                                                         </c:when>
                                                         <c:when test="${field.modelFieldName == 'testruns'}">
                                                             <c:if test="${not empty report.testruns}">
-                                                                <span>${field.name}: ${report.testruns}</span>
+                                                                <span><b>${field.name}:</b> ${report.testruns}</span>
                                                             </c:if>
                                                         </c:when>
                                                         <c:when test="${field.modelFieldName == 'numberOfCheckedCases'}">
                                                             <c:if test="${report.numberOfCheckedCases != 0}">
-                                                                <span>${field.name}: ${report.numberOfCheckedCases}</span>
+                                                                <span><b>${field.name}:</b> ${report.numberOfCheckedCases}</span>
                                                             </c:if>
                                                         </c:when>
                                                         <c:when test="${field.modelFieldName == 'comment'}">
                                                             <c:if test="${not empty report.comment}">
-                                                                <span>${field.name}: ${report.comment}</span>
+                                                                <span><b>${field.name}:</b> ${report.comment}</span>
+                                                            </c:if>
+                                                        </c:when>
+                                                        <c:when test="${field.modelFieldName == 'linkToTask'}">
+                                                            <c:if test="${not empty report.comment}">
+                                                                <span><b>${field.name}:</b> ${report.comment}</span>
                                                             </c:if>
                                                         </c:when>
                                                         <c:otherwise>
@@ -217,7 +223,7 @@
                                         </c:forEach>
                                         </div>
                                     </td>
-                                    <td>${report.time}</td>
+                                    <td><span class="getTime">${report.time}</span></td>
                                     <td>
                                         <p>
                                             <button data-toggle="tooltip" title="ID = ${report.idReport}" type="button" class="btn btn-primary" id="edit"
@@ -376,7 +382,7 @@
                                                         <label data-toggle="tooltip" title="${field.tooltip}" for="select_${field.name}" class="col-sm-3 control-label al-center">${field.name} <c:if test="${field.required == true}"> * </c:if> </label>
 
                                                         <div class="col-sm-9">
-                                                            <form:select path="${field.modelFieldName}" data-style="forData" class="selectpicker fields_of_project_id_${selectedProject.name}" id="select_${field.name}">
+                                                            <form:select data-select-on-tab="true" path="${field.modelFieldName}" data-style="forData" class="selectpicker fields_of_project_id_${selectedProject.name}" id="select_${field.name}">
                                                                     <c:forEach items="${listDropdown}" var="dropdownItem">
                                                                         <c:if test="${dropdownItem.idField == field.idField}">
                                                                             <form:option value="${dropdownItem.itemName}">${dropdownItem.itemName}</form:option>
@@ -391,7 +397,7 @@
 
                                                         <div class="col-sm-9">
                                                             <c:if test="${field.name == 'Devices'}">
-                                                                <select data-style="forData" multiple data-selected-text-format="count > 3" data-live-search="true" class=" fields_of_project_id_${selectedProject.name} selectpicker" multiple id="select_${field.name}_${selectedProject.name}">
+                                                                <select data-select-on-tab="true" data-style="forData" multiple data-selected-text-format="count > 3" data-live-search="true" class=" fields_of_project_id_${selectedProject.name} selectpicker" multiple id="select_${field.name}_${selectedProject.name}">
                                                                         <c:forEach items="${listDropdown}" var="dropdownItem">
                                                                             <c:if test="${dropdownItem.idField == field.idField}">
                                                                              <option value="${dropdownItem.itemName}">${dropdownItem.itemName}</option>
@@ -401,7 +407,7 @@
                                                             </c:if>
 
                                                             <c:if test="${field.name != 'Devices'}">
-                                                                <select data-style="forData" class=" selectpicker fields_of_project_id_${selectedProject.name}" id="select_${field.name}_${selectedProject.name}">
+                                                                <select data-select-on-tab="true" data-style="forData" class=" selectpicker fields_of_project_id_${selectedProject.name}" id="select_${field.name}_${selectedProject.name}">
                                                                     <c:forEach items="${listDropdown}" var="dropdownItem">
                                                                         <c:if test="${dropdownItem.idField == field.idField}">
                                                                             <option value="${dropdownItem.itemName}">${dropdownItem.itemName}</option>
