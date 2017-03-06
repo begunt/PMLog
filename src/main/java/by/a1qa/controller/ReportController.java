@@ -107,16 +107,6 @@ public class ReportController {
             else listOfReports = this.reportDao.updateReport(report, listOfReports);
         }
 
-        //re-checking in case if there the same IDs - KOSTYL'
-        if (listOfReports.size() > 1){
-            int prevId = listOfReports.get(0).getIdReport();
-            for (int i = 1; i < listOfReports.size(); i++ ){
-                if (listOfReports.get(i).getIdReport() == prevId) {
-                    listOfReports.get(i).setIdReport(prevId + 1);
-                    prevId = listOfReports.get(i).getIdReport();
-                }
-            }
-        }
 
         return "/reportController/reports";
     }
@@ -142,7 +132,7 @@ public class ReportController {
 
         synchronized (listOfReports){
             model.addAttribute("report", this.reportDao.getReportById(listOfReports, id));
-            model.addAttribute("listReports", this.listOfReportsDao.getListOfReportsByPerson(listOfReports, personEmail));
+            model.addAttribute("listReports", this.listOfReportsDao.getListOfReportsByPerson(listOfReports, (String) request.getSession().getAttribute(AQA_JIRA_CLIENT_SESSION_ATTR)));
         }
 
         Gson gson = new Gson();
@@ -220,7 +210,7 @@ public class ReportController {
         model.addAttribute("report", new Report());
         model.addAttribute("listFields", this.fieldService.listFields());
         synchronized (listOfReports) {
-            model.addAttribute("listReports", this.listOfReportsDao.getListOfReportsByPerson(listOfReports, personEmail));
+            model.addAttribute("listReports", this.listOfReportsDao.getListOfReportsByPerson(listOfReports, (String) request.getSession().getAttribute(AQA_JIRA_CLIENT_SESSION_ATTR)));
         }
         model.addAttribute("forAddButton", "updating");
 

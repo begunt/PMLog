@@ -113,7 +113,7 @@
                                         <span><b>Person:</b> ${report.person}</span>
                                         <c:if test="${report.product == 'M0bile'}"><span><b>Product:</b> Mobile</span></c:if>
                                             <c:if test="${report.product != 'M0bile'}"><span><b>Product:</b> ${report.product}</span></c:if>
-                                        <a href="#rest_${report.idReport} " data-toggle="collapse">Collapsible</a>
+                                        <a href="#rest_${report.idReport} " data-toggle="collapse">More...</a>
                                         <div id="rest_${report.idReport}" class="collapse">
                                         <c:forEach items="${listProjects}" var="projectFromReport">
                                            <c:if test="${report.selectedProject == projectFromReport.idProject}">
@@ -212,7 +212,7 @@
                                                         </c:when>
                                                         <c:when test="${field.modelFieldName == 'linkToTask'}">
                                                             <c:if test="${not empty report.comment}">
-                                                                <span><b>${field.name}:</b> ${report.comment}</span>
+                                                                <span><b>${field.name}:</b> ${report.linkToTask}</span>
                                                             </c:if>
                                                         </c:when>
                                                         <c:otherwise>

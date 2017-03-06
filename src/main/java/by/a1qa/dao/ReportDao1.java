@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Created by tbegu_000 on 26.01.2017.
@@ -14,7 +15,8 @@ import java.util.List;
 public class ReportDao1 {
 
     public List<Report> addReport(Report report, List<Report> listOfReports) {
-        report.setIdReport(listOfReports.size()+1);
+        int randomNum = ThreadLocalRandom.current().nextInt(0, Integer.MAX_VALUE - 1);
+        report.setIdReport(randomNum);
         report.setTimestamp(getCurrentTimeStamp());
 
         listOfReports.add(report);
