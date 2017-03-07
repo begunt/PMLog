@@ -49,6 +49,7 @@ public class ReportDao1 {
         listOfReports.get(index).setMilestone(report.getMilestone());
         listOfReports.get(index).setTestruns(report.getTestruns());
         listOfReports.get(index).setNumberOfCheckedCases(report.getNumberOfCheckedCases());
+        listOfReports.get(index).setLinkToTask(report.getLinkToTask());
         return  listOfReports;
     }
 

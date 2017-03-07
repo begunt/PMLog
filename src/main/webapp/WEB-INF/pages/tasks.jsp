@@ -76,15 +76,15 @@
 
                 <%--<form:form action="/reportController/sent" commandName="listOfReports" class="form-horizontal">--%>
             <c:if test="${empty listReports and empty fileToDownload}">
-                <div><h1>The list of not submitted activities is empty</h1></div>
+                <div class="list-div"><h1>The list of not submitted activities is empty</h1></div>
             </c:if>
             <c:if test="${!empty listReports}">
 
-                <div><h1>List of activities</h1></div>
+                <div class="list-div"><h1>List of activities</h1></div>
             </c:if>
 
             <c:if test="${not empty fileToDownload}">
-                <div><h1>The list of activities was sent</h1></div>
+                <div class="list-div"><h1>The list of activities was sent</h1></div>
             </c:if>
                 <!-- Пошла таблица -->
             <c:if test="${!empty listReports}">
@@ -94,8 +94,8 @@
                                 <tr>
                                     <th style="width: 30%">Task</th>
                                     <th>Description</th>
-                                    <th style="width: 10%">Time</th>
-                                    <th style="width: 10%">Actions</th>
+                                    <th style="width: 15%">Spent minutes</th>
+                                    <th style="width: 10%; text-align:center">Actions</th>
                                 </tr>
                             </thead>
                         <tbody class="tbl-content">
@@ -211,7 +211,7 @@
                                                             </c:if>
                                                         </c:when>
                                                         <c:when test="${field.modelFieldName == 'linkToTask'}">
-                                                            <c:if test="${not empty report.comment}">
+                                                            <c:if test="${not empty report.linkToTask}">
                                                                 <span><b>${field.name}:</b> ${report.linkToTask}</span>
                                                             </c:if>
                                                         </c:when>
@@ -245,17 +245,18 @@
                         </tbody>
                         </c:if>
                     </table>
+    <div class="total-time"><span>Total time: </span><span id="totalTime"></span></div>
             <div class="buttons-div">
                 <c:if test="${empty report.activity}">
                      <button id="activityAddBtn" type="button" class="btn btn-primary for-add hide-add-btn" data-toggle="modal"
-                        data-target="#myModal">
+                        data-target="#myModal" data-backdrop="static" >
                          <span class="glyphicon glyphicon-plus"></span>Add
                      </button>
                 <%--onclick="openPopup()"--%>
                 </c:if>
 
                 <c:if test="${!empty report.activity}">
-                    <button id="activityUpBtn" type="button" class="btn btn-primary for-add hide-add-btn"
+                    <button data-backdrop="static" id="activityUpBtn" type="button" class="btn btn-primary for-add hide-add-btn"
                          onClick='location.href="<c:url value="/reportController/updateAddButton"/>"'>
                         <span class="glyphicon glyphicon-plus"></span>Add
                     </button>
@@ -313,8 +314,9 @@
 
                                         </label>
                                         <div class="col-sm-9">
-                                            <form:select path="product" data-style="forData" cssClass="selectpicker"
+                                            <form:select path="product" data-style="forData" cssClass="selectpicker isRequired_True"
                                                      id="selectIdProject"> <%--onchange="selectProject()"--%>
+                                                <option style="display: none"></option>
                                                     <c:forEach items="${listProjects}" var="project">
                                                         <!--K0STYL'-->
                                                         <c:if test="${project.name == 'M0bile'}">
@@ -371,7 +373,7 @@
 
                                                     <div class="col-sm-9">
 
-                                                            <form:input class="${field.dependsOnActivity} fields_of_project_id_${selectedProject.name}_" id="input_${field.name}"
+                                                            <form:input class="${field.dependsOnActivity} fields_of_project_id_${selectedProject.name} isRequired_${field.required}" id="input_${field.name}"
                                                                 path="${field.modelFieldName}"/>
 
                                                     </div>
@@ -382,7 +384,7 @@
                                                         <label data-toggle="tooltip" title="${field.tooltip}" for="select_${field.name}" class="col-sm-3 control-label al-center">${field.name} <c:if test="${field.required == true}"> * </c:if> </label>
 
                                                         <div class="col-sm-9">
-                                                            <form:select data-select-on-tab="true" path="${field.modelFieldName}" data-style="forData" class="selectpicker fields_of_project_id_${selectedProject.name}" id="select_${field.name}">
+                                                            <form:select data-select-on-tab="true" path="${field.modelFieldName}" data-style="forData" class="selectpicker fields_of_project_id_${selectedProject.name} isRequired_${field.required}" id="select_${field.name}">
                                                                     <c:forEach items="${listDropdown}" var="dropdownItem">
                                                                         <c:if test="${dropdownItem.idField == field.idField}">
                                                                             <form:option value="${dropdownItem.itemName}">${dropdownItem.itemName}</form:option>
@@ -397,7 +399,7 @@
 
                                                         <div class="col-sm-9">
                                                             <c:if test="${field.name == 'Devices'}">
-                                                                <select data-select-on-tab="true" data-style="forData" multiple data-selected-text-format="count > 3" data-live-search="true" class=" fields_of_project_id_${selectedProject.name} selectpicker" multiple id="select_${field.name}_${selectedProject.name}">
+                                                                <select data-select-on-tab="true" data-style="forData" multiple data-selected-text-format="count > 3" data-live-search="true" class=" fields_of_project_id_${selectedProject.name} selectpicker isRequired_${field.required}" multiple id="select_${field.name}_${selectedProject.name}">
                                                                         <c:forEach items="${listDropdown}" var="dropdownItem">
                                                                             <c:if test="${dropdownItem.idField == field.idField}">
                                                                              <option value="${dropdownItem.itemName}">${dropdownItem.itemName}</option>
@@ -407,7 +409,7 @@
                                                             </c:if>
 
                                                             <c:if test="${field.name != 'Devices'}">
-                                                                <select data-select-on-tab="true" data-style="forData" class=" selectpicker fields_of_project_id_${selectedProject.name}" id="select_${field.name}_${selectedProject.name}">
+                                                                <select data-select-on-tab="true" data-style="forData" class=" selectpicker fields_of_project_id_${selectedProject.name} isRequired_${field.required}" id="select_${field.name}_${selectedProject.name}">
                                                                     <c:forEach items="${listDropdown}" var="dropdownItem">
                                                                         <c:if test="${dropdownItem.idField == field.idField}">
                                                                             <option value="${dropdownItem.itemName}">${dropdownItem.itemName}</option>
@@ -427,7 +429,7 @@
                                                             <form:input path="${field.modelFieldName}" type="text"
                                                                     id="users_${field.name}_${selectedProject.name}"
                                                                     value=""
-                                                                    class="fields_of_project_id_${selectedProject.name}" cssStyle="display: none"/>
+                                                                    class="fields_of_project_id_${selectedProject.name} isRequired_${field.required}" cssStyle="display: none"/>
 
                                                         </div>
                                                 </c:if>
@@ -436,7 +438,7 @@
                                                     <label data-toggle="tooltip" title="${field.tooltip}" for="inputNumber_${field.name}" class="${field.dependsOnActivity} col-sm-3 control-label al-center">${field.name} <c:if test="${field.required == true}"> * </c:if> </label>
 
                                                     <div class="col-sm-9">
-                                                        <form:input type="number" class="${field.dependsOnActivity} fields_of_project_id_${selectedProject.name}" id="inputNumber_${field.name}" path="${field.modelFieldName}"/>
+                                                        <form:input type="number" class="${field.dependsOnActivity} fields_of_project_id_${selectedProject.name} isRequired_${field.required}" id="inputNumber_${field.name}" path="${field.modelFieldName}"/>
                                                     </div>
 
                                                 </c:if>
@@ -446,7 +448,7 @@
                                                     <label data-toggle="tooltip" title="${field.tooltip}" for="textarea_${field.name}" class="${field.dependsOnActivity} col-sm-3 control-label al-center">${field.name} <c:if test="${field.required == true}"> * </c:if> </label>
 
                                                     <div class="col-sm-9">
-                                                        <form:textarea class="${field.dependsOnActivity} for-textarea form-control fields_of_project_id_${selectedProject.name}" id="textarea_${field.name}" path="${field.modelFieldName}"/> <%--required="true"--%>
+                                                        <form:textarea class="${field.dependsOnActivity} for-textarea form-control fields_of_project_id_${selectedProject.name} isRequired_${field.required}" id="textarea_${field.name}" path="${field.modelFieldName}"/> <%--required="true"--%>
                                                     </div>
                                                     </p>
                                                 </c:if>
@@ -475,7 +477,7 @@
                                     </c:forEach>
 
                                  <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button id="modalClose" type="button" class="btn btn-default">Close</button>
                                         <c:if test="${empty report.activity}">
                                             <button type="button" onclick="submitForm();" class="btn btn-primary" name="addButton" value="Add">Add</button>
                                         </c:if>
@@ -500,9 +502,9 @@
 <script src="${pageContext.request.contextPath}/js/plugins/morris/raphael.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/plugins/morris/morris.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/plugins/morris/morris-data.js"></script>
-<script src="${pageContext.request.contextPath}/js/popupForCreatingActivities.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
-
+<script src="${pageContext.request.contextPath}/js/bootbox.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/popupForCreatingActivities.js"></script>
 
             <!--done-->
 <!--<script>
@@ -514,6 +516,7 @@
        console.log('Input = ' + inputValue);
     });
 </script>-->
+
 
             <script>
                 $(document).ready(function(){

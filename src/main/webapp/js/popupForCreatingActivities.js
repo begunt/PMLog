@@ -8,19 +8,15 @@ var forAddButton = document.getElementById("forAddButton").value;
 $(window).load(function () {
 
     if(document.getElementById('reportTable') != undefined){
-        $('#activityAddBtn, #activityUpBtn').removeClass('hide-add-btn')
+        $('#activityAddBtn, #activityUpBtn').show('slow');
+        $('.total-time').show('slow');
+        getTime();
     }
     else {
         $('#activityAddBtn').addClass('btn btn-primary for-add add-btn-initial');
-        $('#activityAddBtn').removeClass('hide-add-btn')
+        $('#activityAddBtn').removeClass('hide-add-btn');
     }
 
-
-    var dropEnvs = $("select[id*=select_Environment]");
-     dropEnvs = [].slice.call(dropEnvs);
-     dropEnvs.forEach(function(element){
-        element.setAttribute('multiple', '');
-     });
     //$("select[id*=select_Environment]").selectpicker('render');
 
     if (mainObject != "null/") {
@@ -34,7 +30,8 @@ $(window).load(function () {
         setEnvs(selectProduct);
 
         if(selectProduct != ""){
-            selectProject();
+            //selectProject();
+            selectProjectEdit();
         }
         $('#myModal').modal('show');
         /*var activity = $("#mainObject").text();
@@ -70,7 +67,7 @@ $(window).load(function () {
         chooseActivity(activity);
     });*/
 
-    $("#selectIdProject").change(function () {
+   /* $("#selectIdProject").change(function () {
         //var e = document.getElementById("selectIdProject");
         console.log("selected project = " + projectName);
         $("#fields_of_project_id_" + projectName).css("display", "none");
@@ -84,7 +81,37 @@ $(window).load(function () {
             if( $(this).css("display") != "none" || $("#mainObject").value == "Regression" || $("#mainObject").value == "Full test pass" || $("#mainObject").value == "Bug verification")
                 $(this).attr("required", "");
         })
-    });
+    });*/
+
+
+      $('#selectIdProject').on('change', function (e) {
+          $("[id*=fields_of_project_id_]").not('#fields_of_project_id_' + $(this).val()).hide('slow');
+          $("[class*=fields_of_project_id_]").not('#fields_of_project_id_' + $(this).val()).val('').removeAttr("required");
+          $('#fields_of_project_id_' + $(this).val()).show('slow'); // показывает поля выбранного проекта
+          $('.fields_of_project_id_' + $(this).val()).each(function (index, element) {
+              if ($(element).hasClass('isRequired_true')) {
+                  $(element).not('.full-test-pass, .bug-verification, .regression').attr("required", "");
+              }
+          })
+          //$('.selectpicker').val('');
+          $( "#selectIdProject option:selected" ).each(function(){
+            projectName = $(this).val();
+          });
+          resetErrorClass();
+      });
+
+    function selectProjectEdit(){
+        projectName = $('#selectIdProject').val();
+        $('#fields_of_project_id_' + $('#selectIdProject').val()).show('slow'); // показывает поля выбранного проекта
+        $('.fields_of_project_id_' + $('#selectIdProject').val()).show('slow');
+        $('.fields_of_project_id_' + $('#selectIdProject').val()).each(function (index, element) {
+            if ($(element).hasClass('isRequired_true')) {
+                $(element).attr("required", "");
+            }
+        })
+    }
+
+
     /*function chooseActivity(activity){
        if(activity == "Full test pass" && selectProduct== "Mobile"){
             console.log(activity + "chooseActivity()");
@@ -125,7 +152,7 @@ $(window).load(function () {
     }
 */
 
-    function selectProject() {
+  /*  function selectProject() {
         var e = document.getElementById("selectIdProject");
         console.log("selected project = " + projectName);
         $("#fields_of_project_id_" + projectName).css("display", "none");
@@ -138,11 +165,11 @@ $(window).load(function () {
 
      //   chooseActivity(mainObject);
 
-       /* $(".fields_of_project_id_" + projectName).each(function(){
+       /!* $(".fields_of_project_id_" + projectName).each(function(){
             if( $(this).css() != "display: none;" && $("#mainObject").text() == 'null')
                 $(this).attr("required", "");
-        })*/
-    }
+        })*!/
+    }*/
 
 });
 
@@ -180,12 +207,22 @@ $.fn.serializeObject = function()
 function submitForm() {
     //var $myForm = $('#reportForm');
     jQuery.validator.setDefaults({
-        debug: true,
-        ignore: '*:not([name])',
-        success: "valid"
+        debug: true
+        //onkeyup: false
+        //ignore: '*:not([name])'
+        //success: "valid"
     });
     var form = $( "#reportForm" );
-    form.validate();
+   /* form.validate({
+        invalidHendler: function(event, validator){
+            {
+                var dropdowns = $('.selectpicker');
+                $(dropdowns).on('change', function(event){
+                    console.log(event);
+                })
+            }
+        }
+    });*/
     if(form.valid())
         sentToController();
     if (mainObject != "null/")
@@ -407,7 +444,7 @@ $('#select_Activity').change(function(){
            hideMobileFields($('.full-test-pass, .regression'));
            break;
 
-       case "Regression":
+       case "Story regression":
            $('.regression').show('fast');
            $(".regression").attr("required", "");
            hideMobileFields($('.full-test-pass, .bug-verification'));
@@ -433,10 +470,71 @@ function hideMobileFields(collectionToHide){
 function resetDrops(){
     $('.selectpicker').selectpicker('val', '');
     $('.selectpicker').selectpicker('render');
+    $('.selectpicker').val('');
+}
+
+function noProjectSelected(){
+    $("[id*=fields_of_project_id_]").hide();
+}
+
+function resetErrorClass(){
+    $("[id*=fields_of_project_id_]").removeClass('error');
+    $('label.error').remove();
+    $(".error").removeClass('error');
 }
 
 $('#activityAddBtn, #activityUpBtn').on('click', function(){
     resetDrops();
+    document.getElementById('reportForm').reset();
+    noProjectSelected();
+    resetErrorClass();
+})
+
+function getTime() {
+    var allTime = 0;
+    var timeNodeList = $('.getTime');
+    var i;
+    if(timeNodeList){
+        for(i=0; i<timeNodeList.length; i++){
+            allTime += parseInt(timeNodeList[i].innerHTML);
+        }
+        document.getElementById('totalTime').innerHTML = allTime;
+    } else {
+        document.getElementById('totalTime').innerHTML = 0;
+    }
+}
+
+$('#modalClose').on('click', function(e){
+    bootbox.confirm({
+        title: 'Close confirmation',
+        message: "Are you sure?",
+        size: 'small',
+        className: 'bg-color',
+        buttons:{
+            confirm:{
+                label: 'Yes',
+                className: 'btn-success'
+            },
+        cancel:{
+            label: 'No',
+            className: 'btn-danger'
+            }
+        },
+        callback: function(result){
+            if(result){
+                $('#myModal').modal('hide');
+            }
+        }
+    })
 });
+
+var dropEnvs = $("select[id*=select_Environment]");
+dropEnvs = [].slice.call(dropEnvs);
+dropEnvs.forEach(function(element){
+    element.setAttribute('multiple', '');
+});
+
+
+   // $('label.error').text('This field is required.');
 
 

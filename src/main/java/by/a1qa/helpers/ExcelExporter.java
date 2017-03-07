@@ -40,7 +40,22 @@ public class ExcelExporter {
             sheet.getRow(i + 1).createCell(1).setCellValue(report.getPerson());
             sheet.getRow(i + 1).createCell(2).setCellValue(Integer.valueOf(report.getTime()));
             sheet.getRow(i + 1).createCell(3).setCellValue(report.getLinkToTask());
-            sheet.getRow(i + 1).createCell(4).setCellValue(report.getComment());
+
+            String comment = new String("");
+
+            if (report.getActivity() != null) if (report.getActivity() != "" && report.getActivity() != " ") comment = comment.concat("Activity: " + report.getActivity() + '\n');
+            if (report.getBuild() != null) if (report.getBuild() != "" && report.getBuild() != " ") comment = comment.concat("Build: " + report.getBuild() + '\n');
+            if (report.getEnvironment() != null) if (report.getEnvironment() != "" && report.getEnvironment() != " ") comment = comment.concat("Environment: " + report.getEnvironment() + '\n');
+            if (report.getDevices() != null) if (report.getDevices() != "" && report.getDevices() != " ") comment = comment.concat("Devices: " + report.getDevices() + '\n');
+            if (report.getMilestone() != null) if (report.getMilestone() != "" && report.getMilestone() != " ") comment = comment.concat("Milestone: " + report.getMilestone() + '\n');
+            if (report.getTestruns() != null) if (report.getTestruns() != "" && report.getTestruns() != " ") comment = comment.concat("Testruns: " + report.getTestruns() + '\n');
+            if (report.getNumberOfCheckedCases() != null) if (report.getNumberOfCheckedCases() != "" && report.getNumberOfCheckedCases() != " ") comment = comment.concat("Number of checked cases: " + report.getNumberOfCheckedCases() + '\n');
+            if (report.getNumberOfCheckedDefects() != 0) comment = comment.concat("Number of checked defects: " + report.getNumberOfCheckedDefects() + '\n');
+            if (report.getNumberOfCheckedStories() != 0) comment = comment.concat("Number of checked stories: " + report.getNumberOfCheckedStories() + '\n');
+            if (report.getComment() != null) if (report.getComment() != "" && report.getComment() != " ") comment = comment.concat("Comment: " + report.getComment() + '\n');
+            if (report.getLink() != null) if (report.getLink() != "" && report.getLink() != " ") comment = comment.concat("Link: " + report.getLink());
+
+            sheet.getRow(i + 1).createCell(4).setCellValue(comment);
             sheet.getRow(i + 1).createCell(5).setCellValue(getAqaCategoryName(report.getActivity()));
         }
         DateFormat df = new SimpleDateFormat("dd-MM-yyyy-HH-mm");

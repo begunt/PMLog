@@ -38,7 +38,7 @@
           validate(document.getElementById('inputEmail'))
       </script>
       <div id="alertDiv" class="alert alert-danger alert-animantion">
-          <strong>Wrong password!</strong>
+          <strong>Wrong login!</strong>
       </div>
   </c:if>
 <!-- jQuery -->
