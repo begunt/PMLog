@@ -69,12 +69,13 @@ public class MainController {
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     public ModelAndView loginPMLog (@ModelAttribute("report") Report report, HttpServletRequest request){
         ModelAndView modelAndView = new ModelAndView();
-        Report reportToModel = new Report();
-        reportToModel.setPerson(report.getPerson());
+        /*Report reportToModel = new Report();
+        reportToModel.setPerson(report.getPerson());*/
 
         if (this.userService.ifUserExists(report.getPerson())){
        /* if (true){*/
             request.getSession().setAttribute(AQA_JIRA_CLIENT_SESSION_ATTR, report.getPerson());
+/*
 
             modelAndView.addObject("project", new Project());
             List<Project> listOfProjects = this.projectService.listProjects();
@@ -82,14 +83,17 @@ public class MainController {
                 project.setCustomFields(this.fieldService.listFieldsByIdProject(project.getIdProject()));
             }
             modelAndView.addObject("listProjects", listOfProjects);
-            modelAndView.addObject("report", reportToModel);
             modelAndView.addObject("listDropdown", this.dropdownService.listDropdowns());
             List<Report> listOfReports = reportController.getListOfReports();
             if(!listOfReports.isEmpty())
                 modelAndView.addObject("listReports",
                         reportController.getListOfReportsDao().getListOfReportsByPerson(listOfReports, report.getPerson()));
-            modelAndView.addObject("reportSession", reportToModel);
-            modelAndView.setViewName("tasks");
+            modelAndView.addObject("report", report);
+
+*/
+
+            modelAndView.addObject("reportSession", report);
+            modelAndView.setViewName("redirect:/reportController/reports");
         }
         else{
             modelAndView.addObject("wrongPass", new Boolean(true));
@@ -104,7 +108,7 @@ public class MainController {
     public ModelAndView logout(HttpSession request) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("report", new Report());
-        modelAndView.setViewName("index");
+        modelAndView.setViewName("redirect:/");
         request.removeAttribute("reportSession");
         request.removeAttribute(AQA_JIRA_CLIENT_SESSION_ATTR);
 
