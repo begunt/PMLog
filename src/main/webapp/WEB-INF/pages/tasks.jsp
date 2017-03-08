@@ -230,13 +230,13 @@
                                                 style="margin-left: 0px;"
                                                 onClick='location.href="<c:url
                                                         value="/reportController/edit/${report.idReport}"/>"'>
-                                                <span class="glyphicon glyphicon-erase"></span>Edit
+                                                <span class="glyphicon glyphicon-erase gly-margin"></span>Edit
                                             </button>
                                         </p>
                                         <button type="button" id="delete" class="btn btn-danger for-delete"
                                                 onClick='location.href="<c:url
                                                         value="/reportController/remove/${report.idReport}"/>"'>
-                                            <span class="glyphicon g glyphicon-remove-circle"></span>Delete
+                                            <span class="glyphicon g glyphicon-remove-circle gly-margin"></span>Delete
                                         </button>
                                     </td>
                                 </tr>
@@ -250,7 +250,7 @@
                 <c:if test="${empty report.activity}">
                      <button id="activityAddBtn" type="button" class="btn btn-primary for-add hide-add-btn" data-toggle="modal"
                         data-target="#myModal" data-backdrop="static" >
-                         <span class="glyphicon glyphicon-plus"></span>Add
+                         <span class="glyphicon glyphicon-plus gly-margin"></span>Add
                      </button>
                 <%--onclick="openPopup()"--%>
                 </c:if>
@@ -258,7 +258,7 @@
                 <c:if test="${!empty report.activity}">
                     <button data-backdrop="static" id="activityUpBtn" type="button" class="btn btn-primary for-add hide-add-btn"
                          onClick='location.href="<c:url value="/reportController/updateAddButton"/>"'>
-                        <span class="glyphicon glyphicon-plus"></span>Add
+                        <span class="glyphicon glyphicon-plus gly-margin"></span>Add
                     </button>
                 </c:if>
 
@@ -266,7 +266,7 @@
                      <button type="button" class="btn btn-success" id="edit" style="margin-left: 0px;"
                         onClick='location.href="<c:url
                                 value="/reportController/sent"/>"'>
-                         <span class="glyphicon glyphicon-export"></span>Submit
+                         <span class="glyphicon glyphicon-export gly-margin"></span>Submit
                     </button>
                 </c:if>
                 <c:if test="${not empty fileToDownload}">

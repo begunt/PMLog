@@ -49,7 +49,7 @@ public class ExcelExporter {
             if (report.getDevices() != null) if (report.getDevices() != "" && report.getDevices() != " ") comment = comment.concat("Devices: " + report.getDevices() + '\n');
             if (report.getMilestone() != null) if (report.getMilestone() != "" && report.getMilestone() != " ") comment = comment.concat("Milestone: " + report.getMilestone() + '\n');
             if (report.getTestruns() != null) if (report.getTestruns() != "" && report.getTestruns() != " ") comment = comment.concat("Testruns: " + report.getTestruns() + '\n');
-            if (report.getNumberOfCheckedCases() != null) if (report.getNumberOfCheckedCases() != "" && report.getNumberOfCheckedCases() != " ") comment = comment.concat("Number of checked cases: " + report.getNumberOfCheckedCases() + '\n');
+            if (report.getNumberOfCheckedCases() != null) if (report.getNumberOfCheckedCases() != "" && report.getNumberOfCheckedCases() != " " && report.getNumberOfCheckedCases() != "0") comment = comment.concat("Number of checked cases: " + report.getNumberOfCheckedCases() + '\n');
             if (report.getNumberOfCheckedDefects() != 0) comment = comment.concat("Number of checked defects: " + report.getNumberOfCheckedDefects() + '\n');
             if (report.getNumberOfCheckedStories() != 0) comment = comment.concat("Number of checked stories: " + report.getNumberOfCheckedStories() + '\n');
             if (report.getComment() != null) if (report.getComment() != "" && report.getComment() != " ") comment = comment.concat("Comment: " + report.getComment() + '\n');

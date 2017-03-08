@@ -59,29 +59,6 @@ $(window).load(function () {
               $('#select_Environment_' + product).selectpicker('render');
           }
     }
-    //$( "#usersDevices" ).attr('disabled','disabled');
-/*
-    $("#select_Activity").change(function() {
-        var activity = $( "#select_Activity option:selected" ).text();
-        //if(activity == "Full test pass" || activity == "Bug verification" || activity == "Regression")
-        chooseActivity(activity);
-    });*/
-
-   /* $("#selectIdProject").change(function () {
-        //var e = document.getElementById("selectIdProject");
-        console.log("selected project = " + projectName);
-        $("#fields_of_project_id_" + projectName).css("display", "none");
-        $(".fields_of_project_id_" + projectName).each(function(){
-            $(this).removeAttr("required");
-            $(this).val("");
-        })
-        projectName = $("#selectIdProject").val();
-        $("#fields_of_project_id_" + projectName).css("display","block");
-        $(".fields_of_project_id_" + projectName).each(function(){
-            if( $(this).css("display") != "none" || $("#mainObject").value == "Regression" || $("#mainObject").value == "Full test pass" || $("#mainObject").value == "Bug verification")
-                $(this).attr("required", "");
-        })
-    });*/
 
 
       $('#selectIdProject').on('change', function (e) {
@@ -93,11 +70,12 @@ $(window).load(function () {
                   $(element).not('.full-test-pass, .bug-verification, .regression').attr("required", "");
               }
           })
-          //$('.selectpicker').val('');
           $( "#selectIdProject option:selected" ).each(function(){
             projectName = $(this).val();
           });
           resetErrorClass();
+          clearModalContent(event.target.value);
+
       });
 
     function selectProjectEdit(){
@@ -109,83 +87,26 @@ $(window).load(function () {
                 $(element).attr("required", "");
             }
         })
-    }
-
-
-    /*function chooseActivity(activity){
-       if(activity == "Full test pass" && selectProduct== "Mobile"){
-            console.log(activity + "chooseActivity()");
-            $(".fullPass").css("display","block");
-            $(".fullPass").attr("required", "");
-            $(".bugVerification").css("display","none");
-            $(".bugVerification").removeAttr("required");
-            $(".storyRegression").css("display","none");
-            $(".storyRegression").removeAttr("required");
-        }
-        if(activity == "Bug verification"&& selectProduct== "Mobile"){
-            console.log(activity + "chooseActivity()");
-            $(".fullPass").css("display","none");
-            $(".fullPass").removeAttr("required");
-            $(".bugVerification").css("display","block");
-            $(".bugVerification").attr("required", "");
-            $(".storyRegression").css("display","none");
-            $(".storyRegression").removeAttr("required");
-        }
-        if(activity == "Regression"&& selectProduct== "Mobile"){
-            console.log(activity + "chooseActivity()");
-            $(".fullPass").css("display","none");
-            $(".fullPass").removeAttr("required");
-            $(".bugVerification").css("display","none");
-            $(".bugVerification").removeAttr("required");
-            $(".storyRegression").css("display","block");
-            $(".storyRegression").attr("required", "");
-        }
-        if(activity != "Full test pass" && activity != "Bug verification" && activity != "Regression"){
-            console.log(activity + "chooseActivity()");
-            $(".fullPass").css("display","none");
-            $(".fullPass").removeAttr("required");
-            $(".bugVerification").css("display","none");
-            $(".bugVerification").removeAttr("required");
-            $(".storyRegression").css("display","none");
-            $(".storyRegression").removeAttr("required");
+        var activityValue =  $('.pepsi').find("select.fields_of_project_id_" + projectName).val();
+        if(activityValue == 'Communication' || activityValue == 'Environment setup') {
+            hideDeviseBuildEnvsSetup($('.hide-pc-es'));
         }
     }
-*/
 
-  /*  function selectProject() {
-        var e = document.getElementById("selectIdProject");
-        console.log("selected project = " + projectName);
-        $("#fields_of_project_id_" + projectName).css("display", "none");
-        $(".fields_of_project_id_" + projectName).each(function(){
-            $(this).removeAttr("required");
-            $(this).val("");
-        })
-        projectName = e.options[e.selectedIndex].value;
-        $("#fields_of_project_id_" + projectName).css("display","block");
 
-     //   chooseActivity(mainObject);
-
-       /!* $(".fields_of_project_id_" + projectName).each(function(){
-            if( $(this).css() != "display: none;" && $("#mainObject").text() == 'null')
-                $(this).attr("required", "");
-        })*!/
-    }*/
+    /**/
 
 });
 
-/*function getUserChoice(tempName) {
-    var selectedValues = $( "#select_"+tempName+" option:selected" ).text();
-    var temp = $("#users_"+tempName).val();
-    if(temp != "undefined"){
-        $("#users_"+tempName).val(temp+", "+ selectedValues);
-        $("#users_"+tempName).removeAttr('disabled');
+function clearModalContent(project){
+    $("[id*=fields_of_project_id_]").not('#fields_of_project_id_' + project).val('');
+    $("[class*=fields_of_project_id_]").not('#fields_of_project_id_' + project).val('').selectpicker('val', '').selectpicker('render');
+    if ($('.hide-pc-es').css('display') == 'none'){
+        unHideDeviseBuildEnvsSetup($('.hide-pc-es'));
     }
-    if(temp == "") {
-        $("#users_"+tempName).val(selectedValues+"");
-        $("#users_"+tempName).removeAttr('disabled');
-    }
+}
 
-};*/
+/**/
 
 $.fn.serializeObject = function()
 {
@@ -227,115 +148,10 @@ function submitForm() {
         sentToController();
     if (mainObject != "null/")
         sentToController();
-        /*var i = 0 ;
-    $(".fields_of_project_id_" + projectName).each(function(){
-        if (!$(this).checkValidity())
-            i++;
-    })
-    if(i == 0)
-        sentToController();*/
+
 }
 /*
-function sentToController(){
-    var divArray = $(".fields_of_project");
-    for(var index = 0; index < divArray.length; index++) {
-        if (divArray[index].id != ("fields_of_project_id_" + projectName))
-            divArray[index].remove();
-    }
-    var data = JSON.stringify($('#reportForm').serializeObject());
-    $.ajax({
-        type: 'POST',
-        url: '/reportController/reports/add',
-        data: data,
-        contentType: "application/json"
-    }).done(function() {
-        console.log(data);
-        parsedData = JSON.parse(data);
 
-        var table = document.getElementById('reportTable');
-        if (table == null){
-            var tempTable = document.createElement('table');
-            tempTable.setAttribute('id', 'reportTable');
-            document.body.appendChild(tempTable);
-            build(tempTable);
-        }
-        else {
-            build(table);
-        }
-
-    }).fail(function(data, status) {
-        console.log(status);
-        console.log(JSON.stringify(data));
-    });
-}
-
-function build(table){
-    var row = table.insertRow(-1);
-
-    var cell1 = row.insertCell(0);
-    var cell2 = row.insertCell(1);
-    var cell3 = row.insertCell(2);
-    var cell4 = row.insertCell(3);
-
-
-    //Task
-    var task = parsedData.product + ' - ' + parsedData.project + ' - ' + parsedData.activity;
-    var taskPlaceholder = document.createElement('span');
-    taskPlaceholder.innerHTML = task;
-    cell1.appendChild(taskPlaceholder);
-
-    //Create comment cell
-    var env = 'Environment: ' + parsedData.environment;
-    var envPlaceholder = document.createElement('span');
-    envPlaceholder.style.display = 'block';
-    envPlaceholder.innerHTML = env;
-
-    var sprint = 'Sprint: ' + parsedData.sprint;
-    var sprintPlaceholder = document.createElement('span');
-    sprintPlaceholder.style.display = 'block';
-    sprintPlaceholder.innerHTML = sprint;
-
-    var comment = 'Comment: ' + parsedData.comment;
-    var commentPlaceholder = document.createElement('span');
-    commentPlaceholder.style.display = 'block';
-    commentPlaceholder.innerHTML = comment;
-
-    var link = 'Link: ' + parsedData.link;
-    var linkPlaceholder = document.createElement('span');
-    linkPlaceholder.style.display = 'block';
-    linkPlaceholder.innerHTML = link;
-
-    cell2.appendChild(envPlaceholder);
-    cell2.appendChild(sprintPlaceholder);
-    cell2.appendChild(commentPlaceholder);
-    cell2.appendChild(linkPlaceholder);
-
-    //Time
-    var time = parsedData.time;
-    var timePlaceholder = document.createElement('span');
-    timePlaceholder.innerHTML = time;
-    cell3.appendChild(timePlaceholder);
-
-
-    //buttons
-    var btn = document.createElement('button');
-    btn.classList.add('btn', 'btn-primary');
-    btn.setAttribute('id', 'edit');
-    btn.style.marginLeft = '0px';
-    btn.onclick = function () {
-        btn.value = "/reportController/edit/" + parsedData.idReport.toString();
-    }
-    btn.innerHTML = 'Edit';
-    cell4.appendChild(btn);
-
-   // document.getElementById('emptyList').style.display = 'none';
-    document.getElementById("reportForm").reset();
-    var selectToDrop = document.getElementById('selectIdProject');
-
-
-    $('#myModal').modal('hide');
-
-}
 */
 
 function sentToController(){
@@ -368,38 +184,6 @@ $( "#select_Devices_M0bile" ).change(function() {
     console.log('Input = ' + inputValue);
 });
 
-//fix for dropdown value
-// recheck
-/*$("select:not(#select_Devices_M0bile)").change(function() {
-    $("this option:selected").text();
-});*/
-
-
-//Env drop down
-/*
-$("select[id*=select_Environment]").change(function(){
-    self = this;
-    console.log('Before convert = ' + self);
-    console.log(self.id);
-    var selfArray = [].slice.call(self);
-    console.log("After convert =  " + selfArray);
-    selfArray.forEach(function (element) {
-        if(self.id.contains('select_Environment_')){
-            var pickerValueServer = $('#select_Environment_Server').val();
-            var inputValueServer = document.getElementById('users_Environment_Server');
-            inputValueServer.value = pickerValueServer.toString();
-            console.log('Picker = ' + pickerValueServer);
-            console.log('Input = ' + inputValueServer);
-        }
-        if(self.id == 'select_Environment_M0bile'){
-            var pickerValueMobile = $('#select_Environment_M0bile').val();
-            var inputValueMobile = document.getElementById('users_Environment_M0bile');
-            inputValueMobile.value = pickerValueMobile.toString();
-            console.log('Picker Mobile = ' + pickerValueMobile);
-            console.log('Input Mobile = ' + inputValueMobile);
-        }
-    })
-})*/
 
 $("select[id*=select_Environment]").change(function(){
    self = this;
@@ -413,20 +197,6 @@ $("select[id*=select_Environment]").change(function(){
 
 });
 
-/*
-function openPopup(){
-    if (document.getElementById("mainObject").value != "null") {
-        var e = document.getElementById("selectIdProject");
-        var projects = [];
-        for (var i = 0; i < e.options.length; i++) {
-            projects[i] = e.options[i].value;
-            $(".fields_of_project_id_" + projects[i]).each(function () {
-                $(this).val("");
-            })
-        }
-    }
-    $('#myModal').modal('show');
-}*/
 
 
 $('#select_Activity').change(function(){
@@ -534,7 +304,36 @@ dropEnvs.forEach(function(element){
     element.setAttribute('multiple', '');
 });
 
+$('.pepsi').on('change', function(event){
 
-   // $('label.error').text('This field is required.');
+   /* var selectedProject = document.getElementById('selectIdProject').value;
+    //$('#select_Activity').selectpicker('val', selectedProject);
+    var eventTarget = event.target.value;*/
+    var eleventsToChange = $('.hide-pc-es');
+    switch (event.target.value){
+        case "Communication":
+            hideDeviseBuildEnvsSetup(eleventsToChange);
+            break;
+        case "Environment setup":
+            hideDeviseBuildEnvsSetup(eleventsToChange);
+            break;
+        default:
+            unHideDeviseBuildEnvsSetup(eleventsToChange);
+            break;
+    };
+});
 
+function hideDeviseBuildEnvsSetup(fields){
+    fields.hide('slow');
+    fields.find( $("[class*=fields_of_project_id_]")).val('').selectpicker('val', '').selectpicker('render');
+}
 
+function unHideDeviseBuildEnvsSetup(fields) {
+    console.log(fields);
+    fields.show('slow');
+    fields.each(function (index, element) {
+        if ($(element).hasClass('isRequired_true')) {
+            $(element).attr("required", "");
+        }
+    })
+}
