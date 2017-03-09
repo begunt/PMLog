@@ -3,17 +3,21 @@ package by.a1qa.helpers;
 import by.a1qa.model.Report;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import static by.a1qa.helpers.CommonData.CommonMethods.getAqaCategoryName;
@@ -21,11 +25,11 @@ import static by.a1qa.helpers.CommonData.CommonMethods.getAqaCategoryName;
 /**
  * Created by alexei.khilchuk on 10/02/2017.
  */
-public class ExcelExporter {
-    static Logger LOG = LoggerFactory.getLogger(ExcelExporter.class.getName());
+public class ExcelHelper {
+    static Logger LOG = LoggerFactory.getLogger(ExcelHelper.class.getName());
 
     public static synchronized String exportReportsToFile(List<Report> reportList) throws IOException {
-        Workbook wb = new HSSFWorkbook(ExcelExporter.class.getResourceAsStream("/wl-import-template-file.xls"));
+        Workbook wb = new HSSFWorkbook(ExcelHelper.class.getResourceAsStream("/wl-import-template-file.xls"));
         Sheet sheet = wb.getSheet("WL");
         HSSFCellStyle dateCellStyle = (HSSFCellStyle) wb.createCellStyle();
         short dformat = wb.createDataFormat().getFormat("dd/MM/yyyy");
@@ -66,5 +70,43 @@ public class ExcelExporter {
         fileOut.close();
         LOG.info(String.format("File '%s' was created", fileName));
         return fileName;
+    }
+
+    public static synchronized List<Report> getReportsHistory(String username) throws IOException {
+        List<Report> reportList = new ArrayList<Report>();
+        File folder = new File(new File("").getAbsolutePath());
+        File[] listOfFiles = folder.listFiles();
+        if (listOfFiles != null) {
+            for (File file : listOfFiles){
+                if (file.getName().contains(username) && file.getName().contains(".xls")){
+                    reportList.addAll(getListOfReportsFromExcel(file.getPath()));
+                }
+            }
+        }
+        return reportList;
+    }
+
+    private static synchronized List<Report> getListOfReportsFromExcel(String filepath) throws IOException {
+        List<Report> reportList = new ArrayList<Report>();
+        FileInputStream inputStream = new FileInputStream(filepath);
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        Workbook wb = new HSSFWorkbook(inputStream);
+        Sheet sheet = wb.getSheet("WL");
+
+        Iterator<Row> rowIterator = sheet.iterator();
+        if (rowIterator.hasNext()) rowIterator.next();
+
+        while (rowIterator.hasNext()){
+            Report report = new Report();
+            Row row = rowIterator.next();
+            report.setTimestamp(df.format(row.getCell(0).getDateCellValue()));
+            report.setPerson(row.getCell(1).getStringCellValue());
+            report.setTime(String.valueOf(row.getCell(2).getNumericCellValue()));
+            report.setLinkToTask((row.getCell(3).getStringCellValue()));
+            report.setComment(row.getCell(4).getStringCellValue());
+            reportList.add(report);
+        }
+        inputStream.close();
+        return reportList;
     }
 }

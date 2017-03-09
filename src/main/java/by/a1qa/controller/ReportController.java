@@ -2,7 +2,7 @@ package by.a1qa.controller;
 
 import by.a1qa.dao.ListOfReportsDao;
 import by.a1qa.dao.ReportDao1;
-import by.a1qa.helpers.ExcelExporter;
+import by.a1qa.helpers.ExcelHelper;
 import by.a1qa.helpers.ReportSender;
 import by.a1qa.model.Project;
 import by.a1qa.model.Report;
@@ -10,7 +10,6 @@ import by.a1qa.service.DropdownService;
 import by.a1qa.service.FieldService;
 import by.a1qa.service.ListOfReportsService;
 import by.a1qa.service.ProjectService;
-import com.google.gson.Gson;
 import org.apache.poi.util.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -71,8 +70,7 @@ public class ReportController {
 
 
     @RequestMapping(value = "reports", method = RequestMethod.GET)
-    public synchronized String listReports(Model model, HttpServletRequest request) {
-
+    public synchronized String listReports(Model model, HttpServletRequest request) throws IOException {
         model.addAttribute("project", new Project());
         List<Project> listOfProjects = this.projectService.listProjects();
 
@@ -135,9 +133,6 @@ public class ReportController {
             model.addAttribute("listReports", this.listOfReportsDao.getListOfReportsByPerson(listOfReports, (String) request.getSession().getAttribute(AQA_JIRA_CLIENT_SESSION_ATTR)));
         }
 
-        Gson gson = new Gson();
-        String task = gson.toJson(model);
-
         return "tasks";
     }
 
@@ -160,7 +155,7 @@ public class ReportController {
                 ReportSender.addReportToQueue(report);
         }
         try {
-            model.addAttribute("fileToDownload", ExcelExporter.exportReportsToFile(tempListOfReports));
+            model.addAttribute("fileToDownload", ExcelHelper.exportReportsToFile(tempListOfReports));
         } catch (IOException e) {
             e.printStackTrace();
         }
