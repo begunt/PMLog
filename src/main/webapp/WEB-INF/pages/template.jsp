@@ -12,6 +12,9 @@
     </div>
     <!-- Top Menu Items -->
     <ul class="nav navbar-right top-nav">
+      <li class="active">
+        <a href="<c:url value="/reportController/history"/>" target="_blank"><i class="fa fa-fw fa-dashboard"></i>History</a>
+      </li>
       <li class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> ${reportSession.person} <b></b></a>
       </li>

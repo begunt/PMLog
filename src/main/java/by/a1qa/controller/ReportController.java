@@ -43,6 +43,7 @@ public class ReportController {
     private DropdownService dropdownService;
     private String personEmail = new String();
     private ListOfReportsService listOfReportsService;
+    private ExcelHelper excelHelper = new ExcelHelper();
 
     @Autowired(required = true)
     @Qualifier(value = "listOfReportsService")
@@ -226,6 +227,15 @@ public class ReportController {
         }
     }
 
+    @RequestMapping(value = "history", method = RequestMethod.GET)
+    public synchronized String listOfReportsFromHistory(Model model, HttpServletRequest request) throws IOException {
+        synchronized (listOfReports) {
+            model.addAttribute("listOfReportsFromHistory", ExcelHelper.getReportsHistory((String) request.getSession().getAttribute(AQA_JIRA_CLIENT_SESSION_ATTR)));
+        }
+
+        return "history";
+    }
+
     public ListOfReportsDao getListOfReportsDao() {
         return listOfReportsDao;
     }
@@ -241,4 +251,7 @@ public class ReportController {
     public void setListOfReports(List<Report> listOfReports) {
         this.listOfReports = listOfReports;
     }
+
+
 }
+

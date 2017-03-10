@@ -59,6 +59,7 @@
 <body>
 
     <div class="logout">
+        <a href="<c:url value="/reportController/history"/>" target="_blank"><i class="fa fa-fw fa-dashboard"></i></i>History</a>
         <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> ${reportSession.person} <b></b></a>
         <a href="<c:url value="/logout"/>"><i class="fa fa-fw fa-power-off"></i>Logout</a>
     </div>
