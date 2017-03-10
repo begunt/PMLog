@@ -400,12 +400,19 @@
                                                         <div class="col-sm-9">
                                                             <c:if test="${field.name == 'Devices'}">
                                                                 <select data-select-on-tab="true" data-style="forData" multiple data-selected-text-format="count > 3" data-live-search="true" class=" fields_of_project_id_${selectedProject.name} selectpicker isRequired_${field.required}" multiple id="select_${field.name}_${selectedProject.name}">
-                                                                        <c:forEach items="${listDropdown}" var="dropdownItem">
+                                                                    <%--<option id="custom-device-Name" title="Other Device">Other Device</option>--%>
+                                                                    <c:forEach items="${listDropdown}" var="dropdownItem">
                                                                             <c:if test="${dropdownItem.idField == field.idField}">
                                                                              <option value="${dropdownItem.itemName}">${dropdownItem.itemName}</option>
                                                                             </c:if>
                                                                         </c:forEach>
                                                                 </select>
+                                                                <div id="customDevice" class="input-group" style="display: none;">
+                                                                    <input  id="input-custom-device" class="custom-device">
+                                                                    <span class="input-group-btn">
+                                                                        <button id="bnt-custom-device" class="btn btn-default btn-block btn-span" type="button">Add Device</button>
+                                                                    </span>
+                                                                </div>
                                                             </c:if>
 
                                                             <c:if test="${field.name != 'Devices'}">

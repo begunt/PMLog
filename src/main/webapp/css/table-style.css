@@ -178,3 +178,21 @@ table{
 .gly-margin{
     margin-right: 3px;
 }
+
+.btn-span{
+    background-color: #4a77d4;
+    border: 1px solid #3762bc;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.custom-device{
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    margin-bottom: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+

@@ -47,6 +47,13 @@ $(window).load(function () {
     function setDevices(){
         var devices = $('#users_Devices_M0bile').val();
         var arrDevices = devices.split(',');
+        /*var optionsList = new Array();
+        $('#select_Devices_M0bile option').each(function(){
+            optionsList.push($(this).val());
+        });
+        if(optionsList.indexOf(arrDevices[0]) == -1){
+         $('#select_Devices_M0bile option:first').text(arrDevices[0]);
+        }*/
         $('#select_Devices_M0bile').selectpicker('val', arrDevices);
         $('#select_Devices_M0bile').selectpicker('render');
     }
@@ -104,6 +111,10 @@ function clearModalContent(project){
     if ($('.hide-pc-es').css('display') == 'none'){
         unHideDeviseBuildEnvsSetup($('.hide-pc-es'));
     }
+    // *TODO: hide custom device field
+    /*if($('#customDevice:visible').length != 0){
+        $('#customDevice').hide();
+    }*/
 }
 
 /**/
@@ -180,9 +191,26 @@ $( "#select_Devices_M0bile" ).change(function() {
     var pickerValue = $( "#select_Devices_M0bile" ).val();
     var inputValue = document.getElementById('users_Devices_M0bile');
     inputValue.value = pickerValue;
+  /*if($(this).find("option:selected").attr('title') == 'Other Device'){
+        $('#customDevice').show('slow');
+        $( "#select_Devices_M0bile" ).selectpicker('toggle');
+    }
+    if($(this).find("option:selected").attr('title') != 'Other Device'){
+        $('#customDevice').hide('slow');
+    }*/
     console.log( 'Picker = ' + pickerValue);
     console.log('Input = ' + inputValue);
 });
+
+/*$('#bnt-custom-device').on('click', function(){
+    var customDeviceInput = document.getElementById('input-custom-device');
+    var customvDeviceInputValue = customDeviceInput.value;
+    var inputToServer = document.getElementById('users_Devices_M0bile').value;
+    var newValue = inputToServer.replace(/Other Device/ig, customvDeviceInputValue.trim());
+    $('#custom-device-Name').text(customvDeviceInputValue);
+    document.getElementById('users_Devices_M0bile').value = newValue;
+    $('#customDevice').hide('slow');
+});*/
 
 
 $("select[id*=select_Environment]").change(function(){

@@ -48,19 +48,19 @@ public class CommonData {
         public static int timeToMinParse(String input) {
             int result = 0;
             if (input != null){
-
+                input.replace(',', '.');
                 String number = "";
                 for (int i = 0; i < input.length(); i++) {
                     char c = input.charAt(i);
-                    if (Character.isDigit(c)) {
+                    if (Character.isDigit(c) || c == '.') {
                         number += c;
                         if (i == input.length() - 1){
-                            int tmp = convertToMin(Integer.parseInt(number), 'm');
+                            int tmp = convertToMin(Float.valueOf(number), 'm');
                             result += tmp;
                             number = "";
                         }
                     } else if (Character.isLetter(c) && !number.isEmpty()) {
-                        int tmp = convertToMin(Integer.parseInt(number), c);
+                        int tmp = convertToMin(Float.valueOf(number), c);
                         result += tmp;
                         number = "";
                     }
@@ -69,12 +69,12 @@ public class CommonData {
             return result;
         }
 
-        private static int convertToMin(int value, char unit) {
+        private static int convertToMin(float value, char unit) {
             switch(unit) {
-                case 'd' : return value * 1440;
-                case 'h' : return value * 60;
-                case 'm' : return (value);
-                case 's' : return (value / 60);
+                case 'd' : return (int) (value * 1440);
+                case 'h' : return (int) (value * 60);
+                case 'm' : return (int) (value);
+                case 's' : return (int) (value / 60);
             }
             return 0;
         }
