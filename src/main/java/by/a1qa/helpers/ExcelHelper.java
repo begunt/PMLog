@@ -25,7 +25,7 @@ import static by.a1qa.helpers.CommonData.CommonMethods.getAqaCategoryName;
 public class ExcelHelper {
     static Logger LOG = LoggerFactory.getLogger(ExcelHelper.class.getName());
 
-    public static synchronized String exportReportsToFile(List<Report> reportList) throws IOException {
+    public static synchronized String exportReportsToFile(List<Report> reportList, String personName) throws IOException {
         Workbook wb = new HSSFWorkbook(ExcelHelper.class.getResourceAsStream("/wl-import-template-file.xls"));
         Sheet sheet = wb.getSheet("WL");
         HSSFCellStyle dateCellStyle = (HSSFCellStyle) wb.createCellStyle();
@@ -60,7 +60,7 @@ public class ExcelHelper {
             sheet.getRow(i + 1).createCell(5).setCellValue(getAqaCategoryName(report.getActivity()));
         }
         DateFormat df = new SimpleDateFormat("dd-MM-yyyy-HH-mm");
-        String fileName = String.format("%1s_%2s.xls",reportList.get(0).getPerson(), df.format(dateobj));
+        String fileName = String.format("%1s_%2s.xls", personName, df.format(dateobj));
         new File(fileName).createNewFile();
         FileOutputStream fileOut = new FileOutputStream(fileName);
         wb.write(fileOut);
@@ -104,7 +104,7 @@ public class ExcelHelper {
             report.setLinkToTask((row.getCell(3).getStringCellValue()));
 
             String comment = row.getCell(4).getStringCellValue().replace('\n', '|');
-            if (!comment.equals(""))
+            if (comment.length() > 0)
                 report.setComment(comment.substring(comment.length() - 1).equals("|") ? comment.substring(0, comment.length() - 1) : comment);
             reportList.add(report);
         }

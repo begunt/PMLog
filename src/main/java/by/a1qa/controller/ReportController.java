@@ -156,7 +156,7 @@ public class ReportController {
                 ReportSender.addReportToQueue(report);
         }
         try {
-            model.addAttribute("fileToDownload", ExcelHelper.exportReportsToFile(tempListOfReports));
+            model.addAttribute("fileToDownload", ExcelHelper.exportReportsToFile(tempListOfReports, (String)request.getSession().getAttribute(AQA_JIRA_CLIENT_SESSION_ATTR)));
         } catch (IOException e) {
             e.printStackTrace();
         }
