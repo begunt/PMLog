@@ -57,3 +57,7 @@ input:focus::-webkit-input-placeholder {
 div.btn-group.bootstrap-select{
     width: 100%!important;
 }
+
+#ui-id-1{
+    z-index: 100000;
+}

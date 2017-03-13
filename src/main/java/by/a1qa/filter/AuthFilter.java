@@ -7,6 +7,7 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.SocketException;
 import java.util.Date;
 
 import static by.a1qa.constants.PagesMap.PAGES_MAP;
@@ -69,18 +70,26 @@ public class AuthFilter implements Filter {
                               FilterChain chain,
                               String uri,
                               boolean access) throws IOException, ServletException {
-        if (((HttpServletRequest) request).getSession().getAttribute(AQA_JIRA_CLIENT_SESSION_ATTR) == null
-                && !access) {
-            LOGGER.info("Access Denied: " + uri);
-            ((HttpServletResponse) response).sendError(HttpServletResponse.SC_FORBIDDEN, "");
+        try{
+            if (((HttpServletRequest) request).getSession().getAttribute(AQA_JIRA_CLIENT_SESSION_ATTR) == null
+                    && !access) {
+                LOGGER.info("Access Denied: " + uri);
+                ((HttpServletResponse) response).sendError(HttpServletResponse.SC_FORBIDDEN, "");
+            }
+            else if (((HttpServletRequest) request).getSession().getAttribute(AQA_JIRA_CLIENT_SESSION_ATTR) != null
+                    && access) {
+                request.getRequestDispatcher("/reportController/reports")
+                        .forward(request, response);
+            }
+            else {
+                chain.doFilter(request, response);
+            }
         }
-        else if (((HttpServletRequest) request).getSession().getAttribute(AQA_JIRA_CLIENT_SESSION_ATTR) != null
-                && access) {
-            request.getRequestDispatcher("/reportController/reports")
+        catch (SocketException e){
+            LOGGER.info("DB SOCKET EXCEPTION GUYS!!", e);
+            request.getRequestDispatcher("/")
                     .forward(request, response);
         }
-        else {
-            chain.doFilter(request, response);
-        }
+
     }
 }

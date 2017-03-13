@@ -16,7 +16,6 @@ $(window).load(function () {
         $('#activityAddBtn').addClass('btn btn-primary for-add add-btn-initial');
         $('#activityAddBtn').removeClass('hide-add-btn');
     }
-
     //$("select[id*=select_Environment]").selectpicker('render');
 
     if (mainObject != "null/") {
@@ -212,21 +211,6 @@ $( "#select_Devices_M0bile" ).change(function() {
     $('#customDevice').hide('slow');
 });*/
 
-
-$("select[id*=select_Environment]").change(function(){
-   self = this;
-   console.log('Before convert => ' + self);
-   var projectId = self.id;
-   var parsedProjectId = projectId.split('_')[2];
-   console.log(parsedProjectId);
-   var pickervalue = $('#' + self.id).val();
-   var inputVal = document.getElementById('users_Environment_' + parsedProjectId);
-   inputVal.value = pickervalue;
-
-});
-
-
-
 $('#select_Activity').change(function(){
     switch ($('#select_Activity').val())
    {
@@ -326,12 +310,6 @@ $('#modalClose').on('click', function(e){
     })
 });
 
-var dropEnvs = $("select[id*=select_Environment]");
-dropEnvs = [].slice.call(dropEnvs);
-dropEnvs.forEach(function(element){
-    element.setAttribute('multiple', '');
-});
-
 $('.pepsi').on('change', function(event){
 
    /* var selectedProject = document.getElementById('selectIdProject').value;
@@ -365,3 +343,74 @@ function unHideDeviseBuildEnvsSetup(fields) {
         }
     })
 }
+
+
+$( function() {
+
+    var availableTags =[];
+
+    $("#devices-to-grab option").each(function()
+    {
+        console.log($(this).text());
+        availableTags.push($(this).text());
+    });
+
+
+    function split( val ) {
+        return val.split( /,\s*/ );
+    }
+    function extractLast( term ) {
+        return split( term ).pop();
+    }
+
+    $( "#users_Devices_M0bile" )
+    // don't navigate away from the field on tab when selecting an item
+        .on( "keydown", function( event ) {
+            if ( event.keyCode === $.ui.keyCode.TAB &&
+                $( this ).autocomplete( "instance" ).menu.active ) {
+                event.preventDefault();
+            }
+        })
+        .autocomplete({
+            minLength: 0,
+            source: function( request, response ) {
+                // delegate back to autocomplete, but extract the last term
+                response( $.ui.autocomplete.filter(
+                    availableTags, extractLast( request.term ) ) );
+            },
+            focus: function() {
+                // prevent value inserted on focus
+                return false;
+            },
+            select: function( event, ui ) {
+                var terms = split( this.value );
+                // remove the current input
+                terms.pop();
+                // add the selected item
+                terms.push( ui.item.value );
+                // add placeholder to get the comma-and-space at the end
+                terms.push( "" );
+                this.value = terms.join( ", " );
+                return false;
+            }
+        });
+} );
+
+
+var dropEnvs = $("select[id*=select_Environment]");
+dropEnvs = [].slice.call(dropEnvs);
+dropEnvs.forEach(function(element){
+    element.setAttribute('multiple', '');
+});
+
+$("select[id*=select_Environment]").change(function(){
+    self = this;
+    console.log('Before convert => ' + self);
+    var projectId = self.id;
+    var parsedProjectId = projectId.split('_')[2];
+    console.log(parsedProjectId);
+    var pickervalue = $('#' + self.id).val();
+    var inputVal = document.getElementById('users_Environment_' + parsedProjectId);
+    inputVal.value = pickervalue;
+
+});

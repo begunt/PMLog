@@ -53,7 +53,7 @@ public class ExcelHelper {
             if (report.getDevices() != null) if (report.getDevices() != "" && report.getDevices() != " ") comment = comment.concat("Devices: " + report.getDevices() + '\n');
             if (report.getMilestone() != null) if (report.getMilestone() != "" && report.getMilestone() != " ") comment = comment.concat("Milestone: " + report.getMilestone() + '\n');
             if (report.getTestruns() != null) if (report.getTestruns() != "" && report.getTestruns() != " ") comment = comment.concat("Testruns: " + report.getTestruns() + '\n');
-            if (report.getNumberOfCheckedCases() != null) if (report.getNumberOfCheckedCases() != "" && report.getNumberOfCheckedCases() != " " && report.getNumberOfCheckedCases() != "0") comment = comment.concat("Number of checked cases: " + report.getNumberOfCheckedCases() + '\n');
+            if (report.getNumberOfCheckedCases() != null) if (report.getNumberOfCheckedCases() != "" && report.getNumberOfCheckedCases() != " " && !(report.getNumberOfCheckedCases().equals("0"))) comment = comment.concat("Number of checked cases: " + report.getNumberOfCheckedCases() + '\n');
             if (report.getNumberOfCheckedDefects() != 0) comment = comment.concat("Number of checked defects: " + report.getNumberOfCheckedDefects() + '\n');
             if (report.getNumberOfCheckedStories() != 0) comment = comment.concat("Number of checked stories: " + report.getNumberOfCheckedStories() + '\n');
             if (report.getComment() != null) if (report.getComment() != "" && report.getComment() != " ") comment = comment.concat("Comment: " + report.getComment() + '\n');
@@ -103,7 +103,10 @@ public class ExcelHelper {
             report.setPerson(row.getCell(1).getStringCellValue());
             report.setTime(String.valueOf(row.getCell(2).getNumericCellValue()));
             report.setLinkToTask((row.getCell(3).getStringCellValue()));
-            report.setComment(row.getCell(4).getStringCellValue());
+
+            String comment = row.getCell(4).getStringCellValue().replace('\n', ',');
+            if (!comment.equals(""))
+                report.setComment(comment.substring(comment.length() - 1).equals(",") ? comment.substring(0, comment.length() - 1) : comment);
             reportList.add(report);
         }
         inputStream.close();

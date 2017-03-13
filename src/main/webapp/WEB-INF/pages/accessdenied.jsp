@@ -7,25 +7,31 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Error 403</title>
+  <title>Error 404</title>
   <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
   <link href="${pageContext.request.contextPath}/css/sb-admin.css" rel="stylesheet">
   <link href="${pageContext.request.contextPath}/css/plugins/morris.css" rel="stylesheet">
-  <link href="${pageContext.request.contextPath}/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style-index.css" />
+  <link href="${pageContext.request.contextPath}/font-awesome/css/font-awesome.min.css" rel="stylesheet"
+        type="text/css">
+  <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style-index.css"/>
+  <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/style-info.css"/>
+  <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/component.css"/>
+  <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/table-style.css">
+  <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/modal.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
 <head>
 <body>
 <div>
-  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="/" target="_blank">Product Madness - A1QA (pre-alpha)</a>
-    </div>
-  </nav>
-
   <div class="loginBlock">
     <div class="container-fluid">
-      <h1>Error 403</h1>
-      <h3>Access denied:(</h3>
+      <div class="list-div">
+        <h1>Error 403</h1>
+        <h1>Access denied :(</h1><br>
+        <h1><a href="<c:url value="/"/>">Return to the app</a></h1>
+
+      </div>
     </div>
   </div>
 </div>
@@ -34,11 +40,12 @@
 
 <!-- Bootstrap Core JavaScript -->
 <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
-
 <!-- Morris Charts JavaScript -->
 <script src="${pageContext.request.contextPath}/js/plugins/morris/raphael.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/plugins/morris/morris.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/plugins/morris/morris-data.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/bootbox.min.js"></script>
 </body>
 
 </html>

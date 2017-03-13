@@ -39,8 +39,8 @@
 <body>
 
 <div class="logout">
-    <a href="<c:url value="/reportController/history"/>" target="_blank"><i class="fa fa-fw fa-dashboard"></i></i>History</a>
-    <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> ${reportSession.person} <b></b></a>
+    <a href="<c:url value="/"/>" ><i class="fa fa-user"></i> ${reportSession.person} <b></b></a>
+    <a href="<c:url value="/reportController/history"/>" target="_blank"><i class="glyphicon glyphicon-list-alt"></i></i> History</a>
     <a href="<c:url value="/logout"/>"><i class="fa fa-fw fa-power-off"></i>Logout</a>
 </div>
 
@@ -73,7 +73,7 @@
                     ${reportFromHistoty.timestamp}
                 </td>
                 <td>
-                    ${reportFromHistoty.comment}
+                    <span class="getComment">${reportFromHistoty.comment}</span>
                 </td>
                 <td>
                     <span class="getTime">${reportFromHistoty.time}</span>
@@ -89,6 +89,58 @@
 <script src="${pageContext.request.contextPath}/js/jquery.js"></script>
 <script src="https://cdn.jsdelivr.net/jquery.validation/1.15.0/jquery.validate.min.js"></script>
 <script src="https://cdn.jsdelivr.net/jquery.validation/1.15.0/additional-methods.min.js"></script>
+
+<script>
+    $(document).ready(function(){
+        $('[data-toogle="tooltip"]').tooltip();
+
+        var comments = $('.getComment');
+        comments.each(function(){
+           var newSpan = $(this).text();
+            $(this).text('');
+           newSpan = newSpan.split(',');
+           for(var i = 0; i < newSpan.length; i++){
+               var newElement = document.createElement('span');
+               var newtext = document.createTextNode(newSpan[i]);
+               newElement.appendChild(newtext);
+               $(this).append(newElement);
+           }
+
+        });
+
+        /*var comments = $('.getComment');
+        comments.each(function(){
+            var newSpan = $(this).text();
+            $(this).text('');
+            var boldArrayText = newSpan.split(':');
+            newSpan = newSpan.split(',');
+
+            for(var i = 0; i < newSpan.length; i++){
+
+
+
+                var newElement = document.createElement('span');
+                var boldElement= document.createElement('span');
+                var newtext = newSpan[i];
+
+                var boldText = document.createTextNode(boldArrayText[i]+":");
+                var textNode = document.createTextNode(newtext);
+                newElement.appendChild(textNode);
+                boldElement.appendChild(boldText);
+                boldElement.style.fontWeight = 'bold';
+                newElement.style.fontWeight = 'normal';
+                boldElement.appendChild(newElement);
+                $(this).append(boldElement);
+
+            }
+
+        });*/
+
+
+
+    })
+</script>
+
 <!-- Bootstrap Core JavaScript -->
 <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 <!-- Morris Charts JavaScript -->
@@ -97,13 +149,6 @@
 <script src="${pageContext.request.contextPath}/js/plugins/morris/morris-data.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/bootbox.min.js"></script>
-<script src="${pageContext.request.contextPath}/js/popupForCreatingActivities.js"></script>
-
-<script>
-    $(document).ready(function(){
-        $('[data-toogle="tooltip"]').tooltip();
-    })
-</script>
 
 
 </body>

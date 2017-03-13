@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0-rc.1/themes/base/jquery-ui.css">
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
@@ -59,8 +60,8 @@
 <body>
 
     <div class="logout">
-        <a href="<c:url value="/reportController/history"/>" target="_blank"><i class="fa fa-fw fa-dashboard"></i></i>History</a>
-        <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> ${reportSession.person} <b></b></a>
+        <a ><i class="fa fa-user"></i> ${reportSession.person} <b></b></a>
+        <a href="<c:url value="/reportController/history"/>" target="_blank"><i class="glyphicon glyphicon-list-alt"></i></i> History</a>
         <a href="<c:url value="/logout"/>"><i class="fa fa-fw fa-power-off"></i>Logout</a>
     </div>
             <div style="display:none">
@@ -202,7 +203,7 @@
                                                             </c:if>
                                                         </c:when>
                                                         <c:when test="${field.modelFieldName == 'numberOfCheckedCases'}">
-                                                            <c:if test="${report.numberOfCheckedCases != 0}">
+                                                            <c:if test="${not empty report.numberOfCheckedCases}">
                                                                 <span><b>${field.name}:</b> ${report.numberOfCheckedCases}</span>
                                                             </c:if>
                                                         </c:when>
@@ -316,7 +317,7 @@
                                         </label>
                                         <div class="col-sm-9">
                                             <form:select path="product" data-style="forData" cssClass="selectpicker isRequired_True"
-                                                     id="selectIdProject"> <%--onchange="selectProject()"--%>
+                                                     id="selectIdProject" required="required"> <%--onchange="selectProject()"--%>
                                                 <option style="display: none"></option>
                                                     <c:forEach items="${listProjects}" var="project">
                                                         <!--K0STYL'-->
@@ -400,20 +401,17 @@
 
                                                         <div class="col-sm-9">
                                                             <c:if test="${field.name == 'Devices'}">
-                                                                <select data-select-on-tab="true" data-style="forData" multiple data-selected-text-format="count > 3" data-live-search="true" class=" fields_of_project_id_${selectedProject.name} selectpicker isRequired_${field.required}" multiple id="select_${field.name}_${selectedProject.name}">
-                                                                    <%--<option id="custom-device-Name" title="Other Device">Other Device</option>--%>
+                                                                <select id="devices-to-grab" style="display: none;">   <%--<option id="custom-device-Name" title="Other Device">Other Device</option>--%>
                                                                     <c:forEach items="${listDropdown}" var="dropdownItem">
                                                                             <c:if test="${dropdownItem.idField == field.idField}">
                                                                              <option value="${dropdownItem.itemName}">${dropdownItem.itemName}</option>
                                                                             </c:if>
                                                                         </c:forEach>
                                                                 </select>
-                                                                <div id="customDevice" class="input-group" style="display: none;">
-                                                                    <input  id="input-custom-device" class="custom-device">
-                                                                    <span class="input-group-btn">
-                                                                        <button id="bnt-custom-device" class="btn btn-default btn-block btn-span" type="button">Add Device</button>
-                                                                    </span>
-                                                                </div>
+                                                                <form:input path="${field.modelFieldName}" type="text"
+                                                                            id="users_${field.name}_${selectedProject.name}"
+                                                                            value=""
+                                                                            class="fields_of_project_id_${selectedProject.name} isRequired_${field.required}"/>
                                                             </c:if>
 
                                                             <c:if test="${field.name != 'Devices'}">
@@ -424,6 +422,14 @@
                                                                         </c:if>
                                                                     </c:forEach>
                                                                 </select>
+                                                                <div class="col-sm-9" style="display: none">
+                                                                    </br>
+                                                                    <form:input path="${field.modelFieldName}" type="text"
+                                                                                id="users_${field.name}_${selectedProject.name}"
+                                                                                value=""
+                                                                                class="fields_of_project_id_${selectedProject.name} isRequired_${field.required}" cssStyle="display: none"/>
+
+                                                                </div>
                                                             </c:if>
                                                          </div>
 
@@ -432,14 +438,7 @@
                                                                 onclick="getUserChoice('${field.name}_${selectedProject.name}')"
                                                             />
                                                         </div>-->
-                                                        <div class="col-sm-9" style="display: none">
-                                                            </br>
-                                                            <form:input path="${field.modelFieldName}" type="text"
-                                                                    id="users_${field.name}_${selectedProject.name}"
-                                                                    value=""
-                                                                    class="fields_of_project_id_${selectedProject.name} isRequired_${field.required}" cssStyle="display: none"/>
 
-                                                        </div>
                                                 </c:if>
 
                                                 <c:if test="${field.idType == 4}">
@@ -502,14 +501,17 @@
 
 <!-- jQuery -->
 <script src="${pageContext.request.contextPath}/js/jquery.js"></script>
+
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script src="https://cdn.jsdelivr.net/jquery.validation/1.15.0/jquery.validate.min.js"></script>
 <script src="https://cdn.jsdelivr.net/jquery.validation/1.15.0/additional-methods.min.js"></script>
+
 <!-- Bootstrap Core JavaScript -->
 <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
-<!-- Morris Charts JavaScript -->
+<%--<!-- Morris Charts JavaScript -->
 <script src="${pageContext.request.contextPath}/js/plugins/morris/raphael.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/plugins/morris/morris.min.js"></script>
-<script src="${pageContext.request.contextPath}/js/plugins/morris/morris-data.js"></script>
+<script src="${pageContext.request.contextPath}/js/plugins/morris/morris-data.js"></script>--%>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/bootbox.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/popupForCreatingActivities.js"></script>
