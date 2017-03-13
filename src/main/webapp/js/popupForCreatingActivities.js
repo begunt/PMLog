@@ -8,7 +8,7 @@ var forAddButton = document.getElementById("forAddButton").value;
 $(window).load(function () {
 
     if(document.getElementById('reportTable') != undefined){
-        $('#activityAddBtn, #activityUpBtn').show('slow');
+        $('#activityAddBtn, #activityUpBtn, #edit').show('slow');
         $('.total-time').show('slow');
         getTime();
     }
@@ -155,6 +155,7 @@ function submitForm() {
         }
     });*/
     if(form.valid())
+        $("[id*=submitModal_], [id=modalClose]").attr('disabled', 'disabled');
         sentToController();
     if (mainObject != "null/")
         sentToController();

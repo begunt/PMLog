@@ -15,10 +15,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import static by.a1qa.helpers.CommonData.CommonMethods.getAqaCategoryName;
 
@@ -77,6 +74,8 @@ public class ExcelHelper {
         File folder = new File(new File("").getAbsolutePath());
         File[] listOfFiles = folder.listFiles();
         if (listOfFiles != null) {
+            Arrays.sort(listOfFiles);
+            Collections.reverse(Arrays.asList(listOfFiles));
             for (File file : listOfFiles){
                 if (file.getName().contains(username) && file.getName().contains(".xls")){
                     reportList.addAll(getListOfReportsFromExcel(file.getPath()));

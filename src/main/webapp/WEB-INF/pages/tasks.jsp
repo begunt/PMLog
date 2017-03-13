@@ -204,7 +204,9 @@
                                                         </c:when>
                                                         <c:when test="${field.modelFieldName == 'numberOfCheckedCases'}">
                                                             <c:if test="${not empty report.numberOfCheckedCases}">
-                                                                <span><b>${field.name}:</b> ${report.numberOfCheckedCases}</span>
+                                                                <c:if test="${report.numberOfCheckedCases != 0}">
+                                                                    <span><b>${field.name}:</b> ${report.numberOfCheckedCases}</span>
+                                                                </c:if>
                                                             </c:if>
                                                         </c:when>
                                                         <c:when test="${field.modelFieldName == 'comment'}">
@@ -265,7 +267,7 @@
                 </c:if>
 
                 <c:if test="${!empty listReports}">
-                     <button type="button" class="btn btn-success" id="edit" style="margin-left: 0px;"
+                     <button type="button" class="btn btn-success hide-add-btn" id="edit" style="margin-left: 0px;"
                         onClick='location.href="<c:url
                                 value="/reportController/sent"/>"'>
                          <span class="glyphicon glyphicon-export gly-margin"></span>Submit
@@ -309,7 +311,7 @@
                                     <div class="form-group">
                                         <label data-toggle="tooltip" title="${field.tooltip}" for="selectIdProject" class="col-sm-3 control-label al-center">
 
-                                            Product
+                                            Product *
                                             <script>
                                                 console.log("${field.required}");
                                             </script>
@@ -486,10 +488,10 @@
                                  <div class="modal-footer">
                                     <button id="modalClose" type="button" class="btn btn-default">Close</button>
                                         <c:if test="${empty report.activity}">
-                                            <button type="button" onclick="submitForm();" class="btn btn-primary" name="addButton" value="Add">Add</button>
+                                            <button type="button" onclick="submitForm();" class="btn btn-primary" name="addButton" id="submitModal_Add" value="Add">Add</button>
                                         </c:if>
                                         <c:if test="${!empty report.activity}">
-                                            <button type="button" onclick="submitForm();" class="btn btn-primary" name="editButton" value="Edit">Edit</button>
+                                            <button type="button" onclick="submitForm();" class="btn btn-primary" name="editButton" id="submitModal_Edit" value="Edit">Edit</button>
                                          </c:if>
                             </form:form>
                         </div>
