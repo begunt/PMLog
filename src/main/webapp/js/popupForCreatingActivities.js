@@ -156,27 +156,25 @@ $.fn.serializeObject = function()
 function submitForm() {
     //var $myForm = $('#reportForm');
     jQuery.validator.setDefaults({
-        debug: true
+        debug: true,
         //onkeyup: false
         //ignore: '*:not([name])'
-        //success: "valid"
+        success: "valid"
     });
     var form = $( "#reportForm" );
-   /* form.validate({
-        invalidHendler: function(event, validator){
-            {
-                var dropdowns = $('.selectpicker');
-                $(dropdowns).on('change', function(event){
-                    console.log(event);
-                })
+
+    if(form.valid()){
+        $("[id*=submitModal_], #modalClose").attr('disabled', 'disabled');
+        $('[id*=inputNumber_]').each(function () {
+            if($(this).val() == ''){
+                $(this).val('0');
             }
-        }
-    });*/
-    if(form.valid())
-        $("[id*=submitModal_], [id=modalClose]").attr('disabled', 'disabled');
+        });
         sentToController();
-    if (mainObject != "null/")
+    }
+    /*if (mainObject != "null/") {
         sentToController();
+    }*/
 
 }
 /*
