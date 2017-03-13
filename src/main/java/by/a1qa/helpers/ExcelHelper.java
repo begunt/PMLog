@@ -103,9 +103,9 @@ public class ExcelHelper {
             report.setTime(String.valueOf(row.getCell(2).getNumericCellValue()));
             report.setLinkToTask((row.getCell(3).getStringCellValue()));
 
-            String comment = row.getCell(4).getStringCellValue().replace('\n', ',');
+            String comment = row.getCell(4).getStringCellValue().replace('\n', '|');
             if (!comment.equals(""))
-                report.setComment(comment.substring(comment.length() - 1).equals(",") ? comment.substring(0, comment.length() - 1) : comment);
+                report.setComment(comment.substring(comment.length() - 1).equals("|") ? comment.substring(0, comment.length() - 1) : comment);
             reportList.add(report);
         }
         inputStream.close();

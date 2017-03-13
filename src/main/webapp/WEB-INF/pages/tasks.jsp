@@ -447,7 +447,7 @@
                                                     <label data-toggle="tooltip" title="${field.tooltip}" for="inputNumber_${field.name}" class="${field.dependsOnActivity} col-sm-3 control-label al-center">${field.name} <c:if test="${field.required == true}"> * </c:if> </label>
 
                                                     <div class="col-sm-9">
-                                                        <form:input type="number" class="${field.dependsOnActivity} fields_of_project_id_${selectedProject.name} isRequired_${field.required}" id="inputNumber_${field.name}" path="${field.modelFieldName}"/>
+                                                        <form:input type="text" onkeypress='return event.charCode >= 48 && event.charCode <= 57' class="${field.dependsOnActivity} fields_of_project_id_${selectedProject.name} isRequired_${field.required}" id="inputNumber_${field.name}" path="${field.modelFieldName}"/>
                                                     </div>
 
                                                 </c:if>

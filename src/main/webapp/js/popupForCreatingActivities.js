@@ -75,6 +75,7 @@ $(window).load(function () {
               if ($(element).hasClass('isRequired_true')) {
                   $(element).not('.full-test-pass, .bug-verification, .regression').attr("required", "");
               }
+
           })
           $( "#selectIdProject option:selected" ).each(function(){
             projectName = $(this).val();
@@ -97,6 +98,23 @@ $(window).load(function () {
         if(activityValue == 'Communication' || activityValue == 'Environment setup') {
             hideDeviseBuildEnvsSetup($('.hide-pc-es'));
         }
+        if($('#select_Activity').val() == 'Story regression' || $('#select_Activity').val() == 'Bug verification' || $('#select_Activity').val() == "Full test pass"){
+            $('#select_Activity').trigger('change');
+            /*switch ($('#select_Activity').val()){
+             case "Story regression":
+             var x = $('.regression').val();
+             $('.regression').text(x);
+             break;
+             case "Bug verification":
+             $('.bug-verification').text($('.bug-verification').val());
+             break;
+             case "Full test pass":
+             $('.full-test-pass').text($('.full-test-pass').val());
+             break;
+             default: break;
+             }*/
+        }
+
     }
 
 

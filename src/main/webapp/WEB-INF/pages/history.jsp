@@ -98,7 +98,7 @@
         comments.each(function(){
            var newSpan = $(this).text();
             $(this).text('');
-           newSpan = newSpan.split(',');
+           newSpan = newSpan.split('|');
            for(var i = 0; i < newSpan.length; i++){
                var newElement = document.createElement('span');
                var newtext = document.createTextNode(newSpan[i]);
