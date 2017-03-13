@@ -155,11 +155,18 @@ public class ReportController {
             if(report.getPerson().equals(person))
                 ReportSender.addReportToQueue(report);
         }
+
         try {
-            model.addAttribute("fileToDownload", ExcelHelper.exportReportsToFile(tempListOfReports, (String)request.getSession().getAttribute(AQA_JIRA_CLIENT_SESSION_ATTR)));
+            List<Report> listOfReportsForExcel = Collections.synchronizedList(new ArrayList());
+            for (Report report: listOfReportsFromBD){
+                if(report.getPerson().equals(person))
+                    listOfReportsForExcel.add(report);
+            }
+            model.addAttribute("fileToDownload", ExcelHelper.exportReportsToFile(listOfReportsForExcel, (String)request.getSession().getAttribute(AQA_JIRA_CLIENT_SESSION_ATTR)));
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         synchronized (listOfReports) {
             this.listOfReportsService.removeListOfReports(tempListOfReports);//пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅ
             listOfReports = listOfReportsDao.removeListOfReportsByPerson(listOfReports, person); //пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ

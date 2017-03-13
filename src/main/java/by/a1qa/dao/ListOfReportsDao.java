@@ -50,7 +50,7 @@ public class ListOfReportsDao {
         }
     }
 
-    public List<Report> getListOfReportsByPerson(List<Report> listOfReports, String person) {
+    public synchronized List<Report> getListOfReportsByPerson(List<Report> listOfReports, String person) {
         List<Report> tempListOfReports = new ArrayList<>();
         String personFromList;
         for(int i=0; i<listOfReports.size();i++){
