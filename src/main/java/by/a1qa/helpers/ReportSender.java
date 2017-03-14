@@ -3,6 +3,7 @@ package by.a1qa.helpers;
 
 import by.a1qa.controller.ReportController;
 import by.a1qa.model.Report;
+import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import javafx.util.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,13 +63,23 @@ public class ReportSender extends ReportController implements ApplicationListene
                                 LOG.error("There was an error during re-pulling report from the queue", e1);
                             }
                         }
-                        try {
-                            report.setProduct(report.getProduct().replace('0', 'o'));
-                            SpreadsheetHelper.submitReport(report, ALL_REPORTS_TAB_NAME, true);
-                            //SpreadsheetHelper.submitReport(report, report.getProduct(),false);
-                        } catch (InvocationTargetException | IllegalAccessException | IOException e) {
-                            LOG.error("There was an error during submitting report to the Spreadsheet", e);
+                        report.setProduct(report.getProduct().replace('0', 'o'));
+
+                        for (int attempts = 0; attempts < REPORT_RESEND_ATTEMPTS_AMOUNT; attempts++){
+                            boolean isSuccess = false;
+                            try {
+                                SpreadsheetHelper.submitReport(report, ALL_REPORTS_TAB_NAME, true);
+                                //SpreadsheetHelper.submitReport(report, report.getProduct(),false); // for submitting into separate tab
+                                isSuccess = true;
+                            } catch (InvocationTargetException | IllegalAccessException | IOException e1) {
+                                LOG.error("There was an error during submitting report to the Spreadsheet - ATTEMPT TO RESEND", e1);
+                            }
+                            if (isSuccess) break;
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException ignored) {}
                         }
+
                         numOfProcessedReports++;
                         if (numOfProcessedReports >= POSITION_CACHE_RESET_REPORTS_INTERVAL && reportsQueue.isEmpty()){
                             SpreadsheetHelper.clearColumnPositionCache();

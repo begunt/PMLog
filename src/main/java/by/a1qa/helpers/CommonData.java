@@ -43,6 +43,9 @@ public class CommonData {
     public static final String AQA_JIRA_HOST =
             appProperties.getProperty("aqaJiraHost");
     public static final String AQA_JIRA_CLIENT_SESSION_ATTR = "aqaJiraClient";
+    public static final int REPORT_RESEND_ATTEMPTS_AMOUNT =
+            Integer.valueOf(appProperties.getProperty("reportsReSendAttempts"));
+
 
     public static class CommonMethods{
         public static int timeToMinParse(String input) {
