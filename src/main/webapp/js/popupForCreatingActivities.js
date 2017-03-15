@@ -165,6 +165,8 @@ function submitForm() {
 
     if(form.valid()){
         $("[id*=submitModal_], #modalClose").attr('disabled', 'disabled');
+        $('[id*=input_A1QA].fields_of_project_id_'+ projectName).val($.trim($('[id*=input_A1QA].fields_of_project_id_'+ projectName).val()));
+
         $('[id*=inputNumber_]').each(function () {
             if($(this).val() == ''){
                 $(this).val('0');

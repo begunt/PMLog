@@ -63,6 +63,7 @@
         <th style="width: 30%">Date</th>
         <th>Comment</th>
         <th style="width: 15%">Spent minutes</th>
+        <th>Jira task key</th>
     </tr>
     </thead>
     <tbody class="tbl-content">
@@ -77,6 +78,9 @@
                 </td>
                 <td>
                     <span class="getTime">${reportFromHistoty.time}</span>
+                </td>
+                <td>
+                    <span>${reportFromHistoty.linkToTask}</span>
                 </td>
             </tr>
         </c:if>
