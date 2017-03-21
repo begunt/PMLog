@@ -74,7 +74,8 @@ public class MainController {
 
         if (this.userService.ifUserExists(report.getPerson())){
        /* if (true){*/
-            request.getSession().setAttribute(AQA_JIRA_CLIENT_SESSION_ATTR, report.getPerson().replace(" ", ""));
+            report.setPerson(report.getPerson().replace(" ", ""));
+            request.getSession().setAttribute(AQA_JIRA_CLIENT_SESSION_ATTR, report.getPerson());
 /*
 
             modelAndView.addObject("project", new Project());
