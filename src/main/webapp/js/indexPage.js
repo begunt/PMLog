@@ -52,8 +52,15 @@ function validate(input){
 
 function removePopup(e) {
     document.getElementById('alertDiv').classList.add('when-focus')
-};
+}
 
 function returnPopup(){
     document.getElementById('alertDiv').classList.remove('when-focus');
 }
+
+document.querySelector('button').addEventListener('keypress', function (e){
+   var key = e.which || e.keyCode;
+   if (key === 13){
+    document.querySelector('form').submit();
+   }
+});

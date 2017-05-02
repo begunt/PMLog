@@ -21,7 +21,14 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
-
+  <style type="text/css">
+    @-moz-document url-prefix(){
+      html {
+        height: 100%;
+      }
+    }
+  </style>
+</head>
 <body>
 <div>
   <div class="loginBlock">
@@ -45,6 +52,7 @@
 <script src="${pageContext.request.contextPath}/js/plugins/morris/morris-data.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/bootbox.min.js"></script>
+
 
 </body>
 

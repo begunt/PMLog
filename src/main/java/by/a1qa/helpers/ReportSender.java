@@ -72,11 +72,11 @@ public class ReportSender extends ReportController implements ApplicationListene
                                 //SpreadsheetHelper.submitReport(report, report.getProduct(),false); // for submitting into separate tab
                                 isSuccess = true;
                             } catch (InvocationTargetException | IllegalAccessException | IOException e1) {
-                                LOG.error("There was an error during submitting report to the Spreadsheet - ATTEMPT TO RESEND", e1);
+                                LOG.error("There was an error during submitting report to the Spreadsheet - ATTEMPT " + (attempts + 1) + " OF "+ REPORT_RESEND_ATTEMPTS_AMOUNT +" TO RESEND ", e1);
                             }
                             if (isSuccess) break;
                             try {
-                                Thread.sleep(1000);
+                                Thread.sleep(10000);
                             } catch (InterruptedException ignored) {}
                         }
 

@@ -101,10 +101,13 @@ public class ExcelHelper {
             try{
                 Report report = new Report();
                 Row row = rowIterator.next();
-                report.setTimestamp(df.format(row.getCell(0).getDateCellValue()));
+                report.setTimestamp(row.getCell(0).getDateCellValue().toString());
                 report.setPerson(row.getCell(1).getStringCellValue());
                 report.setTime(String.valueOf(row.getCell(2).getNumericCellValue()));
                 report.setLinkToTask((row.getCell(3).getStringCellValue()));
+
+                String[] path = filepath.split("/");
+                report.setLink(path[path.length -1]);
 
                 String comment = row.getCell(4).getStringCellValue().replace('\n', '|');
                 if (comment.length() > 0)
@@ -112,7 +115,7 @@ public class ExcelHelper {
                 reportList.add(report);
             }
             catch (Exception e){
-                LOG.info("Error during reading xls file:", e);
+                LOG.info("Error during reading xls file: " + filepath, e);
             }
 
         }

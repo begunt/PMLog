@@ -34,7 +34,13 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 
     <!-- for picker -->
-
+    <style type="text/css">
+        @-moz-document url-prefix(){
+            html {
+                height: 100%;
+            }
+        }
+    </style>
     <head>
 <body>
 

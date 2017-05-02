@@ -21,6 +21,13 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
+  <style type="text/css">
+    @-moz-document url-prefix(){
+      html {
+        height: 100%;
+      }
+    }
+  </style>
 <head>
 <body>
 <div>
