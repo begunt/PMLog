@@ -29,7 +29,7 @@ public class ExcelHelper {
         Workbook wb = new HSSFWorkbook(ExcelHelper.class.getResourceAsStream("/wl-import-template-file.xls"));
         Sheet sheet = wb.getSheet("WL");
         HSSFCellStyle dateCellStyle = (HSSFCellStyle) wb.createCellStyle();
-        short dformat = wb.createDataFormat().getFormat("dd/MM/yyyy");
+        short dformat = wb.createDataFormat().getFormat("MM/dd/yyyy");
         dateCellStyle.setDataFormat(dformat);
         Date dateobj = new Date();
         for (int i = 0; i < reportList.size(); i++) {
@@ -44,16 +44,16 @@ public class ExcelHelper {
 
                 String comment = new String("");
 
-                if (report.getActivity() != null) if (!report.getActivity().equals("") && !report.getActivity().equals(" ")) comment = comment.concat("Activity: " + report.getActivity() + '\n');
-                if (report.getBuild() != null) if (!report.getBuild().equals("") && !report.getBuild().equals(" ")) comment = comment.concat("Build: " + report.getBuild() + '\n');
-                if (report.getEnvironment() != null) if (!Objects.equals(report.getEnvironment(), "") && !Objects.equals(report.getEnvironment(), " ")) comment = comment.concat("Environment: " + report.getEnvironment() + '\n');
-                if (report.getDevices() != null) if (!Objects.equals(report.getDevices(), "") && !Objects.equals(report.getDevices(), " ")) comment = comment.concat("Devices: " + report.getDevices() + '\n');
-                if (report.getMilestone() != null) if (!Objects.equals(report.getMilestone(), "") && !Objects.equals(report.getMilestone(), " ")) comment = comment.concat("Milestone: " + report.getMilestone() + '\n');
-                if (report.getTestruns() != null) if (!Objects.equals(report.getTestruns(), "") && !Objects.equals(report.getTestruns(), " ")) comment = comment.concat("Testruns: " + report.getTestruns() + '\n');
-                if (report.getNumberOfCheckedCases() != null) if (!Objects.equals(report.getNumberOfCheckedCases(), "") && !Objects.equals(report.getNumberOfCheckedCases(), " ") && !(report.getNumberOfCheckedCases().equals("0"))) comment = comment.concat("Number of checked cases: " + report.getNumberOfCheckedCases() + '\n');
-                if (report.getNumberOfCheckedDefects() != 0) comment = comment.concat("Number of checked defects: " + report.getNumberOfCheckedDefects() + '\n');
-                if (report.getNumberOfCheckedStories() != 0) comment = comment.concat("Number of checked stories: " + report.getNumberOfCheckedStories() + '\n');
-                if (report.getComment() != null) if (!Objects.equals(report.getComment(), "") && !Objects.equals(report.getComment(), " ")) comment = comment.concat("Comment: " + report.getComment() + '\n');
+                if (report.getActivity() != null) if (!report.getActivity().equals("") && !report.getActivity().equals(" ")) comment = comment.concat("Activity: " + report.getActivity() + ';' + " ");
+                if (report.getBuild() != null) if (!report.getBuild().equals("") && !report.getBuild().equals(" ")) comment = comment.concat("Build: " + report.getBuild() + ',' + " ");
+                if (report.getEnvironment() != null) if (!Objects.equals(report.getEnvironment(), "") && !Objects.equals(report.getEnvironment(), " ")) comment = comment.concat("Environment: " + report.getEnvironment() + ';' + " ");
+                if (report.getDevices() != null) if (!Objects.equals(report.getDevices(), "") && !Objects.equals(report.getDevices(), " ")) comment = comment.concat("Devices: " + report.getDevices() + ';' + " ");
+                if (report.getMilestone() != null) if (!Objects.equals(report.getMilestone(), "") && !Objects.equals(report.getMilestone(), " ")) comment = comment.concat("Milestone: " + report.getMilestone() + ';' + " ");
+                if (report.getTestruns() != null) if (!Objects.equals(report.getTestruns(), "") && !Objects.equals(report.getTestruns(), " ")) comment = comment.concat("Testruns: " + report.getTestruns() + ';' + " ");
+                if (report.getNumberOfCheckedCases() != null) if (!Objects.equals(report.getNumberOfCheckedCases(), "") && !Objects.equals(report.getNumberOfCheckedCases(), " ") && !(report.getNumberOfCheckedCases().equals("0"))) comment = comment.concat("Number of checked cases: " + report.getNumberOfCheckedCases() + ';' + " ");
+                if (report.getNumberOfCheckedDefects() != 0) comment = comment.concat("Number of checked defects: " + report.getNumberOfCheckedDefects() + ';' + " ");
+                if (report.getNumberOfCheckedStories() != 0) comment = comment.concat("Number of checked stories: " + report.getNumberOfCheckedStories() + ';' + " ");
+                if (report.getComment() != null) if (!Objects.equals(report.getComment(), "") && !Objects.equals(report.getComment(), " ")) comment = comment.concat("Comment: " + report.getComment() + ';' +  " ");
                 if (report.getLink() != null) if (!Objects.equals(report.getLink(), "") && !Objects.equals(report.getLink(), " ")) comment = comment.concat("Link: " + report.getLink());
 
                 sheet.getRow(i + 1).createCell(4).setCellValue(comment);
